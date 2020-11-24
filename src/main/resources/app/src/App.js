@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import * as axios from "axios";
+import {BrowserRouter, Route} from 'react-router-dom';
+import {Router} from "./Router";
+import {NotificationContainer} from "react-notifications";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-
-        axios.get('/api/disciplines').then(response => {
-            debugger
-        });
-    }
-
     render() {
         return (
-            <div>privet</div>
+            <BrowserRouter>
+                <NotificationContainer/>
+                <Route component={Router}/>
+            </BrowserRouter>
         );
     }
 }
