@@ -1,7 +1,8 @@
-package org.example.entities.repos;
+package org.example.db.repos;
 
-import org.example.entities.Role;
+import org.example.db.entities.Role;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RoleRepo extends CrudRepository<Role, Integer> {
+    Role findByKey(String key);
 }

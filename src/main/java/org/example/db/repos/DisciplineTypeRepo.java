@@ -1,7 +1,8 @@
-package org.example.entities.repos;
+package org.example.db.repos;
 
-import org.example.entities.DisciplineType;
+import org.example.db.entities.DisciplineType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DisciplineTypeRepo extends CrudRepository<DisciplineType, Integer> {
+    DisciplineType findByKey(String key);
 }

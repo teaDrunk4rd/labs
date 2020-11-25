@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.example.db.entities;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,12 +10,14 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private Byte courseNum;
 
     @ManyToOne
-    @JoinColumn(name ="DirectionId")
+    @JoinColumn(name ="DirectionId", nullable = false)
     private Direction direction;
 
     @OneToMany(mappedBy="group")
@@ -27,9 +29,10 @@ public class Group {
     public Group() {
     }
 
-    public Group(String name, Byte courseNum) {
-        setName(name);
-        setCourseNum(courseNum);
+    public Group(String name, Byte courseNum, Direction direction) {
+        this.name = name;
+        this.courseNum = courseNum;
+        this.direction = direction;
     }
 
     public String getName() {
@@ -46,5 +49,13 @@ public class Group {
 
     public void setCourseNum(Byte courseNum) {
         this.courseNum = courseNum;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 }

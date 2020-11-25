@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.example.db.entities;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,12 +14,14 @@ public class Lab {
     @Column(nullable = true)
     private Date issueDate;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, columnDefinition = "smallint default 0")
     private Byte scores = 0;
 
     @ManyToOne
-    @JoinColumn(name ="LogId")
+    @JoinColumn(name ="LogId", nullable = false)
     private Log log;
 
     @OneToMany(mappedBy="lab")

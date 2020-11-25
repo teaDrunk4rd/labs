@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.example.db.entities;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,15 +11,17 @@ public class StudentLab {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name ="StudentId")
+    @JoinColumn(name ="StudentId", nullable = false)
     private User student;
 
     @ManyToOne
-    @JoinColumn(name ="LabId")
+    @JoinColumn(name ="LabId", nullable = false)
     private Lab lab;
 
+    @Column(nullable = false)
     private Date completionDate;
 
+    @Column(nullable = false, columnDefinition = "smallint default 0")
     private Byte scores = 0;
 
     public StudentLab() {

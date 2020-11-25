@@ -1,24 +1,25 @@
-package org.example.entities;
+package org.example.db.entities;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="disciplineTypes")
-public class DisciplineType {
+@Table(name="directions")
+public class Direction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy="disciplineType")
-    Set<Log> logs;
+    @OneToMany(mappedBy="direction")
+    Set<Group> groups;
 
-    public DisciplineType() {
+    public Direction() {
     }
 
-    public DisciplineType(String name) {
+    public Direction(String name) {
         setName(name);
     }
 

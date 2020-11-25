@@ -1,24 +1,25 @@
-package org.example.entities;
+package org.example.db.entities;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="roles")
-public class Role {
+@Table(name="disciplines")
+public class Discipline {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy="role")
-    Set<User> users;
+    @OneToMany(mappedBy="discipline")
+    Set<Log> logs;
 
-    public Role() {
+    public Discipline() {
     }
 
-    public Role(String name) {
+    public Discipline(String name) {
         setName(name);
     }
 

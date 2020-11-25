@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.example.db.entities;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,18 +10,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(nullable = true)
     private String name;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name ="GroupId")
+    @ManyToOne
+    @JoinColumn(name ="GroupId", nullable = true)
     private Group group;
 
     @ManyToOne
-    @JoinColumn(name ="RoleId")
+    @JoinColumn(name ="RoleId", nullable = false)
     private Role role;
 
     @OneToMany(mappedBy="teacher")

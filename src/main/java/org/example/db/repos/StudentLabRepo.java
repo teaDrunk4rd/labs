@@ -1,6 +1,6 @@
-package org.example.entities.repos;
+package org.example.db.repos;
 
-import org.example.entities.StudentLab;
+import org.example.db.entities.StudentLab;
 import org.springframework.data.repository.CrudRepository;
 
 public interface StudentLabRepo extends CrudRepository<StudentLab, Integer> {

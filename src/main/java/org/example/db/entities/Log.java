@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.example.db.entities;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,22 +10,23 @@ public class Log {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(nullable = true)
     private String description;
 
     @ManyToOne
-    @JoinColumn(name ="DisciplineId")
+    @JoinColumn(name ="DisciplineId", nullable = false)
     private Discipline discipline;
 
     @ManyToOne
-    @JoinColumn(name ="DisciplineTypeId")
+    @JoinColumn(name ="DisciplineTypeId", nullable = false)
     private DisciplineType disciplineType;
 
     @ManyToOne
-    @JoinColumn(name ="GroupId")
+    @JoinColumn(name ="GroupId", nullable = false)
     private Group group;
 
     @ManyToOne
-    @JoinColumn(name ="TeacherId")
+    @JoinColumn(name ="TeacherId", nullable = false)
     private User teacher;
 
     @OneToMany(mappedBy="log")

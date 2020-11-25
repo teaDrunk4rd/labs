@@ -1,8 +1,8 @@
 package org.example.controllers;
 
 import org.example.BaseResponse;
-import org.example.entities.Discipline;
-import org.example.entities.repos.DisciplineRepo;
+import org.example.db.entities.Discipline;
+import org.example.db.repos.DisciplineRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
