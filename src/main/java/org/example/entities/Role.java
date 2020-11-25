@@ -1,22 +1,24 @@
-package org.example.models;
+package org.example.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-public class Discipline {
+@Table(name="roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String name;
 
-    public Discipline() {
+    @OneToMany(mappedBy="role")
+    Set<User> users;
+
+    public Role() {
     }
 
-    public Discipline(String name) {
+    public Role(String name) {
         setName(name);
     }
 

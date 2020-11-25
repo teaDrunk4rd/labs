@@ -1,6 +1,6 @@
-package org.example.models.repos;
+package org.example.entities.repos;
 
-import org.example.models.Discipline;
+import org.example.entities.Discipline;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DisciplineRepo extends CrudRepository<Discipline, Integer> {
