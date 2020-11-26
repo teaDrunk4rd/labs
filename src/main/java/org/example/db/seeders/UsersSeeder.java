@@ -3,7 +3,6 @@ package org.example.db.seeders;
 import org.example.BCrypt;
 import org.example.db.Seeder;
 import org.example.db.entities.User;
-import org.example.db.repos.DirectionRepo;
 import org.example.db.repos.GroupRepo;
 import org.example.db.repos.RoleRepo;
 import org.example.db.repos.UserRepo;

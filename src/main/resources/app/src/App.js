@@ -4,6 +4,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import {Router} from "./Router";
 import {NotificationContainer} from "react-notifications";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-notifications/dist/react-notifications.css';
 
 class App extends Component {
     render() {

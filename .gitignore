@@ -1,3 +1,4 @@
 /src/main/resources/app/node_modules/*
 /target/*
 /src/main/resources/app/package-lock.json
+/src/main/resources/app/.idea/
