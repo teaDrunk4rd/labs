@@ -2,18 +2,18 @@ package org.example;
 
 public class BaseResponse<T> {
     private final Iterable<T> data;
-    private final Integer code;
+    private final Integer status;
 
-    public BaseResponse(Iterable<T> data, Integer code) {
+    public BaseResponse(Iterable<T> data, Integer status) {
         this.data = data;
-        this.code = code;
+        this.status = status;
     }
 
     public Iterable<T> getData() {
         return data;
     }
 
-    public Integer getCode() {
-        return code;
+    public Integer getStatus() {
+        return status;
     }
 }

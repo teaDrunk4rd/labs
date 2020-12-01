@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
+import './preloader.css'
 
-export default class Preloader extends Component {
-    constructor(props) {
+interface PreloaderProps {
+    className?: string
+}
+
+export default class Preloader extends Component<PreloaderProps> {
+    constructor(props: PreloaderProps) {
         super(props);
     }
 

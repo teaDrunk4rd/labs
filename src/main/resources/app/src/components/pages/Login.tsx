@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import * as axios from "axios";
-import Preloader from "./Preloader";
+import axios from 'axios';
+import Preloader from "../Preloader";
 
-export default class Login extends Component {
-    constructor(props) {
+interface LoginState {
+    email: string,
+    password: string,
+    isLoaded: boolean
+}
+
+export default class Login extends Component<any, LoginState> {
+    constructor(props: any) {
         super(props);
         this.state = {
             email: '',
@@ -15,21 +21,21 @@ export default class Login extends Component {
     }
 
     componentDidMount() {
-        axios.get('api/disciplines').then(response => {
+        axios.get('api/disciplines').then((response: BaseResponse) => {
             this.setState({
                 isLoaded: true
             })
         });
     }
 
-    handleSubmit(event) {
+    handleSubmit(event: any) {
         event.preventDefault();
 
         axios.post('api/login', {
             email: this.state.email,
             password: this.state.password
-        }).then(response => {
-            if (response.status === 200 && !response.data.message) {
+        }).then((response: BaseResponse) => {
+            if (+response.status === 200) {
                 localStorage['user'] = JSON.stringify(response.data);
                 this.props.history.push('/');
             }
@@ -51,7 +57,7 @@ export default class Login extends Component {
                                     <input id="email" type="email" name="email"
                                            value={email}
                                            onChange={event => this.setState({email: event.target.value})}
-                                           autoComplete="email" autoFocus="autofocus"
+                                           autoComplete="email"
                                            className="form-control "/>
                                 </div>
                             </div>

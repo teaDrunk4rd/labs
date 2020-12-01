@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Route, Switch} from "react-router-dom";
 import NavMenu from "./components/NavMenu";
-import Login from "./components/Login";
+import Login from "./components/pages/Login";
 
 
 export class Router extends Component {

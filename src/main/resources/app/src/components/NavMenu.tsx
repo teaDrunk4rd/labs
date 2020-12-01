@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import {Collapse, Container, Navbar, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import {Link} from 'react-router-dom';
 
-export default class NavMenu extends Component {
-    constructor(props) {
+interface NavMenuProps {
+    collapsed?: boolean
+}
+
+export default class NavMenu extends Component<any, NavMenuProps> {
+    constructor(props: any) {
         super(props);
         this.state = {
             collapsed: true
