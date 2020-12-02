@@ -1,13 +1,9 @@
 import {store} from 'react-notifications-component';
-import {AxiosError, AxiosResponse} from "axios";
+import Cookies from 'js-cookie';
 
 declare global {
     interface Window {
         axios: any;
-    }
-    interface BaseResponse extends AxiosResponse {
-        data: Array<any>,
-        status: number
     }
 }
 
@@ -19,46 +15,40 @@ let errorMessages = {
     default: "Произошла ошибка"
 }
 
-window.axios.interceptors.response.use((response: BaseResponse) => {
+window.axios.interceptors.request.use((config: any) => {
+    config.url = `http://localhost:8080/api/${config.url}`;
+    config.headers.Authorization = Cookies.get('token') || null;
+    return config;
+});
+
+window.axios.interceptors.response.use((response: any) => {
     return response;
-}, (error: AxiosError) => {
+}, (error: any) => {
+    let errorMessage = "";
+
+    if (error.response && error.response.status === 403) {
+        errorMessage = errorMessages.forbidden;
+    } else if (error.response && error.response.status === 401) {
+        localStorage.clear();
+        // history.pushState({}, '', '/login'); // TODO: check it
+        errorMessage = errorMessages.auth;
+    } else {
+        errorMessage = errorMessages.default;
+    }
+
     store.addNotification({
         title: 'Ошибка',
-        message: errorMessages.default,
+        message: errorMessage,
         type: "danger",
         insert: "top",
-        container: "top-right"
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+            duration: 2000,
+            onScreen: true
+        }
     });
-    // let message = /^[А-Яа-я0-9 _]*[А-Яа-я0-9][А-Яа-я0-9 _]*$/.test(error.response.data.message)
-    //     ? error.response.data.message
-    //     : undefined;
-    // if (error.response.status === 403) {
-    //     store.addNotification({
-    //         title: 'Ошибка',
-    //         message: message || errorMessages.forbidden,
-    //         type: "danger",
-    //         insert: "top",
-    //         container: "top-right"
-    //     });
-    // } else if (error.response.status === 401) {
-    //     localStorage.clear();
-    //     history.pushState({}, '', '/login'); // TODO: check it
-    //     store.addNotification({
-    //         title: 'Ошибка',
-    //         message: message || errorMessages.auth,
-    //         type: "danger",
-    //         insert: "top",
-    //         container: "top-right"
-    //     });
-    // } else {
-    //     store.addNotification({
-    //         title: 'Ошибка',
-    //         message: message || errorMessages.default,
-    //         type: "danger",
-    //         insert: "top",
-    //         container: "top-right"
-    //     });
-    // }
 
     return Promise.reject(error);
 })

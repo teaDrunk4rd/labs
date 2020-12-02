@@ -6,10 +6,6 @@ interface PreloaderProps {
 }
 
 export default class Preloader extends Component<PreloaderProps> {
-    constructor(props: PreloaderProps) {
-        super(props);
-    }
-
     render() {
         return (
             <div className={`uiblocker ${this.props.className ? this.props.className : ''}`}>

@@ -1,6 +1,9 @@
 package org.example.db.entities;
 
+import org.example.db.ERole;
+
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.Set;
 
 @Entity
@@ -18,6 +21,12 @@ public class Role {
 
     @OneToMany(mappedBy="role")
     Set<User> users;
+
+    private static HashMap<String, ERole> ERoles = new HashMap<String, ERole>() {{
+        put("admin", ERole.ROLE_ADMIN);
+        put("user", ERole.ROLE_USER);
+        put("teacher", ERole.ROLE_TEACHER);
+    }};
 
     public Role() {
     }
@@ -41,5 +50,9 @@ public class Role {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public ERole getERole() {
+        return ERoles.get(this.key);
     }
 }

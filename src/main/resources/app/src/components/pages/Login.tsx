@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
 import axios from 'axios';
-import Preloader from "../Preloader";
+import Cookies from 'js-cookie';
 
 interface LoginState {
     email: string,
-    password: string,
-    isLoaded: boolean
+    password: string
 }
 
 export default class Login extends Component<any, LoginState> {
@@ -14,29 +12,24 @@ export default class Login extends Component<any, LoginState> {
         super(props);
         this.state = {
             email: '',
-            password: '',
-            isLoaded: false
+            password: ''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentDidMount() {
-        axios.get('api/disciplines').then((response: BaseResponse) => {
-            this.setState({
-                isLoaded: true
-            })
-        });
     }
 
     handleSubmit(event: any) {
         event.preventDefault();
 
-        axios.post('api/login', {
+        axios.post('login', {
             email: this.state.email,
             password: this.state.password
-        }).then((response: BaseResponse) => {
+        }).then((response: any) => {
             if (+response.status === 200) {
-                localStorage['user'] = JSON.stringify(response.data);
+                localStorage['user'] = JSON.stringify({
+                    role: response.data.roles[0],
+                    username: response.data.username
+                });
+                Cookies.set('token', `Bearer ${response.data.accessToken}`)
                 this.props.history.push('/');
             }
         });
@@ -46,7 +39,6 @@ export default class Login extends Component<any, LoginState> {
         const {email, password} = this.state;
         return (
             <div className="col-6 m-auto">
-                {!this.state.isLoaded ? <Preloader /> : <div/>}
                 <div className="card">
                     <div className="card-header">Вход</div>
                     <div className="card-body">
@@ -73,14 +65,8 @@ export default class Login extends Component<any, LoginState> {
                                 </div>
                             </div>
 
-                            <div className="form-group d-flex justify-content-end col-10 pr-2">
-                                <Link to="/registration">
-                                    Регистрация
-                                </Link>
-                            </div>
-
                             <div className="form-group row mb-0">
-                                <div className="col-md-8 offset-md-4">
+                                <div className="col-md-6 offset-md-4 d-flex justify-content-end">
                                     <button type="submit" className="btn btn-primary">
                                         Вход
                                     </button>

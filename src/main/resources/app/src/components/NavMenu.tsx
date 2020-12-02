@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Collapse, Container, Navbar, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import {Link} from 'react-router-dom';
+import axios from "axios";
 
 interface NavMenuProps {
     collapsed?: boolean
@@ -28,7 +29,7 @@ export default class NavMenu extends Component<any, NavMenuProps> {
                                 <NavItem>
                                     {localStorage["user"] ? (
                                         <NavLink tag={Link} className="text-dark" to="/profile">
-                                            {JSON.parse(localStorage["user"]).email}
+                                            {JSON.parse(localStorage["user"]).username}
                                         </NavLink>) : (
                                         <NavLink tag={Link} className="text-dark" to="/login">
                                             Вход
