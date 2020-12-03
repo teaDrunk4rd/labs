@@ -27,7 +27,7 @@ export default class Login extends Component<any, LoginState> {
             if (+response.status === 200) {
                 localStorage['user'] = JSON.stringify({
                     role: response.data.roles[0],
-                    username: response.data.username
+                    name: response.data.name
                 });
                 Cookies.set('token', `Bearer ${response.data.accessToken}`)
                 this.props.history.push('/');
@@ -46,7 +46,7 @@ export default class Login extends Component<any, LoginState> {
                             <div className="form-group row">
                                 <label className="col-md-4 col-form-label text-md-right">E-Mail</label>
                                 <div className="col-md-6">
-                                    <input id="email" type="email" name="email"
+                                    <input id="email" type="text" name="email"
                                            value={email}
                                            onChange={event => this.setState({email: event.target.value})}
                                            autoComplete="email"

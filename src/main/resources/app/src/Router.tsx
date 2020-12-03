@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Route, Switch} from "react-router-dom";
 import NavMenu from "./components/NavMenu";
 import Login from "./components/pages/Login";
+import Profile from "./components/pages/Profile";
+import PrivateRoute from "./components/PrivateRoute";
 
 
 export class Router extends Component {
@@ -13,6 +15,7 @@ export class Router extends Component {
                     {this.props.children}
                     <Switch>
                         <Route exact path="/login" component={Login}/>
+                        <PrivateRoute exact path="/profile" component={Profile}/>
                     </Switch>
                 </div>
             </div>

@@ -10,4 +10,6 @@ public interface UserRepo extends CrudRepository<User, Integer> {
     User findByEmail(String email);
 
     List<User> findByRole(Role role);
+
+    void saveAndFlush(User user);
 }

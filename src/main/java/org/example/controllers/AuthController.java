@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/")
 public class AuthController {
-
     @Autowired
     AuthenticationManager authenticationManager;
 

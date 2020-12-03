@@ -1,12 +1,14 @@
 package org.example.payload.request;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
-    @NotBlank
+    @NotBlank(message="Заполните email")
+    @Email(message = "Неверно введён email")
     private String email;
 
-    @NotBlank
+    @NotBlank(message="Заполните пароль")
     private String password;
 
     public String getEmail() {

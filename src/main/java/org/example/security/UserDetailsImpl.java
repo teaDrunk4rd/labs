@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetailsImpl implements UserDetails {
-
     private static final long serialVersionUID = 1L;
 
     private Integer id;
@@ -26,10 +25,10 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Integer id, String username, String email, String password,
+    public UserDetailsImpl(Integer id, String name, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.name = username;
+        this.name = name;
         this.email = email;
         this.password = password;
         this.authorities = authorities;

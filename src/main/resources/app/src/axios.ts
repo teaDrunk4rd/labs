@@ -9,12 +9,6 @@ declare global {
 
 window.axios = require('axios');
 
-let errorMessages = {
-    auth: "Требуется авторизация",
-    forbidden: "Доступ запрещён",
-    default: "Произошла ошибка"
-}
-
 window.axios.interceptors.request.use((config: any) => {
     config.url = `http://localhost:8080/api/${config.url}`;
     config.headers.Authorization = Cookies.get('token') || null;
@@ -24,30 +18,28 @@ window.axios.interceptors.request.use((config: any) => {
 window.axios.interceptors.response.use((response: any) => {
     return response;
 }, (error: any) => {
-    let errorMessage = "";
+    let message: string;
 
-    if (error.response && error.response.status === 403) {
-        errorMessage = errorMessages.forbidden;
+    if (error.response && error.response.data.errors) {
+        message = error.response.data.errors[0].defaultMessage;
+    } else if (error.response && error.response.data.message) {
+        message = error.response.data.message;
+    } else if (error.response && error.response.status === 403) {
+        message = "Доступ запрещён";
     } else if (error.response && error.response.status === 401) {
         localStorage.clear();
         // history.pushState({}, '', '/login'); // TODO: check it
-        errorMessage = errorMessages.auth;
+        message = "Требуется авторизация";
     } else {
-        errorMessage = errorMessages.default;
+        message = "Произошла ошибка";
     }
 
     store.addNotification({
         title: 'Ошибка',
-        message: errorMessage,
+        message: message,
         type: "danger",
-        insert: "top",
         container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-            duration: 2000,
-            onScreen: true
-        }
+        dismiss: { duration: 2000, onScreen: true }
     });
 
     return Promise.reject(error);
