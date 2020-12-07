@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import {Collapse, Container, Navbar, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import {Link} from 'react-router-dom';
 
+function checkRole(roles: string): boolean {
+    return localStorage["user"] && roles.split(',').includes(JSON.parse(localStorage["user"])["role"]);
+}
+
 interface NavMenuProps {
     collapsed?: boolean
 }
@@ -28,9 +32,10 @@ export default class NavMenu extends Component<any, NavMenuProps> {
                                             Календарь
                                         </NavLink>
                                     </NavItem>
-                                    <NavItem>
-                                        <NavLink tag={Link} className="text-dark py-0" to="/disciplines">Предметы</NavLink>
-                                    </NavItem>
+                                    { checkRole("ROLE_STUDENT") &&
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark py-0" to="/disciplines">Предметы</NavLink>
+                                        </NavItem> }
                                 </div>
                                 <NavItem>
                                     {localStorage["user"] ? (

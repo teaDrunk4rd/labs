@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
@@ -37,6 +38,7 @@ public class DisciplineController {
     @Autowired
     private EntityManager entityManager;
 
+    @Secured("ROLE_STUDENT")
     @GetMapping("disciplines")
     public ResponseEntity<Iterable<?>> getStudentDisciplines() {
         Integer userId = userDetailsGetter.getUserDetails().getId();
@@ -85,6 +87,7 @@ public class DisciplineController {
                 .setResultTransformer(Transformers.aliasToBean(DisciplinesResult.class)).list());  // use hql
     }
 
+    @Secured("ROLE_STUDENT")
     @GetMapping("disciplines/discipline")
     public ResponseEntity<DisciplineResponse> getStudentDiscipline(@RequestParam int logId) {
         User student = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();

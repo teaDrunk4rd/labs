@@ -18,8 +18,8 @@ export class Router extends Component {
                     <Switch>
                         <Route exact path="/login" component={Login}/>
                         <PrivateRoute exact path="/profile" component={Profile}/>
-                        <PrivateRoute exact path="/disciplines" component={Disciplines}/>
-                        <PrivateRoute exact path="/disciplines/discipline" component={Discipline}/>
+                        <PrivateRoute exact path="/disciplines" component={Disciplines} roles="ROLE_STUDENT"/>
+                        <PrivateRoute exact path="/disciplines/discipline" component={Discipline} roles="ROLE_STUDENT"/>
                     </Switch>
                 </div>
             </div>
