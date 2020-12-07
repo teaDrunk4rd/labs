@@ -24,7 +24,7 @@ public class Role {
 
     private static HashMap<String, ERole> ERoles = new HashMap<String, ERole>() {{
         put("admin", ERole.ROLE_ADMIN);
-        put("user", ERole.ROLE_USER);
+        put("student", ERole.ROLE_STUDENT);
         put("teacher", ERole.ROLE_TEACHER);
     }};
 

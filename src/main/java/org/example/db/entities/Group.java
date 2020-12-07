@@ -21,10 +21,10 @@ public class Group {
     private Direction direction;
 
     @OneToMany(mappedBy="group")
-    Set<Log> logs;
+    private Set<Log> logs;
 
     @OneToMany(mappedBy="group")
-    Set<User> students;
+    private Set<User> students;
 
     public Group() {
     }
@@ -57,5 +57,21 @@ public class Group {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public Set<Log> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Set<Log> logs) {
+        this.logs = logs;
+    }
+
+    public Set<User> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<User> students) {
+        this.students = students;
     }
 }

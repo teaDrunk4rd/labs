@@ -31,10 +31,10 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy="teacher")
-    Set<Log> logs;
+    private Set<Log> logs;
 
     @OneToMany(mappedBy="student")
-    Set<StudentLab> studentLabs;
+    private Set<StudentLab> studentLabs;
 
     public User() {
     }
@@ -89,5 +89,21 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Log> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Set<Log> logs) {
+        this.logs = logs;
+    }
+
+    public Set<StudentLab> getStudentLabs() {
+        return studentLabs;
+    }
+
+    public void setStudentLabs(Set<StudentLab> studentLabs) {
+        this.studentLabs = studentLabs;
     }
 }

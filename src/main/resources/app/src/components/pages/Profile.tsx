@@ -3,7 +3,6 @@ import {store} from 'react-notifications-component';
 import Preloader from "../Preloader";
 import axios from 'axios';
 import Cookies from "js-cookie";
-import NavMenu from "../NavMenu";
 
 
 interface ProfileState {
@@ -42,7 +41,7 @@ export default class Profile extends Component<any, ProfileState> {
                 this.setState({
                     email: response.data.email,
                     name: response.data.name,
-                    group: response.data.group?.name,
+                    group: response.data.group,
                     isLoaded: true
                 })
             }
@@ -96,7 +95,7 @@ export default class Profile extends Component<any, ProfileState> {
     render() {
         const {email, name, group, changePasswordFlag, oldPassword, newPassword, passwordConfirmation} = this.state;
         return (
-            <div className="col-6 m-auto">
+            <div className="col-8 m-auto">
                 <div className="card">
                     {!this.state.isLoaded ? <Preloader/> : <div/>}
                     <div className="card-header">Профиль</div>

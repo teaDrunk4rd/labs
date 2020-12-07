@@ -5,6 +5,7 @@ import org.example.db.repos.UserRepo;
 import org.example.payload.request.UpdateUserRequest;
 import org.example.payload.response.JwtResponse;
 import org.example.payload.response.MessageResponse;
+import org.example.payload.response.ProfileResponse;
 import org.example.security.JwtUtils;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,14 @@ public class UserController {
     private PasswordEncoder encoder;
 
     @GetMapping("profiles")
-    public User show() {
-        return userRepo.findById(userDetailsGetter.getUserDetails().getId()).orElse(null);
+    public ProfileResponse show() {
+        User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).orElse(null);
+        return new ProfileResponse(user.getEmail(), user.getName(), user.getGroup() != null ? user.getGroup().getName() : null);
     }
 
     @PutMapping("profiles/update")
     public ResponseEntity<?> update(@Valid @RequestBody UpdateUserRequest updateUserRequest) {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).orElse(null);
-        if (user == null) return ResponseEntity.status(404).body("Пользователь не найден");
 
         String validationMessage = updateUserRequest.validate(userRepo, user, encoder);
         if (validationMessage != null) return ResponseEntity.badRequest().body(new MessageResponse(validationMessage));

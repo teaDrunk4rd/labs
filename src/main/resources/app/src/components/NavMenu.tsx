@@ -22,9 +22,16 @@ export default class NavMenu extends Component<any, NavMenuProps> {
                         <NavbarToggler onClick={() => this.setState({collapsed: !this.state.collapsed})} className="mr-2"/>
                         <Collapse className="d-sm-inline-flex" isOpen={!this.state.collapsed} navbar>
                             <ul className="navbar-nav flex-grow w-100 d-flex justify-content-between">
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/">Календарь</NavLink>
-                                </NavItem>
+                                <div className="d-flex justify-content-around align-items-center">
+                                    <NavItem>
+                                        <NavLink tag={Link} className="text-dark h5 py-0 m-0 pr-2 font-weight-normal" to="/">
+                                            Календарь
+                                        </NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink tag={Link} className="text-dark py-0" to="/disciplines">Предметы</NavLink>
+                                    </NavItem>
+                                </div>
                                 <NavItem>
                                     {localStorage["user"] ? (
                                         <NavLink tag={Link} className="text-dark" to="/profile">
