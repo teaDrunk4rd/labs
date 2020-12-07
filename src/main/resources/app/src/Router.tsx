@@ -4,6 +4,7 @@ import NavMenu from "./components/NavMenu";
 import Login from "./components/pages/Login";
 import Profile from "./components/pages/Profile";
 import Disciplines from "./components/pages/Disciplines";
+import Discipline from "./components/pages/Discipline";
 import PrivateRoute from "./components/PrivateRoute";
 
 
@@ -18,6 +19,7 @@ export class Router extends Component {
                         <Route exact path="/login" component={Login}/>
                         <PrivateRoute exact path="/profile" component={Profile}/>
                         <PrivateRoute exact path="/disciplines" component={Disciplines}/>
+                        <PrivateRoute exact path="/disciplines/discipline" component={Discipline}/>
                     </Switch>
                 </div>
             </div>

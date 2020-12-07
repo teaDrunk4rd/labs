@@ -42,11 +42,16 @@ export default class Disciplines extends Component<any, DisciplinesState> {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.disciplines && this.state.disciplines.map((discipline, index) => {
+                    {this.state.disciplines.length !== 0 && this.state.disciplines.map((discipline, index) => {
                         return (
                             <tr className={`cursor-pointer ${['5', '4', 'зачёт'].includes(discipline.grade) ? 'table-success' :
-                                discipline.grade === '3' ? 'table-warning' : ''}`}
-                                onClick={(e) => alert('s')}>
+                                    discipline.grade === '3' ? 'table-warning' : ''}`}
+                                key={index}
+                                onClick={(e) => this.props.history.push({
+                                    pathname: '/disciplines/discipline',
+                                    search: `?logId=${discipline.logid}`,
+                                    state: { logId: discipline.logid }
+                                })}>
                                 <td>{discipline.name}</td>
                                 <td>{discipline.type}</td>
                                 <td>{discipline.totalscores}</td>

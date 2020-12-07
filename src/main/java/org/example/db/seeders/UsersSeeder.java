@@ -29,9 +29,9 @@ public class UsersSeeder implements Seeder {
                 new User("Админ", "admin@m.ru", encoder.encode("123"),
                         null, roleRepo.findByKey("admin")),
 
-                new User("Препод 1", "teacher1@m.ru", encoder.encode("123"),
+                new User("Лучший Препод 1", "teacher1@m.ru", encoder.encode("123"),
                         null, roleRepo.findByKey("teacher")),
-                new User("Препод 2", "teacher2@m.ru", encoder.encode("123"),
+                new User("Лучший Препод 2", "teacher2@m.ru", encoder.encode("123"),
                         null, roleRepo.findByKey("teacher")),
                 new User("Препод 3", "teacher3@m.ru", encoder.encode("123"),
                         null, roleRepo.findByKey("teacher")),

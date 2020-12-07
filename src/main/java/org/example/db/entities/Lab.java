@@ -25,7 +25,7 @@ public class Lab {
     private Log log;
 
     @OneToMany(mappedBy="lab")
-    Set<StudentLab> studentLabs;
+    private Set<StudentLab> studentLabs;
 
     public Lab() {
     }
@@ -35,6 +35,14 @@ public class Lab {
         this.name = name;
         this.scores = scores;
         this.log = log;
+    }
+
+    public Set<StudentLab> getStudentLabs() {
+        return studentLabs;
+    }
+
+    public void setStudentLabs(Set<StudentLab> studentLabs) {
+        this.studentLabs = studentLabs;
     }
 
     public Date getIssueDate() {

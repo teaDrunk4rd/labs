@@ -1,21 +1,31 @@
-package org.example.queries;
+package org.example.payload.response.queries;
 
 import java.math.BigInteger;
 
 public class DisciplinesResult {
     private String name;
     private String type;
+    private Integer logid;
     private BigInteger totalscores;
     private String grade;
 
     public DisciplinesResult() {
     }
 
-    public DisciplinesResult(String discipline, String disciplineType, BigInteger totalScores, String grade) {
-        this.name = discipline;
-        this.type = disciplineType;
-        this.totalscores = totalScores;
+    public DisciplinesResult(String name, String type, Integer logid, BigInteger totalscores, String grade) {
+        this.name = name;
+        this.type = type;
+        this.logid = logid;
+        this.totalscores = totalscores;
         this.grade = grade;
+    }
+
+    public Integer getLogid() {
+        return logid;
+    }
+
+    public void setLogid(Integer logid) {
+        this.logid = logid;
     }
 
     public String getName() {

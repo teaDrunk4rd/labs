@@ -5,3 +5,7 @@ body {
 .cursor-pointer {
     cursor: pointer;
 }
+
+tr.table-default {
+    background-color: #f8f8f8 !important;
+}
