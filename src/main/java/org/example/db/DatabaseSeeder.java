@@ -1,13 +1,12 @@
 package org.example.db;
 
-import org.example.db.entities.Direction;
-import org.example.db.entities.Discipline;
-import org.example.db.repos.*;
 import org.example.db.seeders.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+
+import java.text.ParseException;
 
 @Component
 public class DatabaseSeeder {
@@ -31,7 +30,7 @@ public class DatabaseSeeder {
     private StudentLabsSeeder studentLabsSeeder;
 
     @EventListener
-    public void handleContextRefresh(ContextRefreshedEvent event) {
+    public void handleContextRefresh(ContextRefreshedEvent event) throws ParseException {
         disciplinesSeeder.run();
         disciplineTypesSeeder.run();
         rolesSeeder.run();

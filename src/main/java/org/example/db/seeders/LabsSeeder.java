@@ -8,6 +8,8 @@ import org.example.db.repos.LogRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,8 +22,10 @@ public class LabsSeeder implements Seeder {
     private LogRepo logRepo;
 
     @Override
-    public void run() {
+    public void run() throws ParseException {
         if (repo.count() == 0) {
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
             List<Log> logs = new ArrayList<>();
             logRepo.findAll().iterator().forEachRemaining(logs::add);
 
@@ -30,7 +34,13 @@ public class LabsSeeder implements Seeder {
                 new Lab(null, "2. Back without db", (byte) 15, logs.get(0)),
                 new Lab(null, "3. Back w/db", (byte) 15, logs.get(0)),
 
-                new Lab(null, "Весь проект", (byte) 100, logs.get(1)),
+                new Lab(df.parse("10/09/2020"), "Выбор предметной области", (byte) 10, logs.get(1)),
+                new Lab(df.parse("20/09/2020"), "Создание форм на фигме", (byte) 10, logs.get(1)),
+                new Lab(df.parse("01/10/2020"), "Проектирование БД", (byte) 10, logs.get(1)),
+                new Lab(df.parse("15/10/2020"), "Инициализация проекта и роутинг по страницам", (byte) 10, logs.get(1)),
+                new Lab(df.parse("30/10/2020"), "Вывод информации из БД", (byte) 10, logs.get(1)),
+                new Lab(df.parse("10/11/2020"), "Аутентификация", (byte) 10, logs.get(1)),
+                new Lab(df.parse("10/12/2020"), "Реализация всего остального", (byte) 40, logs.get(1)),
 
                 new Lab(null, "Опросите людей пж(", (byte) 100, logs.get(2))
             ));

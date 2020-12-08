@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface LabRepo extends CrudRepository<Lab, Integer> {
     List<Lab> findByLog(Log log);
+    List<Lab> findByName(String name);
 }

@@ -33,7 +33,7 @@ public class LogsSeeder implements Seeder {
                     userRepo.findByEmail("teacher1@m.ru")
                 ),
                 new Log(
-                        "Просто сделайте уже что-нибудь на джаве с тс",
+                        "Просто сделайте уже что-нибудь на джаве с тс, возьму работать к своим братанам или к себе! У нас там всё на реакте с С#!",
                         disciplineRepo.findByName("Средства реализации IT"),
                         disciplineTypeRepo.findByKey("exam"),
                         groupRepo.findByName("179ИСиТ"),

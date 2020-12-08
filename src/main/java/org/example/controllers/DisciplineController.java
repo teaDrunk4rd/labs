@@ -100,7 +100,7 @@ public class DisciplineController {
                 .stream()
                 .peek(l-> l.setStudentLabs(
                         l.getStudentLabs().stream()
-                            .filter(sl->sl.getStudent()==student)
+                            .filter(sl->sl.getStudent() == student)
                             .collect(Collectors.toSet())
                 ))
                 .map(l -> new DisciplinesLabsResult(

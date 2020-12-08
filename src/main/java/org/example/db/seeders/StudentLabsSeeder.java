@@ -30,18 +30,27 @@ public class StudentLabsSeeder implements Seeder {
     @Override
     public void run() {
         if (studentLabRepo.count() == 0) {
-            List<Lab> labs = new ArrayList<>();
-            labRepo.findAll().iterator().forEachRemaining(labs::add);
-
             List<User> students = userRepo.findByRole(roleRepo.findByKey("student"));
 
             studentLabRepo.saveAll(Arrays.asList(
-                new StudentLab(students.get(0), labs.get(0), new Date(), labs.get(0).getScores()),
-                new StudentLab(students.get(0), labs.get(1), new Date(), labs.get(1).getScores()),
+                new StudentLab(students.get(0), labRepo.findByName("1. Front").get(0), new Date(),
+                        labRepo.findByName("1. Front").get(0).getScores()),
+                new StudentLab(students.get(0), labRepo.findByName("2. Back without db").get(0), new Date(),
+                        labRepo.findByName("2. Back without db").get(0).getScores()),
 
-                new StudentLab(students.get(0), labs.get(3), new Date(), labs.get(3).getScores()),
+                new StudentLab(students.get(0), labRepo.findByName("Выбор предметной области").get(0), new Date(),
+                        labRepo.findByName("Выбор предметной области").get(0).getScores()),
+                    new StudentLab(students.get(0), labRepo.findByName("Проектирование БД").get(0), new Date(),
+                            labRepo.findByName("Проектирование БД").get(0).getScores()),
+                    new StudentLab(students.get(0), labRepo.findByName("Инициализация проекта и роутинг по страницам").get(0), new Date(),
+                            labRepo.findByName("Инициализация проекта и роутинг по страницам").get(0).getScores()),
+                    new StudentLab(students.get(0), labRepo.findByName("Вывод информации из БД").get(0), new Date(),
+                            labRepo.findByName("Вывод информации из БД").get(0).getScores()),
+                    new StudentLab(students.get(0), labRepo.findByName("Аутентификация").get(0), new Date(),
+                            labRepo.findByName("Аутентификация").get(0).getScores()),
 
-                new StudentLab(students.get(2), labs.get(4), new Date(), (byte) (labs.get(4).getScores() - 30))
+                new StudentLab(students.get(2), labRepo.findByName("Опросите людей пж(").get(0), new Date(),
+                        (byte) (labRepo.findByName("Опросите людей пж(").get(0).getScores() - 30))
             ));
         }
     }
