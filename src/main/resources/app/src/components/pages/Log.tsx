@@ -5,7 +5,7 @@ import {formatDate, getGradeBasedClassName} from "../../App";
 
 
 interface LogState {
-    logId: number,
+    id: number,
     name: string,
     type: string,
     description: string,
@@ -18,7 +18,7 @@ export default class Log extends Component<any, LogState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            logId: props.location.state.logId,
+            id: props.location.state.logId,
             name: '',
             type: '',
             description: '',
@@ -26,10 +26,11 @@ export default class Log extends Component<any, LogState> {
             students: [],
             isLoaded: false
         };
+        this.updateDescription = this.updateDescription.bind(this);
     }
 
     componentDidMount() {
-        axios.get(`logs/log?id=${this.state.logId}`).then(response => {
+        axios.get(`logs/log?id=${this.state.id}`).then(response => {
             if (response.status === 200) {
                 this.setState({
                     name: response.data.name,
@@ -38,7 +39,7 @@ export default class Log extends Component<any, LogState> {
                 })
             }
         });
-        axios.get(`students?logId=${this.state.logId}`).then(response => {
+        axios.get(`students?logId=${this.state.id}`).then(response => {
             if (response.status === 200) {
                 this.setState({
                     students: response.data,
@@ -46,13 +47,25 @@ export default class Log extends Component<any, LogState> {
                 })
             }
         });
-        axios.get(`labs?logId=${this.state.logId}`).then(response => {
+        axios.get(`labs?logId=${this.state.id}`).then(response => {
             if (response.status === 200) {
                 this.setState({
                     labs: response.data,
                     isLoaded: true
                 })
             }
+        });
+        window.addEventListener("beforeunload", this.updateDescription);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("beforeunload", this.updateDescription);
+    }
+
+    updateDescription(event: any) {
+        axios.put('logs/log/update', {
+            id: this.state.id,
+            description: this.state.description
         });
     }
 
@@ -64,7 +77,11 @@ export default class Log extends Component<any, LogState> {
                     {!this.state.isLoaded ? <Preloader className='event-loader' /> : <div/>}
                     <div className="card-header">{name} ({type})</div>
                     <div className="card-body">
-                        <h6 className="card-subtitle mb-2 col-8 mx-auto">{description}</h6>
+                        <label className="offset-md-2 col-md-6 col-form-label d-flex justify-content-start">Описание</label>
+                        <textarea className="mb-2 col-md-8 mx-auto"
+                            onBlur={this.updateDescription}
+                            onChange={event => this.setState({description: event.target.value})}
+                            value={description} />
 
                         <ul className="nav nav-tabs" id="myTab" role="tablist">
                             <li className="nav-item">

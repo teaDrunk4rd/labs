@@ -31,10 +31,10 @@ public class LabsController {
     @GetMapping("labs")
     public ResponseEntity<?> getLabs(@RequestParam int logId) {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
-        Log log = logRepo.findById(logId).get();
+        Log log = logRepo.findById(logId).orElse(null);
 
-        if (log == null || log.getTeacher() != user && user.getRole() != roleRepo.findByKey("admin"))
-            return ResponseEntity.badRequest().build();
+        if (log == null) return ResponseEntity.badRequest().build();
+        if (log.getTeacher() != user && user.getRole() != roleRepo.findByKey("admin")) return ResponseEntity.status(403).build();
 
         return ResponseEntity.ok(
             log.getLabs().stream()

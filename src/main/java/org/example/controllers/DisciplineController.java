@@ -91,10 +91,10 @@ public class DisciplineController {
     @GetMapping("disciplines/discipline")
     public ResponseEntity<DisciplineResponse> getStudentDiscipline(@RequestParam int logId) {
         User student = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
-        Log log = logRepo.findById(logId).get();
+        Log log = logRepo.findById(logId).orElse(null);
 
-        if (log == null || log.getGroup() != student.getGroup())
-            return ResponseEntity.badRequest().build();
+        if (log == null) return ResponseEntity.badRequest().build();
+        if (log.getGroup() != student.getGroup()) return ResponseEntity.status(403).build();
 
         List<DisciplinesLabs> completedLabs = labRepo.findByLog(log)
                 .stream()
