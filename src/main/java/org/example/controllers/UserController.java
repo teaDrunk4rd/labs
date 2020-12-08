@@ -1,19 +1,22 @@
 package org.example.controllers;
 
+import org.example.db.entities.Log;
 import org.example.db.entities.User;
+import org.example.db.repos.LogRepo;
+import org.example.db.repos.RoleRepo;
 import org.example.db.repos.UserRepo;
 import org.example.payload.request.UpdateUserRequest;
-import org.example.payload.response.JwtResponse;
-import org.example.payload.response.MessageResponse;
-import org.example.payload.response.ProfileResponse;
+import org.example.payload.response.*;
 import org.example.security.JwtUtils;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Comparator;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -21,6 +24,10 @@ import javax.validation.Valid;
 public class UserController {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private LogRepo logRepo;
+    @Autowired
+    private RoleRepo roleRepo;
     @Autowired
     private UserDetailsGetter userDetailsGetter;
     @Autowired
@@ -54,5 +61,34 @@ public class UserController {
                 user.getName(),
                 user.getEmail(),
                 null));
+    }
+
+    @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
+    @GetMapping("students")
+    public ResponseEntity<?> getStudents(@RequestParam int logId) {
+        User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
+        Log log = logRepo.findById(logId).get();
+
+        if (log == null || log.getTeacher() != user && user.getRole() != roleRepo.findByKey("admin"))
+            return ResponseEntity.badRequest().build();
+
+        return ResponseEntity.ok(
+            log.getGroup().getStudents().stream()
+                .map(s -> {
+                    byte sum = s.getScoresByLog(log);
+                    return new StudentsResponse(
+                        s.getName(),
+                        s.getEmail(),
+                        sum,
+                        s.getGradeByLog(log, sum)
+                    );
+                })
+                .sorted(new Comparator<StudentsResponse>() {
+                    @Override
+                    public int compare(StudentsResponse s1, StudentsResponse s2) {
+                        return s1.getName().compareTo(s2.getName());
+                    }
+                })
+        );
     }
 }

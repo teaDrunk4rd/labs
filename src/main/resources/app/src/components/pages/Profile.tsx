@@ -95,21 +95,21 @@ export default class Profile extends Component<any, ProfileState> {
     render() {
         const {email, name, group, changePasswordFlag, oldPassword, newPassword, passwordConfirmation} = this.state;
         return (
-            <div className="col-8 m-auto">
+            <div className="col-6 m-auto">
                 <div className="card">
                     {!this.state.isLoaded ? <Preloader/> : <div/>}
                     <div className="card-header">Профиль</div>
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit} autoComplete='false'>
-                            <div className="form-group d-flex justify-content-end col-10 pr-2">
+                            <div className="d-flex justify-content-end col-md-9 m-0 pr-2">
                                 <a href='#' onClick={this.logout}>
                                     Выйти
                                 </a>
                             </div>
 
-                            <div className="form-group row">
-                                <label className="col-md-4 col-form-label text-md-right">E-Mail</label>
-                                <div className="col-md-6">
+                            <div className="row mb-2">
+                                <label className="offset-md-3 col-md-6 col-form-label">E-Mail</label>
+                                <div className="offset-md-3 col-md-6">
                                     <input type="email"
                                            autoComplete="false"
                                            value={email}
@@ -118,11 +118,11 @@ export default class Profile extends Component<any, ProfileState> {
                                 </div>
                             </div>
 
-                            <div className="form-group row">
-                                <label className="col-md-4 col-form-label text-md-right">
+                            <div className="row mb-2">
+                                <label className="offset-md-3 col-md-6 col-form-label">
                                     Полное имя
                                 </label>
-                                <div className="col-md-6">
+                                <div className="offset-md-3 col-md-6">
                                     <input type="text"
                                            autoComplete="false"
                                            value={name}
@@ -133,11 +133,11 @@ export default class Profile extends Component<any, ProfileState> {
 
                             {
                                 !group ? <div/> : (
-                                    <div className="form-group row">
-                                        <label className="col-md-4 col-form-label text-md-right">
+                                    <div className="row mb-2">
+                                        <label className="offset-md-3 col-md-6 col-form-label">
                                             Группа
                                         </label>
-                                        <div className="col-md-6">
+                                        <div className="offset-md-3 col-md-6">
                                             <input type="text"
                                                    autoComplete="false"
                                                    value={group}
@@ -150,10 +150,11 @@ export default class Profile extends Component<any, ProfileState> {
                             {
                                 changePasswordFlag ? (
                                     <div>
-                                        <div className="form-group row">
-                                            <label className="col-md-4 col-form-label text-md-right">Старый
-                                                пароль</label>
-                                            <div className="col-md-6">
+                                        <div className="row mb-2">
+                                            <label className="offset-md-3 col-md-6 col-form-label">
+                                                Старый пароль
+                                            </label>
+                                            <div className="offset-md-3 col-md-6">
                                                 <input type="password"
                                                        autoComplete="new-password"
                                                        value={oldPassword}
@@ -162,10 +163,11 @@ export default class Profile extends Component<any, ProfileState> {
                                             </div>
                                         </div>
 
-                                        < div className="form-group row">
-                                            < label className="col-md-4 col-form-label text-md-right">Новый
-                                                пароль</label>
-                                            <div className="col-md-6">
+                                        <div className="row mb-2">
+                                            <label className="offset-md-3 col-md-6 col-form-label">
+                                                Новый пароль
+                                            </label>
+                                            <div className="offset-md-3 col-md-6">
                                                 <input type="password"
                                                        autoComplete="new-password"
                                                        value={newPassword}
@@ -174,10 +176,11 @@ export default class Profile extends Component<any, ProfileState> {
                                             </div>
                                         </div>
 
-                                        <div className="form-group row">
-                                            <label className="col-md-4 col-form-label text-md-right">Подтверждение
-                                                пароля</label>
-                                            <div className="col-md-6">
+                                        <div className="row mb-2">
+                                            <label className="offset-md-3 col-md-6 col-form-label">
+                                                Подтверждение пароля
+                                            </label>
+                                            <div className="offset-md-3 col-md-6">
                                                 <input type="password"
                                                        autoComplete="new-password"
                                                        value={passwordConfirmation}
@@ -187,9 +190,8 @@ export default class Profile extends Component<any, ProfileState> {
                                         </div>
                                     </div>
                                 ) : (
-
-                                    <div className="form-group row">
-                                        <div className="col-md-6 offset-md-4">
+                                    <div className="row mb-2">
+                                        <div className="col-md-6 offset-md-3 d-flex justify-content-end">
                                             <a href='#'
                                                onClick={event => this.setState({changePasswordFlag: !changePasswordFlag})}>
                                                 Сменить пароль
@@ -199,8 +201,8 @@ export default class Profile extends Component<any, ProfileState> {
                                 )
                             }
 
-                            <div className="form-group row mb-0">
-                                <div className="col-md-8 offset-md-4">
+                            <div className="row">
+                                <div className="col-md-6 offset-md-3 d-flex justify-content-end">
                                     <button type="submit" className="btn btn-primary">
                                         Изменить
                                     </button>

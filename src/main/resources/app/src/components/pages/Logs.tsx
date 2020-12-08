@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import axios from "axios";
 import Preloader from "../Preloader";
-import {getGradeBasedClassName} from "../../App";
 
 interface DisciplinesState {
-    disciplines: Array<any>,
+    logs: Array<any>,
     isLoaded: boolean
 }
 
@@ -12,16 +11,16 @@ export default class Disciplines extends Component<any, DisciplinesState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            disciplines: [],
+            logs: [],
             isLoaded: false
         };
     }
 
     componentDidMount() {
-        axios.get('disciplines').then(response => {
+        axios.get('logs').then(response => {
             if (response.status === 200) {
                 this.setState({
-                    disciplines: response.data,
+                    logs: response.data,
                     isLoaded: true
                 })
             }
@@ -32,30 +31,26 @@ export default class Disciplines extends Component<any, DisciplinesState> {
         return (
             <div>
                 {!this.state.isLoaded ? <Preloader/> : <div/>}
-                <div className="h3 font-weight-bold mb-3">Предметы</div>
+                <div className="h3 font-weight-bold mb-3">Журналы</div>
                 <table className="table table-hover">
                     <thead className="table-dark">
                     <tr>
-                        <th>Наименование</th>
-                        <th>Тип предмета</th>
-                        <th>Кол-во баллов</th>
-                        <th>Оценка</th>
+                        <th>Дисциплина</th>
+                        <th>Группа</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.disciplines.length !== 0 && this.state.disciplines.map((discipline, index) => {
+                    {this.state.logs.length !== 0 && this.state.logs.map((log, index) => {
                         return (
-                            <tr className={`cursor-pointer ${getGradeBasedClassName(discipline.grade)}`}
+                            <tr className="cursor-pointer"
                                 key={index}
                                 onClick={(e) => this.props.history.push({
-                                    pathname: '/disciplines/discipline',
-                                    search: `?logId=${discipline.logid}`,
-                                    state: { logId: discipline.logid }
+                                    pathname: '/logs/log',
+                                    search: `?logId=${log.id}`,
+                                    state: { logId: log.id }
                                 })}>
-                                <td>{discipline.name}</td>
-                                <td>{discipline.type}</td>
-                                <td>{discipline.totalscores}</td>
-                                <td>{discipline.grade}</td>
+                                <td>{log.discipline}</td>
+                                <td>{log.group}</td>
                             </tr>
                         )
                     })}

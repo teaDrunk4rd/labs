@@ -18,9 +18,9 @@ axios.interceptors.response.use((response: any) => {
 }, (error: any) => {
     let message: string;
 
-    if (error.response && error.response.data.errors && isValidMessage(error.response.data.errors[0].defaultMessage)) {
+    if (error.response && error.response.data.errors && isValidMessage(error.response.data.errors[0].defaultMessage[0])) {
         message = error.response.data.errors[0].defaultMessage;
-    } else if (error.response && error.response.data.message && isValidMessage(error.response.data.message)) {
+    } else if (error.response && error.response.data.message && isValidMessage(error.response.data.message[0])) {
         message = error.response.data.message;
     } else if (error.response && error.response.status === 403) {
         message = "Доступ запрещён";

@@ -106,4 +106,32 @@ public class User {
     public void setStudentLabs(Set<StudentLab> studentLabs) {
         this.studentLabs = studentLabs;
     }
+
+    public byte getScoresByLog(Log log) {  // эту ссанину пришлось написать из-за отсутствия встроенной нормальной ф-ии sum
+        byte sum = 0;
+        for (StudentLab sl: getStudentLabs())
+            if (sl.getLab().getLog() == log)
+                sum += sl.getScores();
+
+        return sum;
+    }
+
+    public String getGradeByLog(Log log) {
+        return this.getGradeByLog(log, this.getScoresByLog(log));
+    }
+
+    public String getGradeByLog(Log log, byte scores) {
+        if (log.getDisciplineType().getKey().equals("exam")) {
+            if (scores >= 91)
+                return "5";
+            else if (scores >= 76)
+                return "4";
+            else if (scores >= 61)
+                return "3";
+
+            return "2";
+        } else {
+            return scores >= 61 ? "зачёт" : "незачёт";
+        }
+    }
 }

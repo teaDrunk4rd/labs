@@ -43,9 +43,9 @@ export default class Login extends Component<any, LoginState> {
                     <div className="card-header">Вход</div>
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit}>
-                            <div className="form-group row">
-                                <label className="col-md-4 col-form-label text-md-right">E-Mail</label>
-                                <div className="col-md-6">
+                            <div className="row">
+                                <label className="offset-md-3 col-md-6 col-form-label">E-Mail</label>
+                                <div className="offset-md-3 col-md-6">
                                     <input id="email" type="text" name="email"
                                            value={email}
                                            onChange={event => this.setState({email: event.target.value})}
@@ -54,9 +54,9 @@ export default class Login extends Component<any, LoginState> {
                                 </div>
                             </div>
 
-                            <div className="form-group row">
-                                <label className="col-md-4 col-form-label text-md-right">Пароль</label>
-                                <div className="col-md-6">
+                            <div className="row mb-2">
+                                <label className="offset-md-3 col-md-6 col-form-label">Пароль</label>
+                                <div className="offset-md-3 col-md-6">
                                     <input id="password" type="password" name="password"
                                            value={password}
                                            onChange={event => this.setState({password: event.target.value})}
@@ -65,8 +65,8 @@ export default class Login extends Component<any, LoginState> {
                                 </div>
                             </div>
 
-                            <div className="form-group row mb-0">
-                                <div className="col-md-6 offset-md-4 d-flex justify-content-end">
+                            <div className="row">
+                                <div className="col-md-6 offset-md-3 d-flex justify-content-end">
                                     <button type="submit" className="btn btn-primary">
                                         Вход
                                     </button>

@@ -59,7 +59,7 @@ export default class Discipline extends Component<any, DisciplinesState> {
                         <p className="card-text m-0">Лабораторные:</p>
 
                         <table className="table">
-                        <thead className="thead-dark">
+                        <thead className="table-dark">
                         <tr>
                             <th>Наименование</th>
                             <th>Дата выдачи</th>

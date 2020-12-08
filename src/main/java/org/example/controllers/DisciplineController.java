@@ -7,7 +7,7 @@ import org.example.db.repos.LogRepo;
 import org.example.db.repos.StudentLabRepo;
 import org.example.db.repos.UserRepo;
 import org.example.payload.response.DisciplineResponse;
-import org.example.payload.response.queries.DisciplinesLabsResult;
+import org.example.payload.response.queries.DisciplinesLabs;
 import org.example.payload.response.queries.DisciplinesResult;
 import org.example.security.UserDetailsGetter;
 import org.hibernate.Session;
@@ -96,14 +96,14 @@ public class DisciplineController {
         if (log == null || log.getGroup() != student.getGroup())
             return ResponseEntity.badRequest().build();
 
-        List<DisciplinesLabsResult> completedLabs = labRepo.findByLog(log)
+        List<DisciplinesLabs> completedLabs = labRepo.findByLog(log)
                 .stream()
                 .peek(l-> l.setStudentLabs(
                         l.getStudentLabs().stream()
                             .filter(sl->sl.getStudent() == student)
                             .collect(Collectors.toSet())
                 ))
-                .map(l -> new DisciplinesLabsResult(
+                .map(l -> new DisciplinesLabs(
                         l.getName(),
                         l.getIssueDate(),
                         l.getScores(),

@@ -30,7 +30,7 @@ public class Log {
     private User teacher;
 
     @OneToMany(mappedBy="log")
-    Set<Lab> labs;
+    private Set<Lab> labs;
 
     public Log() {
     }
@@ -41,6 +41,18 @@ public class Log {
         this.disciplineType = disciplineType;
         this.group = group;
         this.teacher = teacher;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Set<Lab> getLabs() {
+        return labs;
+    }
+
+    public void setLabs(Set<Lab> labs) {
+        this.labs = labs;
     }
 
     public String getDescription() {

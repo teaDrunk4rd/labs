@@ -1,6 +1,6 @@
 package org.example.payload.response;
 
-import org.example.payload.response.queries.DisciplinesLabsResult;
+import org.example.payload.response.queries.DisciplinesLabs;
 
 import java.util.List;
 
@@ -9,12 +9,12 @@ public class DisciplineResponse {
     private String type;
     private String description;
     private String teacher;
-    private List<DisciplinesLabsResult> labs;
+    private List<DisciplinesLabs> labs;
 
     public DisciplineResponse() {
     }
 
-    public DisciplineResponse(String name, String type, String description, String teacher, List<DisciplinesLabsResult> labs) {
+    public DisciplineResponse(String name, String type, String description, String teacher, List<DisciplinesLabs> labs) {
         this.name = name;
         this.type = type;
         this.description = description;
@@ -54,11 +54,11 @@ public class DisciplineResponse {
         this.teacher = teacher;
     }
 
-    public List<DisciplinesLabsResult> getLabs() {
+    public List<DisciplinesLabs> getLabs() {
         return labs;
     }
 
-    public void setLabs(List<DisciplinesLabsResult> labs) {
+    public void setLabs(List<DisciplinesLabs> labs) {
         this.labs = labs;
     }
 }

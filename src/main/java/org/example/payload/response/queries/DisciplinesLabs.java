@@ -2,17 +2,17 @@ package org.example.payload.response.queries;
 
 import java.util.Date;
 
-public class DisciplinesLabsResult {
+public class DisciplinesLabs {
     private String name;
     private Date issuedate;
     private Byte scores;
     private Date completiondate;
     private Byte completionscores;
 
-    public DisciplinesLabsResult() {
+    public DisciplinesLabs() {
     }
 
-    public DisciplinesLabsResult(String name, Date issuedate, Byte scores, Date completiondate, Byte completionscores) {
+    public DisciplinesLabs(String name, Date issuedate, Byte scores, Date completiondate, Byte completionscores) {
         this.name = name;
         this.issuedate = issuedate;
         this.scores = scores;
