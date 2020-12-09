@@ -38,13 +38,8 @@ public class LabsController {
 
         return ResponseEntity.ok(
             log.getLabs().stream()
-                .map(l -> new LabsResponse(l.getName(), l.getIssueDate(), l.getScores()))
-                .sorted(new Comparator<LabsResponse>() {
-                    @Override
-                    public int compare(LabsResponse s1, LabsResponse s2) {
-                        return s1.getIssueDate().compareTo(s2.getIssueDate());
-                    }
-                })
+                .map(l -> new LabsResponse(l.getName(), l.getIssueDate(), l.getExpectedCompletionDate(), l.getScores()))
+                .sorted(Comparator.comparing(LabsResponse::getIssueDate))
         );
     }
 }

@@ -14,6 +14,9 @@ public class Lab {
     @Column(nullable = true)
     private Date issueDate;
 
+    @Column(nullable = true)
+    private Date expectedCompletionDate;
+
     @Column(nullable = false)
     private String name;
 
@@ -30,11 +33,20 @@ public class Lab {
     public Lab() {
     }
 
-    public Lab(Date issueDate, String name, Byte scores, Log log) {
+    public Lab(Date issueDate, Date expectedCompletionDate, String name, Byte scores, Log log) {
         this.issueDate = issueDate;
+        this.expectedCompletionDate = expectedCompletionDate;
         this.name = name;
         this.scores = scores;
         this.log = log;
+    }
+
+    public Date getExpectedCompletionDate() {
+        return expectedCompletionDate;
+    }
+
+    public void setExpectedCompletionDate(Date expectedCompletionDate) {
+        this.expectedCompletionDate = expectedCompletionDate;
     }
 
     public Set<StudentLab> getStudentLabs() {

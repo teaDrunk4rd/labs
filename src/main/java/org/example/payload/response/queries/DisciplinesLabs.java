@@ -4,20 +4,30 @@ import java.util.Date;
 
 public class DisciplinesLabs {
     private String name;
-    private Date issuedate;
+    private Date issueDate;
+    private Date expectedCompletionDate;
     private Byte scores;
-    private Date completiondate;
-    private Byte completionscores;
+    private Date completionDate;
+    private Byte completionScores;
 
     public DisciplinesLabs() {
     }
 
-    public DisciplinesLabs(String name, Date issuedate, Byte scores, Date completiondate, Byte completionscores) {
+    public DisciplinesLabs(String name, Date issueDate, Date expectedCompletionDate, Byte scores, Date completionDate, Byte completionScores) {
         this.name = name;
-        this.issuedate = issuedate;
+        this.issueDate = issueDate;
+        this.expectedCompletionDate = expectedCompletionDate;
         this.scores = scores;
-        this.completiondate = completiondate;
-        this.completionscores = completionscores;
+        this.completionDate = completionDate;
+        this.completionScores = completionScores;
+    }
+
+    public Date getExpectedCompletionDate() {
+        return expectedCompletionDate;
+    }
+
+    public void setExpectedCompletionDate(Date expectedCompletionDate) {
+        this.expectedCompletionDate = expectedCompletionDate;
     }
 
     public String getName() {
@@ -28,12 +38,12 @@ public class DisciplinesLabs {
         this.name = name;
     }
 
-    public Date getIssuedate() {
-        return issuedate;
+    public Date getIssueDate() {
+        return issueDate;
     }
 
-    public void setIssuedate(Date issuedate) {
-        this.issuedate = issuedate;
+    public void setIssueDate(Date issueDate) {
+        this.issueDate = issueDate;
     }
 
     public Byte getScores() {
@@ -44,19 +54,19 @@ public class DisciplinesLabs {
         this.scores = scores;
     }
 
-    public Date getCompletiondate() {
-        return completiondate;
+    public Date getCompletionDate() {
+        return completionDate;
     }
 
-    public void setCompletiondate(Date completiondate) {
-        this.completiondate = completiondate;
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
     }
 
-    public Byte getCompletionscores() {
-        return completionscores;
+    public Byte getCompletionScores() {
+        return completionScores;
     }
 
-    public void setCompletionscores(Byte completionscores) {
-        this.completionscores = completionscores;
+    public void setCompletionScores(Byte completionScores) {
+        this.completionScores = completionScores;
     }
 }

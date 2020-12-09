@@ -136,6 +136,7 @@ export default class Log extends Component<any, LogState> {
                                     <tr>
                                         <th>Наименование</th>
                                         <th>Дата выдачи</th>
+                                        <th>Предполагаемая дата сдачи</th>
                                         <th>Баллы</th>
                                     </tr>
                                     </thead>
@@ -146,6 +147,7 @@ export default class Log extends Component<any, LogState> {
                                                 key={index}>
                                                 <td>{lab.name}</td>
                                                 <td>{lab.issueDate != null ? formatDate(lab.issueDate) : ''}</td>
+                                                <td>{lab.expectedCompletionDate != null ? formatDate(lab.expectedCompletionDate) : ''}</td>
                                                 <td>{lab.scores}</td>
                                             </tr>
                                         )

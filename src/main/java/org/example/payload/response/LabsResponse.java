@@ -5,15 +5,25 @@ import java.util.Date;
 public class LabsResponse {
     private String name;
     private Date issueDate;
+    private Date expectedCompletionDate;
     private Byte scores;
 
     public LabsResponse() {
     }
 
-    public LabsResponse(String name, Date issueDate, Byte scores) {
+    public LabsResponse(String name, Date issueDate, Date expectedCompletionDate, Byte scores) {
         this.name = name;
         this.issueDate = issueDate;
+        this.expectedCompletionDate = expectedCompletionDate;
         this.scores = scores;
+    }
+
+    public Date getExpectedCompletionDate() {
+        return expectedCompletionDate;
+    }
+
+    public void setExpectedCompletionDate(Date expectedCompletionDate) {
+        this.expectedCompletionDate = expectedCompletionDate;
     }
 
     public String getName() {

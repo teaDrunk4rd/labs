@@ -18,7 +18,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -46,9 +45,9 @@ public class CalendarController {
             return ResponseEntity.ok(
                 user.getGroup().getLogs().stream()
                     .peek(l -> l.setLabs(l.getLabs().stream()
-                            .filter(ll -> ll.getIssueDate() != null)
+                            .filter(ll -> ll.getExpectedCompletionDate() != null)
                             .filter(ll -> {
-                                LocalDate labLocalDate = ll.getIssueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                                LocalDate labLocalDate = ll.getExpectedCompletionDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                                 return labLocalDate.isAfter(leftDate) && labLocalDate.isBefore(rightDate);
                             }).collect(Collectors.toSet()))
                     ).map(Log::getLabs)
@@ -56,7 +55,7 @@ public class CalendarController {
                     .map(l -> new CalendarResponse(
                             l.getName(),
                             l.getLog().getDiscipline().getName(),
-                            l.getIssueDate(),
+                            l.getExpectedCompletionDate(),
                             l.getStudentLabs().stream().anyMatch(sl -> sl.getStudent() == user)
                     ))
             );
@@ -64,9 +63,9 @@ public class CalendarController {
         return ResponseEntity.ok(
             user.getLogs().stream()
                 .peek(l -> l.setLabs(l.getLabs().stream()
-                        .filter(ll -> ll.getIssueDate() != null)
+                        .filter(ll -> ll.getExpectedCompletionDate() != null)
                         .filter(ll -> {
-                            LocalDate labLocalDate = ll.getIssueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                            LocalDate labLocalDate = ll.getExpectedCompletionDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                             return labLocalDate.isAfter(leftDate) && labLocalDate.isBefore(rightDate);
                         }).collect(Collectors.toSet()))
                 ).map(Log::getLabs)
@@ -74,7 +73,7 @@ public class CalendarController {
                 .map(l -> new CalendarResponse(
                         l.getName(),
                         l.getLog().getDiscipline().getName(),
-                        l.getIssueDate(),
+                        l.getExpectedCompletionDate(),
                         true
                 ))
         );

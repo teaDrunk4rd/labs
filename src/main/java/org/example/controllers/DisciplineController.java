@@ -106,6 +106,7 @@ public class DisciplineController {
                 .map(l -> new DisciplinesLabs(
                         l.getName(),
                         l.getIssueDate(),
+                        l.getExpectedCompletionDate(),
                         l.getScores(),
                         l.getStudentLabs().size() != 0 ? l.getStudentLabs().iterator().next().getCompletionDate() : null,
                         l.getStudentLabs().size() != 0 ? l.getStudentLabs().iterator().next().getScores() : null

@@ -46,7 +46,6 @@ public class LogController {
         if (log == null) return ResponseEntity.badRequest().build();
         if (log.getTeacher() != teacher) return ResponseEntity.status(403).build();
 
-
         return ResponseEntity.ok(
             new LogResponse(log.getDiscipline().getName(), log.getDisciplineType().getName(), log.getDescription())
         );

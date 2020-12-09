@@ -63,6 +63,7 @@ export default class Discipline extends Component<any, DisciplinesState> {
                         <tr>
                             <th>Наименование</th>
                             <th>Дата выдачи</th>
+                            <th title='Предполагаемая дата сдачи'>Предп. дата сдачи</th>
                             <th>Баллы</th>
                             <th>Дата сдачи</th>
                             <th>Полученные баллы</th>
@@ -71,15 +72,16 @@ export default class Discipline extends Component<any, DisciplinesState> {
                         <tbody>
                         {labs && labs.map((lab, index) => {
                             return (
-                                <tr className={lab.completiondate != null ? 'table-success' :
-                                                lab.issuedate != null && new Date(lab.issuedate) < new Date() ?
+                                <tr className={lab.completionDate != null ? 'table-success' :
+                                                lab.expectedCompletionDate != null && new Date(lab.expectedCompletionDate) < new Date() ?
                                                     'table-danger': 'table-default'}
                                     key={index}>
                                     <td>{lab.name}</td>
-                                    <td>{lab.issuedate != null ? formatDate(lab.issuedate) : ''}</td>
+                                    <td>{lab.issueDate != null ? formatDate(lab.issueDate) : ''}</td>
+                                    <td>{lab.expectedCompletionDate != null ? formatDate(lab.expectedCompletionDate) : ''}</td>
                                     <td>{lab.scores}</td>
-                                    <td>{lab.completiondate != null ? formatDate(lab.completiondate) : ''}</td>
-                                    <td>{lab.completionscores}</td>
+                                    <td>{lab.completionDate != null ? formatDate(lab.completionDate) : ''}</td>
+                                    <td>{lab.completionScores}</td>
                                 </tr>
                             )
                         })}
