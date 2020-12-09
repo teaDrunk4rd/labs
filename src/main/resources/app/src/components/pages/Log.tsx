@@ -27,6 +27,7 @@ export default class Log extends Component<any, LogState> {
             isLoaded: false
         };
         this.updateDescription = this.updateDescription.bind(this);
+        this.loadLabs = this.loadLabs.bind(this);
     }
 
     componentDidMount() {
@@ -47,6 +48,14 @@ export default class Log extends Component<any, LogState> {
                 })
             }
         });
+        window.addEventListener("beforeunload", this.updateDescription);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("beforeunload", this.updateDescription);
+    }
+
+    loadLabs(event: any) {
         axios.get(`labs?logId=${this.state.id}`).then(response => {
             if (response.status === 200) {
                 this.setState({
@@ -55,11 +64,6 @@ export default class Log extends Component<any, LogState> {
                 })
             }
         });
-        window.addEventListener("beforeunload", this.updateDescription);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener("beforeunload", this.updateDescription);
     }
 
     updateDescription(event: any) {
@@ -90,7 +94,10 @@ export default class Log extends Component<any, LogState> {
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" id="labs-tab" data-toggle="tab" href="#labs" role="tab"
-                                   aria-controls="labs" aria-selected="false">Лабораторные</a>
+                                    aria-controls="labs" aria-selected="false"
+                                    onClick={this.loadLabs}>
+                                    Лабораторные
+                                </a>
                             </li>
                         </ul>
 

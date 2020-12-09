@@ -126,6 +126,7 @@ export default class Profile extends Component<any, ProfileState> {
                                     <input type="text"
                                            autoComplete="false"
                                            value={name}
+                                           readOnly={JSON.parse(localStorage["user"])["role"] === "ROLE_STUDENT"}
                                            onChange={event => this.setState({name: event.target.value})}
                                            className="form-control "/>
                                 </div>

@@ -49,10 +49,10 @@ public class UserController {
         if (validationMessage != null) return ResponseEntity.badRequest().body(new MessageResponse(validationMessage));
 
         user.setEmail(updateUserRequest.getEmail());
-        user.setName(updateUserRequest.getName());
-        if (updateUserRequest.getPassword() != null && updateUserRequest.getPassword() != "") {
+        if (user.getRole().getKey() != "ROLE_STUDENT")
+            user.setName(updateUserRequest.getName());
+        if (updateUserRequest.getPassword() != null && updateUserRequest.getPassword() != "")
             user.setPassword(encoder.encode(updateUserRequest.getPassword()));
-        }
 
         userRepo.saveAndFlush(user);
 
