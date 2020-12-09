@@ -17,3 +17,32 @@ th, td {
 a {
     text-decoration: none !important;
 }
+
+.calendar {
+    margin: 0 -80px;
+}
+
+.calendar-item, .calendar-header th {
+    flex: 0 0 14.285714285714286%;
+    max-width: 14.285714285714286%;
+    position: relative;
+    padding: 3px;
+}
+
+.inactive-card.card {
+    background-color: lightgray ;
+    color: gray;
+}
+
+.bg-primary {
+    color: #baffea;
+}
+
+.event-name {
+    font-size: 14px;
+    padding-top: 1px!important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

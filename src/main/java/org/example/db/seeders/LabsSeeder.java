@@ -31,8 +31,8 @@ public class LabsSeeder implements Seeder {
 
             repo.saveAll(Arrays.asList(
                 new Lab(null, "1. Front", (byte) 61, logs.get(0)),
-                new Lab(null, "2. Back without db", (byte) 15, logs.get(0)),
-                new Lab(null, "3. Back w/db", (byte) 15, logs.get(0)),
+                new Lab(df.parse("25/12/2020"), "2. Back without db", (byte) 15, logs.get(0)),
+                new Lab(df.parse("25/12/2020"), "3. Back w/db", (byte) 15, logs.get(0)),
 
                 new Lab(df.parse("10/09/2020"), "Выбор предметной области", (byte) 10, logs.get(1)),
                 new Lab(df.parse("20/09/2020"), "Создание форм на фигме", (byte) 10, logs.get(1)),
