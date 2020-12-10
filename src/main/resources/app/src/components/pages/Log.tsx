@@ -193,7 +193,13 @@ export default class Log extends Component<any, LogState> {
                                 </table>
 
                                 <div className='ml-4 mt-3'>
-                                    <div className="add-icon shadow mb-3" />
+                                    <div className="add-icon shadow mb-3" onClick={() => this.props.history.push({
+                                        pathname: '/logs/log/lab',
+                                        state: {
+                                            logId: this.state.id,
+                                            disciplineName: `${name} (${type})`
+                                        }
+                                    })} />
                                     <div className={`remove-icon shadow ${selectedLab == null ? 'disable' : ''}`}
                                          onClick={() => this.setState({dialogOpen: true})} />
                                 </div>

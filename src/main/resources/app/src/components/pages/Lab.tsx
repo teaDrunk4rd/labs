@@ -40,50 +40,85 @@ export default class Lab extends Component<any, LabState> {
     }
 
     componentDidMount() {
-        axios.get(`labs/lab?id=${this.state.id}`).then(response => {
-            if (response.status === 200) {
-                this.setState({
-                    name: response.data.name,
-                    issueDate: response.data.issueDate,
-                    expectedCompletionDate: response.data.expectedCompletionDate,
-                    scores: response.data.scores,
-                    students: response.data.students,
-                    isLoaded: true
-                })
-            }
-        });
+        if (this.state.id !== undefined)
+            axios.get(`labs/lab?id=${this.state.id}`).then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        name: response.data.name,
+                        issueDate: response.data.issueDate,
+                        expectedCompletionDate: response.data.expectedCompletionDate,
+                        scores: response.data.scores,
+                        students: response.data.students,
+                        isLoaded: true
+                    })
+                }
+            });
+        else
+            axios.get(`labs/lab/students?logId=${this.state.logId}`).then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        students: response.data,
+                        isLoaded: true
+                    })
+                }
+            });
     }
 
     handleSubmit(event: any) {
         event.preventDefault();
 
-        axios.put('labs/lab/update', {
-            id: this.state.id,
-            name: this.state.name,
-            issueDate: this.state.issueDate,
-            expectedCompletionDate: this.state.expectedCompletionDate,
-            scores: this.state.scores,
-            students: this.state.students
-        }).then(response => {
-            if (response.status === 200) {
-                store.addNotification({
-                    message: "Лаба изменена",
-                    type: "success",
-                    container: "top-right",
-                    dismiss: { duration: 2000, onScreen: true }
-                });
-                this.props.history.push({
-                    pathname: '/logs/log',
-                    search: `?logId=${this.state.logId}`,
-                    state: { logId: this.state.logId }
-                })
-            }
-        });
+        if (this.state.id !== undefined)
+            axios.put('labs/lab/update', {
+                id: this.state.id,
+                name: this.state.name,
+                issueDate: this.state.issueDate,
+                expectedCompletionDate: this.state.expectedCompletionDate,
+                scores: this.state.scores,
+                students: this.state.students,
+                logId: this.state.logId
+            }).then(response => {
+                if (response.status === 200) {
+                    store.addNotification({
+                        message: "Изменения сохранены",
+                        type: "success",
+                        container: "top-right",
+                        dismiss: { duration: 2000, onScreen: true }
+                    });
+                    this.props.history.push({
+                        pathname: '/logs/log',
+                        search: `?logId=${this.state.logId}`,
+                        state: { logId: this.state.logId }
+                    })
+                }
+            });
+        else
+            axios.put('labs/lab/create', {
+                name: this.state.name,
+                issueDate: this.state.issueDate,
+                expectedCompletionDate: this.state.expectedCompletionDate,
+                scores: this.state.scores,
+                students: this.state.students,
+                logId: this.state.logId
+            }).then(response => {
+                if (response.status === 200) {
+                    store.addNotification({
+                        message: "Лаба создана",
+                        type: "success",
+                        container: "top-right",
+                        dismiss: { duration: 2000, onScreen: true }
+                    });
+                    this.props.history.push({
+                        pathname: '/logs/log',
+                        search: `?logId=${this.state.logId}`,
+                        state: { logId: this.state.logId }
+                    })
+                }
+            });
     }
 
     updateScores(event: any) {
         this.state.students.map(s => {
-            if (s.completionScore === this.state.scores)
+            if (s.completionScore === this.state.scores && s.completionScore > 0)
                 s.completionScore = event.target.value;
         })
         this.setState({scores: event.target.value});

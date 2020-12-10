@@ -9,6 +9,7 @@ import org.example.db.repos.LabRepo;
 import org.example.db.repos.LogRepo;
 import org.example.db.repos.StudentLabRepo;
 import org.example.db.repos.UserRepo;
+import org.example.payload.request.CreateLabRequest;
 import org.example.payload.request.UpdateLabRequest;
 import org.example.payload.response.LabResponse;
 import org.example.payload.response.LabsResponse;
@@ -89,6 +90,49 @@ public class LabsController {
                     ).collect(Collectors.toList())
             )
         );
+    }
+
+    @Secured("ROLE_TEACHER")
+    @GetMapping("labs/lab/students")
+    public ResponseEntity<?> getLabStudentsByLogId(@RequestParam int logId) {
+        User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
+        Log log = logRepo.findById(logId).orElse(null);
+
+        if (log == null) return ResponseEntity.badRequest().build();
+        if (log.getTeacher() != teacher) return ResponseEntity.status(403).build();
+
+        return ResponseEntity.ok(
+            log.getGroup().getStudents().stream()
+                .sorted(Comparator.comparing(User::getName))
+                .map(s -> new LabStudents(s.getName(), s.getEmail(), null, (byte) 0))
+                .collect(Collectors.toList())
+        );
+    }
+
+    @Secured("ROLE_TEACHER")
+    @PutMapping("labs/lab/create")
+    public ResponseEntity<?> storeLab(@Valid @RequestBody CreateLabRequest request) {
+        User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
+        String validationMessage = request.validate();
+        Log log = logRepo.findById(request.getLogId()).orElse(null);
+
+        if (log == null) return ResponseEntity.badRequest().build();
+        if (log.getTeacher() != teacher && teacher.getRole().getERole() != ERole.ROLE_ADMIN) return ResponseEntity.status(403).build();
+        if (validationMessage != null) return ResponseEntity.badRequest().body(new MessageResponse(validationMessage));
+
+        Lab lab = new Lab(
+            request.getIssueDate(), request.getExpectedCompletionDate(), request.getName(), request.getScores(), log
+        );
+        labRepo.saveAndFlush(lab);
+
+        studentLabRepo.saveAll(
+            request.getStudents().stream()
+                .filter(s -> s.getCompletionScore() != 0)
+                .map(l -> new StudentLab(userRepo.findByEmail(l.getEmail()), lab, l.getCompletionDate(), l.getCompletionScore()))
+                .collect(Collectors.toSet())
+        );
+
+        return ResponseEntity.ok(200);
     }
 
     @Secured("ROLE_TEACHER")
