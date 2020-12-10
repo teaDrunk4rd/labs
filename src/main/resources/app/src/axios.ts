@@ -1,7 +1,6 @@
 import {store} from 'react-notifications-component';
 import Cookies from 'js-cookie';
 import axios from "axios";
-import { createBrowserHistory } from 'history';
 
 function isValidMessage(message: string){
     return /^[А-Яа-я0-9 _]*[А-Яа-я0-9][А-Яа-я0-9 _]*$/.test(message);

@@ -27,7 +27,7 @@ public class Lab {
     @JoinColumn(name ="LogId", nullable = false)
     private Log log;
 
-    @OneToMany(mappedBy="lab")
+    @OneToMany(mappedBy="lab", cascade = CascadeType.REMOVE)
     private Set<StudentLab> studentLabs;
 
     public Lab() {
@@ -39,6 +39,14 @@ public class Lab {
         this.name = name;
         this.scores = scores;
         this.log = log;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getExpectedCompletionDate() {

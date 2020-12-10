@@ -4,7 +4,6 @@ import axios from "axios";
 import { DatePicker, MuiPickersUtilsProvider  } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from "date-fns/locale/ru";
-import {MaterialUiPickersDate} from "@material-ui/pickers/typings/date";
 
 
 interface CalendarProps {

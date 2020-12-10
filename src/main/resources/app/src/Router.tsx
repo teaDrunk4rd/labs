@@ -9,6 +9,7 @@ import Discipline from "./components/pages/Discipline";
 import Logs from "./components/pages/Logs";
 import Log from "./components/pages/Log";
 import Calendar from "./components/pages/Calendar";
+import Lab from "./components/pages/Lab";
 
 
 export class Router extends Component {
@@ -26,6 +27,7 @@ export class Router extends Component {
                         <PrivateRoute exact path="/disciplines/discipline" component={Discipline} roles="ROLE_STUDENT"/>
                         <PrivateRoute exact path="/logs" component={Logs} roles="ROLE_TEACHER"/>
                         <PrivateRoute exact path="/logs/log" component={Log} roles="ROLE_TEACHER"/>
+                        <PrivateRoute exact path="/logs/log/lab" component={Lab} roles="ROLE_TEACHER"/>
                     </Switch>
                 </div>
             </div>

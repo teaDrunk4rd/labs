@@ -14,7 +14,7 @@ public class StudentLab {
     @JoinColumn(name ="StudentId", nullable = false)
     private User student;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name ="LabId", nullable = false)
     private Lab lab;
 
