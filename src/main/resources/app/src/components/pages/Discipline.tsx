@@ -37,10 +37,16 @@ export default class Discipline extends Component<any, DisciplinesState> {
                     discipline: response.data.name,
                     type: response.data.type,
                     description: response.data.description,
-                    teacher: response.data.teacher,
-                    labs: response.data.labs,
-                    isLoaded: true
-                })
+                    teacher: response.data.teacher
+                });
+
+                axios.get(`disciplines/discipline/labs?logId=${this.state.logId}`).then(response => {
+                    if (response.status === 200)
+                        this.setState({
+                            labs: response.data,
+                            isLoaded: true
+                        });
+                });
             }
         });
     }

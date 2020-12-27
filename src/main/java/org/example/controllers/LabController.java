@@ -14,7 +14,7 @@ import org.example.payload.request.UpdateLabRequest;
 import org.example.payload.response.LabResponse;
 import org.example.payload.response.LabsResponse;
 import org.example.payload.response.MessageResponse;
-import org.example.payload.response.queries.LabStudents;
+import org.example.payload.LabStudents;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/")
-public class LabsController {
+public class LabController {
     @Autowired
     private UserRepo userRepo;
     @Autowired

@@ -1,6 +1,5 @@
 package org.example.controllers;
 
-import org.example.db.entities.Log;
 import org.example.db.entities.User;
 import org.example.db.repos.LogRepo;
 import org.example.db.repos.RoleRepo;
@@ -11,12 +10,10 @@ import org.example.security.JwtUtils;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Comparator;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -35,13 +32,13 @@ public class UserController {
     @Autowired
     private PasswordEncoder encoder;
 
-    @GetMapping("profiles")
+    @GetMapping("profile")
     public ProfileResponse show() {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).orElse(null);
         return new ProfileResponse(user.getEmail(), user.getName(), user.getGroup() != null ? user.getGroup().getName() : null);
     }
 
-    @PutMapping("profiles/update")
+    @PutMapping("profile/update")
     public ResponseEntity<?> update(@Valid @RequestBody UpdateUserRequest updateUserRequest) {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).orElse(null);
 
@@ -61,34 +58,5 @@ public class UserController {
                 user.getName(),
                 user.getEmail(),
                 null));
-    }
-
-    @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
-    @GetMapping("students")
-    public ResponseEntity<?> getStudents(@RequestParam int logId) {
-        User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
-        Log log = logRepo.findById(logId).orElse(null);
-
-        if (log == null) return ResponseEntity.badRequest().build();
-        if (log.getTeacher() != user && user.getRole() != roleRepo.findByKey("admin")) return ResponseEntity.status(403).build();
-
-        return ResponseEntity.ok(
-            log.getGroup().getStudents().stream()
-                .map(s -> {
-                    byte sum = s.getScoresByLog(log);
-                    return new StudentsResponse(
-                        s.getName(),
-                        s.getEmail(),
-                        sum,
-                        s.getGradeByLog(log, sum)
-                    );
-                })
-                .sorted(new Comparator<StudentsResponse>() {
-                    @Override
-                    public int compare(StudentsResponse s1, StudentsResponse s2) {
-                        return s1.getName().compareTo(s2.getName());
-                    }
-                })
-        );
     }
 }

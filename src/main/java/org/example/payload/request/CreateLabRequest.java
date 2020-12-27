@@ -1,6 +1,6 @@
 package org.example.payload.request;
 
-import org.example.payload.response.queries.LabStudents;
+import org.example.payload.LabStudents;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;

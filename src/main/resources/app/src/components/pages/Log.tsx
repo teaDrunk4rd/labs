@@ -49,15 +49,14 @@ export default class Log extends Component<any, LogState> {
                     name: response.data.name,
                     type: response.data.type,
                     description: response.data.description
-                })
-            }
-        });
-        axios.get(`students?logId=${this.state.id}`).then(response => {
-            if (response.status === 200) {
-                this.setState({
-                    students: response.data,
-                    isLoaded: true
-                })
+                });
+                axios.get(`logs/log/students?logId=${this.state.id}`).then(response => {
+                    if (response.status === 200)
+                        this.setState({
+                            students: response.data,
+                            isLoaded: true
+                        })
+                });
             }
         });
         window.addEventListener("beforeunload", this.updateDescription);

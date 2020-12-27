@@ -1,6 +1,6 @@
 package org.example.payload.request;
 
-import org.example.payload.response.queries.LabStudents;
+import org.example.payload.LabStudents;
 
 import java.util.Date;
 import java.util.List;

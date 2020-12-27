@@ -117,7 +117,7 @@ export default class Lab extends Component<any, LabState> {
     }
 
     updateScores(event: any) {
-        this.state.students.map(s => {
+        this.state.students.forEach(s => {
             if (s.completionScore === this.state.scores && s.completionScore > 0)
                 s.completionScore = event.target.value;
         })

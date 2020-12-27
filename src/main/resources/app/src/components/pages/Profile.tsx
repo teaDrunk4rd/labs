@@ -36,7 +36,7 @@ export default class Profile extends Component<any, ProfileState> {
     }
 
     componentDidMount() {
-        axios.get('profiles').then(response => {
+        axios.get('profile').then(response => {
             if (response.status === 200) {
                 this.setState({
                     email: response.data.email,
@@ -51,7 +51,7 @@ export default class Profile extends Component<any, ProfileState> {
     handleSubmit(event: any) {
         event.preventDefault();
 
-        axios.put('profiles/update', {
+        axios.put('profile/update', {
             email: this.state.email,
             name: this.state.name,
             changePasswordFlag: this.state.changePasswordFlag,

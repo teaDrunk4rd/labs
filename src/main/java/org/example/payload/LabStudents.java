@@ -1,4 +1,4 @@
-package org.example.payload.response.queries;
+package org.example.payload;
 
 import java.util.Date;
 

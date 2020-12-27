@@ -30,10 +30,10 @@ export default class Disciplines extends Component<any, DisciplinesState> {
 
     render() {
         return (
-            <div>
+            <div className="col-8 m-auto">
                 {!this.state.isLoaded ? <Preloader/> : <div/>}
                 <div className="h3 font-weight-bold mb-3">Предметы</div>
-                <table className="table table-hover">
+                <table className="table table-hover bg-white">
                     <thead className="table-dark">
                     <tr>
                         <th>Наименование</th>
@@ -49,12 +49,12 @@ export default class Disciplines extends Component<any, DisciplinesState> {
                                 key={index}
                                 onClick={(e) => this.props.history.push({
                                     pathname: '/disciplines/discipline',
-                                    search: `?logId=${discipline.logid}`,
-                                    state: { logId: discipline.logid }
+                                    search: `?logId=${discipline.logId}`,
+                                    state: { logId: discipline.logId }
                                 })}>
                                 <td>{discipline.name}</td>
                                 <td>{discipline.type}</td>
-                                <td>{discipline.totalscores}</td>
+                                <td>{discipline.totalScores}</td>
                                 <td>{discipline.grade}</td>
                             </tr>
                         )

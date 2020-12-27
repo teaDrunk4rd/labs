@@ -85,13 +85,16 @@ export default class Calendar extends Component<any, CalendarProps> {
     render() {
         return (
             <div className='d-flex flex-wrap calendar'>
-                <div className="col-12 p-0 mt-2 d-flex">
+                <div className="col-1 my-2">
                     <label className="col-form-label p-0">Дата</label>
                 </div>
-                <div className="col-12 p-0 mb-2 d-flex">
+                <div className="col-11" />
+                <div className="col-1">
                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                         <DatePicker
                             value={this.state.date}
+                            className="bg-white"
+                            inputVariant="outlined"
                             onChange={date => this.setDate(date)}
                             openTo="month"
                             views={["year", "month"]}

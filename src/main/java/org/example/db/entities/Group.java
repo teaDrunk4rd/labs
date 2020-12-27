@@ -14,7 +14,7 @@ public class Group {
     private String name;
 
     @Column(nullable = false)
-    private Byte courseNum;
+    private Byte course;
 
     @ManyToOne
     @JoinColumn(name ="DirectionId", nullable = false)
@@ -29,9 +29,9 @@ public class Group {
     public Group() {
     }
 
-    public Group(String name, Byte courseNum, Direction direction) {
+    public Group(String name, Byte course, Direction direction) {
         this.name = name;
-        this.courseNum = courseNum;
+        this.course = course;
         this.direction = direction;
     }
 
@@ -43,12 +43,12 @@ public class Group {
         this.name = name;
     }
 
-    public Byte getCourseNum() {
-        return courseNum;
+    public Byte getCourse() {
+        return course;
     }
 
-    public void setCourseNum(Byte courseNum) {
-        this.courseNum = courseNum;
+    public void setCourse(Byte course) {
+        this.course = course;
     }
 
     public Direction getDirection() {

@@ -87,3 +87,7 @@ a {
 .MuiOutlinedInput-input {
     padding: 7px 14px !important;
 }
+
+.PrivateNotchedOutline-root-1 {
+    top: -2px !important;
+}

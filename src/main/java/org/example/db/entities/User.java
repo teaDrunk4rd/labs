@@ -107,7 +107,7 @@ public class User {
         this.studentLabs = studentLabs;
     }
 
-    public byte getScoresByLog(Log log) {  // эту ссанину пришлось написать из-за отсутствия встроенной нормальной ф-ии sum
+    public Byte getScoresByLog(Log log) {  // эту ссанину пришлось написать из-за отсутствия встроенной нормальной ф-ии sum
         byte sum = 0;
         for (StudentLab sl: getStudentLabs())
             if (sl.getLab().getLog() == log)

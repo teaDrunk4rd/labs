@@ -29,10 +29,10 @@ export default class Disciplines extends Component<any, DisciplinesState> {
 
     render() {
         return (
-            <div>
+            <div className="col-8 m-auto">
                 {!this.state.isLoaded ? <Preloader/> : <div/>}
                 <div className="h3 font-weight-bold mb-3">Журналы</div>
-                <table className="table table-hover">
+                <table className="table table-hover bg-white">
                     <thead className="table-dark">
                     <tr>
                         <th>Дисциплина</th>

@@ -1,25 +1,19 @@
 package org.example.payload.response;
 
-import org.example.payload.response.queries.DisciplinesLabs;
-
-import java.util.List;
-
 public class DisciplineResponse {
     private String name;
     private String type;
     private String description;
     private String teacher;
-    private List<DisciplinesLabs> labs;
 
     public DisciplineResponse() {
     }
 
-    public DisciplineResponse(String name, String type, String description, String teacher, List<DisciplinesLabs> labs) {
+    public DisciplineResponse(String name, String type, String description, String teacher) {
         this.name = name;
         this.type = type;
         this.description = description;
         this.teacher = teacher;
-        this.labs = labs;
     }
 
     public String getName() {
@@ -52,13 +46,5 @@ public class DisciplineResponse {
 
     public void setTeacher(String teacher) {
         this.teacher = teacher;
-    }
-
-    public List<DisciplinesLabs> getLabs() {
-        return labs;
-    }
-
-    public void setLabs(List<DisciplinesLabs> labs) {
-        this.labs = labs;
     }
 }
