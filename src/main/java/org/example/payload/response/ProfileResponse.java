@@ -4,11 +4,13 @@ public class ProfileResponse {
     private String email;
     private String name;
     private String group;
+    private Byte course;
 
-    public ProfileResponse(String email, String name, String group) {
+    public ProfileResponse(String email, String name, String group, Byte course) {
         this.email = email;
         this.name = name;
         this.group = group;
+        this.course = course;
     }
 
     public String getEmail() {
@@ -33,5 +35,13 @@ public class ProfileResponse {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public Byte getCourse() {
+        return course;
+    }
+
+    public void setCourse(Byte course) {
+        this.course = course;
     }
 }

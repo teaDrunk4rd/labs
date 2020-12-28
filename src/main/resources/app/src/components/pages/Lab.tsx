@@ -29,7 +29,7 @@ export default class Lab extends Component<any, LabState> {
             logId: props.location.state.logId,
             disciplineName: props.location.state.disciplineName,
             name: '',
-            issueDate: new Date(),
+            issueDate: undefined,
             expectedCompletionDate: undefined,
             scores: 0,
             students: [],
@@ -141,9 +141,8 @@ export default class Lab extends Component<any, LabState> {
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit} autoComplete='false'>
                             <div className="row mb-2">
-                                <div className="row">
-                                    <label className="offset-md-2 col-md-4 col-form-label text-left">Наименование</label>
-                                </div>
+                                <label className="offset-md-2 col-md-7 col-form-label text-left">Наименование</label>
+                                <label className="col-md-1 col-form-label text-left">Баллы</label>
 
                                 <div className="offset-md-2 col-md-7">
                                     <input type="text"
@@ -152,18 +151,24 @@ export default class Lab extends Component<any, LabState> {
                                            onChange={event => this.setState({name: event.target.value})}
                                            className="form-control "/>
                                 </div>
+                                <div className="col-md-1">
+                                    <input type="number"
+                                           autoComplete="false"
+                                           value={scores}
+                                           onChange={this.updateScores}
+                                           className="form-control "/>
+                                </div>
                             </div>
 
                             <div className="row mb-2">
                                 <label className="offset-md-2 col-md-2 col-form-label text-left">Дата выдачи</label>
                                 <label className="col-md-3 col-form-label text-left">Дата предполагаемой сдачи</label>
-                                <label className="col-md-1" />
-                                <label className="col-md-1 col-form-label text-left">Баллы</label>
+                                <div className="col-md-5" />
 
                                 <div className="offset-md-2 col-md-2 mt-1">
                                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                                         <DatePicker
-                                            value={issueDate}
+                                            value={issueDate || null}
                                             inputVariant="outlined"
                                             onChange={(date: any) => this.setState({issueDate: date})}
                                             format="dd.MM.yyyy"
@@ -174,7 +179,7 @@ export default class Lab extends Component<any, LabState> {
                                 <div className="col-md-2 mt-1">
                                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                                         <DatePicker
-                                            value={expectedCompletionDate}
+                                            value={expectedCompletionDate || null}
                                             inputVariant="outlined"
                                             onChange={(date: any) => this.setState({expectedCompletionDate: date})}
                                             format="dd.MM.yyyy"
@@ -182,18 +187,10 @@ export default class Lab extends Component<any, LabState> {
                                         />
                                     </MuiPickersUtilsProvider>
                                 </div>
-                                <div className="col-md-2" />
-                                <div className="col-md-1">
-                                    <input type="number"
-                                           autoComplete="false"
-                                           value={scores}
-                                           onChange={this.updateScores}
-                                           className="form-control "/>
-                                </div>
                             </div>
 
-                            <div className="col-md-12">
-                                <div className="col-md-10 m-auto">
+                            <div className="row">
+                                <div className="offset-md-2 col-md-8">
                                     <table className="table table-hover mt-3">
                                         <thead className="table-dark">
                                         <tr>
@@ -222,6 +219,7 @@ export default class Lab extends Component<any, LabState> {
                                                                     }}
                                                                     format="dd.MM.yyyy"
                                                                     cancelLabel="Отмена"
+                                                                    className="bg-white"
                                                                 />
                                                             </MuiPickersUtilsProvider>
                                                         </div>
@@ -247,8 +245,8 @@ export default class Lab extends Component<any, LabState> {
                             </div>
 
                             <div className="row">
-                                <div className="col-md-7 offset-md-2 d-flex justify-content-end">
-                                    <button type="submit" className="btn btn-primary">
+                                <div className="offset-md-2 col-md-8 d-flex justify-content-end">
+                                    <button type="submit" className="btn btn-success">
                                         Сохранить
                                     </button>
                                 </div>

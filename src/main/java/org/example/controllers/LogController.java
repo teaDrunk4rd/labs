@@ -36,7 +36,12 @@ public class LogController {
 
         return ResponseEntity.ok(
             logRepo.findByTeacher(teacher).stream()
-                .map(l -> new LogsResponse(l.getId(), l.getDiscipline().getName(), l.getGroup().getName()))
+                .map(l -> new LogsResponse(
+                    l.getId(),
+                    l.getDiscipline().getName(),
+                    l.getGroup().getName(),
+                    l.getGroup().getCourse()
+                ))
         );
     }
 

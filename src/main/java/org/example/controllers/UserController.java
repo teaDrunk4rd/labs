@@ -33,13 +33,20 @@ public class UserController {
     private PasswordEncoder encoder;
 
     @GetMapping("profile")
-    public ProfileResponse show() {
+    public ResponseEntity<ProfileResponse> profile() {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).orElse(null);
-        return new ProfileResponse(user.getEmail(), user.getName(), user.getGroup() != null ? user.getGroup().getName() : null);
+        return ResponseEntity.ok(
+            new ProfileResponse(
+                user.getEmail(),
+                user.getName(),
+                user.getGroup() != null ? user.getGroup().getName() : null,
+                user.getGroup() != null ? user.getGroup().getCourse() : null
+            )
+        );
     }
 
     @PutMapping("profile/update")
-    public ResponseEntity<?> update(@Valid @RequestBody UpdateUserRequest updateUserRequest) {
+    public ResponseEntity<?> profileUpdate(@Valid @RequestBody UpdateUserRequest updateUserRequest) {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).orElse(null);
 
         String validationMessage = updateUserRequest.validate(userRepo, user, encoder);

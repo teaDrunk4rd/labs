@@ -37,6 +37,7 @@ export default class Disciplines extends Component<any, DisciplinesState> {
                     <tr>
                         <th>Дисциплина</th>
                         <th>Группа</th>
+                        <th>Курс</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,6 +52,7 @@ export default class Disciplines extends Component<any, DisciplinesState> {
                                 })}>
                                 <td>{log.discipline}</td>
                                 <td>{log.group}</td>
+                                <td>{log.course}</td>
                             </tr>
                         )
                     })}

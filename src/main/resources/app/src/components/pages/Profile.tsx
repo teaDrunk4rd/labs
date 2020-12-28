@@ -9,10 +9,13 @@ interface ProfileState {
     email: string,
     name: string,
     group: string,
+    course?: number,
+
     changePasswordFlag: boolean,
     oldPassword: string,
     newPassword: string,
     passwordConfirmation: string,
+
     isLoaded: boolean
 }
 
@@ -24,6 +27,7 @@ export default class Profile extends Component<any, ProfileState> {
             email: '',
             name: '',
             group: '',
+            course: undefined,
             changePasswordFlag: false,
             oldPassword: '',
             newPassword: '',
@@ -42,6 +46,7 @@ export default class Profile extends Component<any, ProfileState> {
                     email: response.data.email,
                     name: response.data.name,
                     group: response.data.group,
+                    course: response.data.course,
                     isLoaded: true
                 })
             }
@@ -93,7 +98,7 @@ export default class Profile extends Component<any, ProfileState> {
     }
 
     render() {
-        const {email, name, group, changePasswordFlag, oldPassword, newPassword, passwordConfirmation} = this.state;
+        const {email, name, group, course, changePasswordFlag, oldPassword, newPassword, passwordConfirmation} = this.state;
         return (
             <div className="col-6 m-auto">
                 <div className="card">
@@ -142,6 +147,22 @@ export default class Profile extends Component<any, ProfileState> {
                                             <input type="text"
                                                    autoComplete="false"
                                                    value={group}
+                                                   className="form-control"
+                                                   readOnly={true}/>
+                                        </div>
+                                    </div>)
+                            }
+
+                            {
+                                !course ? <div/> : (
+                                    <div className="row mb-2">
+                                        <label className="offset-md-3 col-md-6 col-form-label">
+                                            Курс
+                                        </label>
+                                        <div className="offset-md-3 col-md-6">
+                                            <input type="text"
+                                                   autoComplete="false"
+                                                   value={course}
                                                    className="form-control"
                                                    readOnly={true}/>
                                         </div>
