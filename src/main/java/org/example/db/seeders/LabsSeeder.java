@@ -43,7 +43,16 @@ public class LabsSeeder implements Seeder {
                 new Lab(df.parse("05/11/2020"), df.parse("10/11/2020"), "Аутентификация", (byte) 15, logs.get(1)),
                 new Lab(df.parse("10/11/2020"), df.parse("10/12/2020"), "Реализация всего остального", (byte) 25, logs.get(1)),
 
-                new Lab(null, null, "Опросите людей пж(", (byte) 100, logs.get(2))
+                new Lab(df.parse("03/09/2020"), df.parse("11/09/2020"), "test0", (byte) 10, logs.get(2)),
+                new Lab(df.parse("10/09/2020"), df.parse("21/09/2020"), "test1", (byte) 10, logs.get(2)),
+                new Lab(df.parse("20/09/2020"), df.parse("02/10/2020"), "test2", (byte) 10, logs.get(2)),
+                new Lab(df.parse("01/10/2020"), df.parse("16/10/2020"), "test3", (byte) 10, logs.get(2)),
+                new Lab(df.parse("15/10/2020"), df.parse("29/10/2020"), "test4", (byte) 10, logs.get(2)),
+                new Lab(df.parse("30/10/2020"), df.parse("06/11/2020"), "test5", (byte) 10, logs.get(2)),
+                new Lab(df.parse("05/11/2020"), df.parse("11/11/2020"), "test6", (byte) 10, logs.get(2)),
+                new Lab(df.parse("10/11/2020"), df.parse("11/12/2020"), "test7", (byte) 10, logs.get(2)),
+
+                new Lab(null, null, "Опросите людей пж(", (byte) 100, logs.get(3))
             ));
         }
     }

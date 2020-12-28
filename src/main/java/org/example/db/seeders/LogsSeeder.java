@@ -33,18 +33,25 @@ public class LogsSeeder implements Seeder {
                     userRepo.findByEmail("teacher1@m.ru")
                 ),
                 new Log(
-                        "Просто сделайте уже что-нибудь на джаве с тс, возьму работать к своим братанам или к себе! У нас там всё на реакте с С#!",
-                        disciplineRepo.findByName("Средства реализации IT"),
-                        disciplineTypeRepo.findByKey("exam"),
-                        groupRepo.findByName("179ИСиТ"),
-                        userRepo.findByEmail("teacher2@m.ru")
+                    "Просто сделайте уже что-нибудь на джаве с тс, возьму работать к своим братанам или к себе! У нас там всё на реакте с С#!",
+                    disciplineRepo.findByName("Средства реализации IT"),
+                    disciplineTypeRepo.findByKey("exam"),
+                    groupRepo.findByName("179ИСиТ"),
+                    userRepo.findByEmail("teacher2@m.ru")
                 ),
                 new Log(
-                        "Блин, ну опросите там на улице кого-нибудь, пожалуйста -- получите зачёт",
-                        disciplineRepo.findByName("Журналистика"),
-                        disciplineTypeRepo.findByKey("credit"),
-                        groupRepo.findByName("228ЖурФак"),
-                        userRepo.findByEmail("teacher3@m.ru")
+                    "wassup",
+                    disciplineRepo.findByName("Еще предмет"),
+                    disciplineTypeRepo.findByKey("credit"),
+                    groupRepo.findByName("179ИСиТ"),
+                    userRepo.findByEmail("teacher2@m.ru")
+                ),
+                new Log(
+                    "Блин, ну опросите там на улице кого-нибудь, пожалуйста -- получите зачёт",
+                    disciplineRepo.findByName("Журналистика"),
+                    disciplineTypeRepo.findByKey("credit"),
+                    groupRepo.findByName("228ЖурФак"),
+                    userRepo.findByEmail("teacher3@m.ru")
                 )
             ));
         }

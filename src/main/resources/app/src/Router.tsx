@@ -7,9 +7,10 @@ import Profile from "./components/pages/Profile";
 import Disciplines from "./components/pages/Disciplines";
 import Discipline from "./components/pages/Discipline";
 import Logs from "./components/pages/Logs";
-import Log from "./components/pages/Log";
+import LogForm from "./components/pages/LogForm";
 import Calendar from "./components/pages/Calendar";
-import Lab from "./components/pages/Lab";
+import LabForm from "./components/pages/LabForm";
+import StudentForm from "./components/pages/StudentForm";
 
 
 export class Router extends Component {
@@ -22,12 +23,16 @@ export class Router extends Component {
                     <Switch>
                         <Route exact path="/login" component={Login}/>
                         <PrivateRoute exact path="/profile" component={Profile}/>
+
                         <PrivateRoute exact path="/" component={Calendar} roles="ROLE_STUDENT,ROLE_TEACHER"/>
+
                         <PrivateRoute exact path="/disciplines" component={Disciplines} roles="ROLE_STUDENT"/>
                         <PrivateRoute exact path="/disciplines/discipline" component={Discipline} roles="ROLE_STUDENT"/>
+
                         <PrivateRoute exact path="/logs" component={Logs} roles="ROLE_TEACHER"/>
-                        <PrivateRoute exact path="/logs/log" component={Log} roles="ROLE_TEACHER"/>
-                        <PrivateRoute exact path="/logs/log/lab" component={Lab} roles="ROLE_TEACHER"/>
+                        <PrivateRoute exact path="/logs/log" component={LogForm} roles="ROLE_TEACHER"/>
+                        <PrivateRoute exact path="/logs/log/lab" component={LabForm} roles="ROLE_TEACHER"/>
+                        <PrivateRoute exact path="/logs/log/student" component={StudentForm} roles="ROLE_TEACHER"/>
                     </Switch>
                 </div>
             </div>

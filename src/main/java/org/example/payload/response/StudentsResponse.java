@@ -1,6 +1,7 @@
 package org.example.payload.response;
 
 public class StudentsResponse {
+    private Integer id;
     private String name;
     private String email;
     private Byte scores;
@@ -9,11 +10,20 @@ public class StudentsResponse {
     public StudentsResponse() {
     }
 
-    public StudentsResponse(String name, String email, Byte scores, String grade) {
+    public StudentsResponse(Integer id, String name, String email, Byte scores, String grade) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.scores = scores;
         this.grade = grade;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

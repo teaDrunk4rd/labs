@@ -21,9 +21,10 @@ interface LabState {
     isLoaded: boolean
 }
 
-export default class Lab extends Component<any, LabState> {
+export default class LabForm extends Component<any, LabState> {
     constructor(props: any) {
         super(props);
+
         this.state = {
             id: props.location.state.id,
             logId: props.location.state.logId,
@@ -35,6 +36,7 @@ export default class Lab extends Component<any, LabState> {
             students: [],
             isLoaded: false
         };
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.updateScores = this.updateScores.bind(this);
     }
@@ -136,7 +138,7 @@ export default class Lab extends Component<any, LabState> {
         return (
             <div className="col-10 m-auto">
                 <div className="card text-center">
-                    {!this.state.isLoaded ? <Preloader className='event-loader' /> : <div/>}
+                    {!this.state.isLoaded ? <Preloader className='form-loader' /> : <div/>}
                     <div className="card-header">Лабораторная для предмета {disciplineName}</div>
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit} autoComplete='false'>

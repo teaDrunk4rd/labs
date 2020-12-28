@@ -56,7 +56,7 @@ export default class Discipline extends Component<any, DisciplinesState> {
         return (
             <div className="col-10 m-auto">
                 <div className="card text-center">
-                    {!this.state.isLoaded ? <Preloader className='event-loader' /> : <div/>}
+                    {!this.state.isLoaded ? <Preloader className='form-loader' /> : <div/>}
                     <div className="card-header">{discipline} ({type})</div>
                     <div className="card-body">
                         <h5 className="card-title">Ведет {teacher}</h5>

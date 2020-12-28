@@ -7,7 +7,7 @@ import org.example.db.repos.LogRepo;
 import org.example.db.repos.UserRepo;
 import org.example.payload.response.DisciplineResponse;
 import org.example.payload.response.DisciplinesResponse;
-import org.example.payload.response.DisciplinesLabs;
+import org.example.payload.response.LabsResponse;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -82,7 +81,8 @@ public class DisciplineController {
                             .filter(sl -> sl.getStudent() == student)
                             .collect(Collectors.toSet())
                 ))
-                .map(l -> new DisciplinesLabs(
+                .map(l -> new LabsResponse(
+                    l.getId(),
                     l.getName(),
                     l.getIssueDate(),
                     l.getExpectedCompletionDate(),

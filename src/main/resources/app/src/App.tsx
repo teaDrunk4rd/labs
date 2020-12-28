@@ -18,12 +18,13 @@ export default class App extends Component {
     }
 }
 
+// TODO: переместить в другое место
 export const formatDate = (date: string): string => {
     return new Date(date).toLocaleString('ru').substr(0,10);
 };
 
 export const getGradeBasedClassName = (grade: string): string => {
-    if (['5', '4', 'зачёт'].includes(grade))
+    if (['Отлично', 'Хорошо', 'Зачёт'].includes(grade))
         return 'table-success';
-    return grade === '3' ? 'table-warning' : '';
+    return grade === 'Удовлетворительно' ? 'table-warning' : '';
 };

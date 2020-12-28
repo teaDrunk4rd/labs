@@ -14,7 +14,7 @@ interface LogState {
     isLoaded: boolean
 }
 
-export default class Log extends Component<any, LogState> {
+export default class LogForm extends Component<any, LogState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -36,7 +36,7 @@ export default class Log extends Component<any, LogState> {
                     type: response.data.type,
                     description: response.data.description
                 });
-                axios.get(`logs/log/students?logId=${this.state.id}`).then(response => {
+                axios.get(`students?logId=${this.state.id}`).then(response => {
                     if (response.status === 200)
                         this.setState({
                             students: response.data,
@@ -64,7 +64,7 @@ export default class Log extends Component<any, LogState> {
         return (
             <div className="col-10 m-auto">
                 <div className="card text-center">
-                    {!this.state.isLoaded ? <Preloader className='event-loader' /> : <div/>}
+                    {!this.state.isLoaded ? <Preloader className='form-loader' /> : <div/>}
                     <div className="card-header">{name} ({type})</div>
                     <div className="card-body">
                         <label className="offset-md-2 col-md-6 col-form-label d-flex justify-content-start">Описание</label>
@@ -102,6 +102,14 @@ export default class Log extends Component<any, LogState> {
                                     {students && students.map((student, index) => {
                                         return (
                                             <tr className={`cursor-pointer ${getGradeBasedClassName(student.grade)}`}
+                                                onClick={() => this.props.history.push({
+                                                    pathname: '/logs/log/student',
+                                                    search: `?id=${student.id}`,
+                                                    state: {
+                                                        id: student.id,
+                                                        logId: this.state.id
+                                                    }
+                                                })}
                                                 key={index}>
                                                 <td>{student.name}</td>
                                                 <td>{student.email}</td>

@@ -1,5 +1,7 @@
 package org.example.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -24,10 +26,12 @@ public class Lab {
     private Byte scores = 0;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name ="LogId", nullable = false)
     private Log log;
 
     @OneToMany(mappedBy="lab", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private Set<StudentLab> studentLabs;
 
     public Lab() {

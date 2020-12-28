@@ -19,6 +19,7 @@ public class DisciplinesSeeder implements Seeder {
             repo.saveAll(Arrays.asList(
                 new Discipline("Технологии человеко-машинного взаимодействия"),
                 new Discipline("Средства реализации IT"),
+                new Discipline("Еще предмет"),
                 new Discipline("Управление проектами"),
                 new Discipline("Мобильная разработка"),
                 new Discipline("ИИ"),

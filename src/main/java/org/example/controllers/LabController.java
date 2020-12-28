@@ -12,7 +12,6 @@ import org.example.db.repos.UserRepo;
 import org.example.payload.request.CreateLabRequest;
 import org.example.payload.request.UpdateLabRequest;
 import org.example.payload.response.LabResponse;
-import org.example.payload.response.LabsResponse;
 import org.example.payload.response.MessageResponse;
 import org.example.payload.LabStudents;
 import org.example.security.UserDetailsGetter;
@@ -43,7 +42,7 @@ public class LabController {
 
     @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
     @GetMapping("labs")
-    public ResponseEntity<?> getLabs(@RequestParam int logId) {
+    public ResponseEntity<?> index(@RequestParam int logId) {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         Log log = logRepo.findById(logId).orElse(null);
 
@@ -52,14 +51,13 @@ public class LabController {
 
         return ResponseEntity.ok(
             log.getLabs().stream()
-                .map(l -> new LabsResponse(l.getId(), l.getName(), l.getIssueDate(), l.getExpectedCompletionDate(), l.getScores()))
-                .sorted(Comparator.comparing(LabsResponse::getIssueDate))
+                .sorted(Comparator.comparing(Lab::getIssueDate))
         );
     }
 
     @Secured("ROLE_TEACHER")
     @GetMapping("labs/lab")
-    public ResponseEntity<?> getLab(@RequestParam int id) {
+    public ResponseEntity<?> show(@RequestParam int id) {
         User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         Lab lab = labRepo.findById(id).orElse(null);
 
@@ -94,7 +92,7 @@ public class LabController {
 
     @Secured("ROLE_TEACHER")
     @GetMapping("labs/lab/students")
-    public ResponseEntity<?> getLabStudentsByLogId(@RequestParam int logId) {
+    public ResponseEntity<?> getStudentsByLog(@RequestParam int logId) {
         User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         Log log = logRepo.findById(logId).orElse(null);
 
@@ -111,7 +109,7 @@ public class LabController {
 
     @Secured("ROLE_TEACHER")
     @PutMapping("labs/lab/create")
-    public ResponseEntity<?> storeLab(@Valid @RequestBody CreateLabRequest request) {
+    public ResponseEntity<?> store(@Valid @RequestBody CreateLabRequest request) {
         User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         String validationMessage = request.validate();
         Log log = logRepo.findById(request.getLogId()).orElse(null);
@@ -137,7 +135,7 @@ public class LabController {
 
     @Secured("ROLE_TEACHER")
     @PutMapping("labs/lab/update")
-    public ResponseEntity<?> updateLab(@Valid @RequestBody UpdateLabRequest request) {
+    public ResponseEntity<?> update(@Valid @RequestBody UpdateLabRequest request) {
         User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         Lab lab = labRepo.findById(request.getId()).orElse(null);
         String validationMessage = request.validate();
@@ -165,7 +163,7 @@ public class LabController {
 
     @Secured("ROLE_TEACHER")
     @DeleteMapping("labs/delete")
-    public ResponseEntity<?> deleteLab(@RequestParam int id) {
+    public ResponseEntity<?> delete(@RequestParam int id) {
         User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         Lab lab = labRepo.findById(id).orElse(null);
 

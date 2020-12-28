@@ -123,15 +123,14 @@ public class User {
     public String getGradeByLog(Log log, byte scores) {
         if (log.getDisciplineType().getKey().equals("exam")) {
             if (scores >= 91)
-                return "5";
+                return "Отлично";
             else if (scores >= 76)
-                return "4";
+                return "Хорошо";
             else if (scores >= 61)
-                return "3";
-
-            return "2";
+                return "Удовлетворительно";
+            return "Неудовлетворительно";
         } else {
-            return scores >= 61 ? "зачёт" : "незачёт";
+            return scores >= 61 ? "Зачёт" : "Незачёт";
         }
     }
 }

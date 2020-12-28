@@ -8,16 +8,20 @@ public class LabsResponse {
     private Date issueDate;
     private Date expectedCompletionDate;
     private Byte scores;
+    private Date completionDate;
+    private Byte completionScores;
 
     public LabsResponse() {
     }
 
-    public LabsResponse(Integer id, String name, Date issueDate, Date expectedCompletionDate, Byte scores) {
+    public LabsResponse(Integer id, String name, Date issueDate, Date expectedCompletionDate, Byte scores, Date completionDate, Byte completionScores) {
         this.id = id;
         this.name = name;
         this.issueDate = issueDate;
         this.expectedCompletionDate = expectedCompletionDate;
         this.scores = scores;
+        this.completionDate = completionDate;
+        this.completionScores = completionScores;
     }
 
     public Integer getId() {
@@ -58,5 +62,21 @@ public class LabsResponse {
 
     public void setScores(Byte scores) {
         this.scores = scores;
+    }
+
+    public Date getCompletionDate() {
+        return completionDate;
+    }
+
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
+    }
+
+    public Byte getCompletionScores() {
+        return completionScores;
+    }
+
+    public void setCompletionScores(Byte completionScores) {
+        this.completionScores = completionScores;
     }
 }
