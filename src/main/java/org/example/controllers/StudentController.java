@@ -1,14 +1,18 @@
 package org.example.controllers;
 
-import org.example.db.ERole;
 import org.example.db.entities.Lab;
 import org.example.db.entities.Log;
+import org.example.db.entities.StudentLab;
 import org.example.db.entities.User;
+import org.example.db.repos.LabRepo;
 import org.example.db.repos.LogRepo;
+import org.example.db.repos.StudentLabRepo;
 import org.example.db.repos.UserRepo;
+import org.example.payload.request.UpdateStudentRequest;
 import org.example.payload.response.LabsResponse;
 import org.example.payload.response.ProfileResponse;
-import org.example.payload.response.StudentLogResponse;
+import org.example.payload.StudentLog;
+import org.example.payload.response.StudentGradesResponse;
 import org.example.payload.response.StudentsResponse;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +33,10 @@ public class StudentController {
     private UserRepo userRepo;
     @Autowired
     private LogRepo logRepo;
+    @Autowired
+    private StudentLabRepo studentLabRepo;
+    @Autowired
+    private LabRepo labRepo;
     @Autowired
     private UserDetailsGetter userDetailsGetter;
 
@@ -92,7 +101,7 @@ public class StudentController {
 
         return ResponseEntity.ok(
             studentLogs.stream()
-                .map(log -> new StudentLogResponse(
+                .map(log -> new StudentLog(
                     log.getId(),
                     log.getDiscipline().getName(),
                     student.getGradeByLog(log),
@@ -114,6 +123,38 @@ public class StudentController {
                         ))
                         .collect(Collectors.toList())
                 ))
+        );
+    }
+
+    @Secured("ROLE_TEACHER")
+    @PutMapping("students/student/update")
+    public ResponseEntity<?> update(@Valid @RequestBody UpdateStudentRequest request) {
+        User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
+        User student = userRepo.findById(request.getId()).orElse(null);
+
+        if (student == null) return ResponseEntity.badRequest().build();
+        if (student.getGroup().getLogs().stream().noneMatch(l -> l.getTeacher() == teacher))
+            return ResponseEntity.status(403).build();
+
+        for (StudentLog studentLog : request.getLogs().stream() // чекаем только те журналы, которые есть в базе
+                .filter(l -> student.getGroup().getLogs().stream().anyMatch(sl -> sl.getId().equals(l.getLogId())))
+                .collect(Collectors.toList())) {
+            for (LabsResponse labsResponse : studentLog.getLabs().stream()
+                    .filter(l -> l.getCompletionDate() != null && l.getCompletionScores() != 0)
+                    .collect(Collectors.toList())) {
+                Lab lab = labRepo.findById(labsResponse.getId()).get();
+                StudentLab studentLab = studentLabRepo.findByStudentAndLab(student, lab);
+                if (studentLab == null)
+                    studentLab = new StudentLab(student, lab, labsResponse.getCompletionDate(), labsResponse.getCompletionScores());
+                studentLab.setCompletionDate(labsResponse.getCompletionDate());
+                studentLab.setScores(labsResponse.getCompletionScores());
+                studentLabRepo.saveAndFlush(studentLab);
+            }
+        }
+
+        return ResponseEntity.ok(
+            student.getGroup().getLogs().stream()
+                .map(l -> new StudentGradesResponse(l.getId(), student.getGradeByLog(l)))
         );
     }
 }

@@ -216,6 +216,8 @@ export default class LabForm extends Component<any, LabState> {
                                                                     value={student.completionDate}
                                                                     inputVariant="outlined"
                                                                     onChange={date => {
+                                                                        if (student.completionDate === null)
+                                                                            student.completionScore = scores;
                                                                         student.completionDate = date;
                                                                         this.forceUpdate();
                                                                     }}

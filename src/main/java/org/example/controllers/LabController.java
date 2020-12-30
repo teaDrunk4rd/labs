@@ -154,8 +154,12 @@ public class LabController {
         studentLabRepo.saveAll(
             request.getStudents().stream()
                 .filter(s -> s.getCompletionScore() != 0)
-                .map(l -> new StudentLab(userRepo.findByEmail(l.getEmail()), lab, l.getCompletionDate(), l.getCompletionScore()))
-                .collect(Collectors.toSet())
+                .map(l -> new StudentLab(
+                        userRepo.findByEmail(l.getEmail()),
+                        lab,
+                        l.getCompletionDate(),
+                        l.getCompletionScore()
+                )).collect(Collectors.toSet())
         );
 
         return ResponseEntity.ok(200);

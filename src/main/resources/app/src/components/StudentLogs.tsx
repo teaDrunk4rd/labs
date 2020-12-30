@@ -94,12 +94,14 @@ export default class StudentLogs extends Component<StudentLogsProps, StudentLogs
                                                 <td>{lab.expectedCompletionDate != null ? formatDate(lab.expectedCompletionDate) : ''}</td>
                                                 <td>{lab.scores}</td>
                                                 <td className="col-2 p-0">
-                                                    <div className="mt-1 mr-1">
+                                                    <div className="mr-1">
                                                         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
                                                             <DatePicker
                                                                 value={lab.completionDate}
                                                                 inputVariant="outlined"
                                                                 onChange={date => {
+                                                                    if (lab.completionDate === null)
+                                                                        lab.completionScores = lab.scores;
                                                                     lab.completionDate = date;
                                                                     this.forceUpdate();
                                                                 }}

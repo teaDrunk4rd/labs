@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import Preloader from "../Preloader";
 import StudentLogs from "../StudentLogs";
+import {store} from "react-notifications-component";
 
 interface StudentFormProps {
     location: {
@@ -58,14 +59,19 @@ export default class StudentForm extends Component<StudentFormProps, StudentForm
             id: this.props.location.state.id,
             logs: this.StudentLogs.current?.state.logs
         }).then(response => {
-            if (response.status === 200)
-                this.setState({
-                    email: response.data.email,
-                    name: response.data.name,
-                    group: response.data.group,
-                    course: response.data.course,
-                    isLoaded: true
+            if (response.status === 200) {
+                this.StudentLogs.current?.state.logs.forEach(l => {
+                    l.grade = response.data.find((g: any) => g.logId === l.logId).grade;
                 });
+                this.StudentLogs.current?.forceUpdate();
+
+                store.addNotification({
+                    message: "Баллы сохранены",
+                    type: "success",
+                    container: "top-right",
+                    dismiss: { duration: 2000, onScreen: true }
+                });
+            }
         });
     }
 
@@ -83,6 +89,11 @@ export default class StudentForm extends Component<StudentFormProps, StudentForm
                         <StudentLogs ref={this.StudentLogs}
                                      studentId={this.props.location.state.id}
                                      logId={this.props.location.state.logId}/>
+                         <div className="col-12 d-flex justify-content-end">
+                             <button onClick={this.handleSubmit} className="btn btn-success">
+                                 Сохранить
+                             </button>
+                         </div>
                     </div>
                 </div>
             </div>

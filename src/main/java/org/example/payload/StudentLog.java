@@ -1,17 +1,19 @@
-package org.example.payload.response;
+package org.example.payload;
+
+import org.example.payload.response.LabsResponse;
 
 import java.util.List;
 
-public class StudentLogResponse {
+public class StudentLog {
     private Integer logId;
     private String disciplineName;
     private String grade;
     private List<LabsResponse> labs;
 
-    public StudentLogResponse() {
+    public StudentLog() {
     }
 
-    public StudentLogResponse(Integer logId, String disciplineName, String grade, List<LabsResponse> labs) {
+    public StudentLog(Integer logId, String disciplineName, String grade, List<LabsResponse> labs) {
         this.logId = logId;
         this.disciplineName = disciplineName;
         this.grade = grade;
