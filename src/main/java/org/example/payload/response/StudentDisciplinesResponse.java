@@ -1,16 +1,16 @@
 package org.example.payload.response;
 
-public class DisciplinesResponse {
+public class StudentDisciplinesResponse {
     private Integer logId;
     private String name;
     private String type;
     private Byte totalScores;
     private String grade;
 
-    public DisciplinesResponse() {
+    public StudentDisciplinesResponse() {
     }
 
-    public DisciplinesResponse(Integer logId, String name, String type, Byte totalScores, String grade) {
+    public StudentDisciplinesResponse(Integer logId, String name, String type, Byte totalScores, String grade) {
         this.logId = logId;
         this.name = name;
         this.type = type;

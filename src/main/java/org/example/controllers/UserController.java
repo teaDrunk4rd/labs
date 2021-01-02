@@ -10,6 +10,7 @@ import org.example.security.JwtUtils;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,5 +66,11 @@ public class UserController {
                 user.getName(),
                 user.getEmail(),
                 null));
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/teachers")
+    public ResponseEntity<?> teachers() {
+        return ResponseEntity.ok(userRepo.findByRole(roleRepo.findByKey("teacher")));
     }
 }

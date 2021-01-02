@@ -1,12 +1,14 @@
 package org.example.controllers;
 
+import org.example.db.ERole;
 import org.example.db.entities.Lab;
 import org.example.db.entities.Log;
 import org.example.db.entities.User;
+import org.example.db.repos.DisciplineRepo;
 import org.example.db.repos.LogRepo;
 import org.example.db.repos.UserRepo;
 import org.example.payload.response.DisciplineResponse;
-import org.example.payload.response.DisciplinesResponse;
+import org.example.payload.response.StudentDisciplinesResponse;
 import org.example.payload.response.LabsResponse;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,24 +28,29 @@ public class DisciplineController {
     @Autowired
     private LogRepo logRepo;
     @Autowired
+    private DisciplineRepo disciplineRepo;
+    @Autowired
     private UserDetailsGetter userDetailsGetter;
 
-    @Secured("ROLE_STUDENT")
+    @Secured({"ROLE_ADMIN", "ROLE_STUDENT"})
     @GetMapping("disciplines")
     public ResponseEntity<?> index() {
-        User student = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
+        User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
 
-        return ResponseEntity.ok(
-            student.getGroup().getLogs().stream()
-                .sorted((l1, l2) -> student.getScoresByLog(l2).compareTo(student.getScoresByLog(l1)))
-                .map(l -> new DisciplinesResponse(
-                    l.getId(),
-                    l.getDiscipline().getName(),
-                    l.getDisciplineType().getName(),
-                    student.getScoresByLog(l),
-                    student.getGradeByLog(l)
-                ))
-        );
+        if (user.getRole().getERole() == ERole.ROLE_ADMIN)
+            return ResponseEntity.ok(disciplineRepo.findAll());
+        else
+            return ResponseEntity.ok(
+                user.getGroup().getLogs().stream()
+                    .sorted((l1, l2) -> user.getScoresByLog(l2).compareTo(user.getScoresByLog(l1)))
+                    .map(l -> new StudentDisciplinesResponse(
+                        l.getId(),
+                        l.getDiscipline().getName(),
+                        l.getDisciplineType().getName(),
+                        user.getScoresByLog(l),
+                        user.getGradeByLog(l)
+                    ))
+            );
     }
 
     @Secured("ROLE_STUDENT")

@@ -51,7 +51,7 @@ public class LabController {
 
         return ResponseEntity.ok(
             log.getLabs().stream()
-                .sorted(Comparator.comparing(Lab::getIssueDate))
+                .sorted(Comparator.comparing(Lab::getIssueDate).thenComparing(Lab::getName))
         );
     }
 

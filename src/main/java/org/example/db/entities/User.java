@@ -24,16 +24,20 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name ="GroupId", nullable = true)
+    @JsonIgnore
     private Group group;
 
     @ManyToOne
     @JoinColumn(name ="RoleId", nullable = false)
+    @JsonIgnore
     private Role role;
 
     @OneToMany(mappedBy="teacher")
+    @JsonIgnore
     private Set<Log> logs;
 
     @OneToMany(mappedBy="student")
+    @JsonIgnore
     private Set<StudentLab> studentLabs;
 
     public User() {

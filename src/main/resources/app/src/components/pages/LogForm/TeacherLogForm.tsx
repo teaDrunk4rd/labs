@@ -10,7 +10,6 @@ interface TeacherLogFormProps extends RouteComponentProps<any> {
 }
 
 interface TeacherLogFormState {
-    id: number,
     name: string,
     type: string,
     description: string,
@@ -22,7 +21,6 @@ export default class TeacherLogForm extends Component<TeacherLogFormProps, Teach
     constructor(props: TeacherLogFormProps) {
         super(props);
         this.state = {
-            id: props.logId,
             name: '',
             type: '',
             description: '',
@@ -33,14 +31,14 @@ export default class TeacherLogForm extends Component<TeacherLogFormProps, Teach
     }
 
     componentDidMount() {
-        axios.get(`logs/log?id=${this.state.id}`).then(response => {
+        axios.get(`logs/log?id=${this.props.logId}`).then(response => {
             if (response.status === 200) {
                 this.setState({
                     name: response.data.name,
                     type: response.data.type,
                     description: response.data.description
                 });
-                axios.get(`students?logId=${this.state.id}`).then(response => {
+                axios.get(`students?logId=${this.props.logId}`).then(response => {
                     if (response.status === 200)
                         this.setState({
                             students: response.data,
@@ -57,14 +55,14 @@ export default class TeacherLogForm extends Component<TeacherLogFormProps, Teach
     }
 
     updateDescription(event: any) {
-        axios.put('logs/log/update', {
-            id: this.state.id,
+        axios.put('logs/log/updateDescription', {
+            id: this.props.logId,
             description: this.state.description
         });
     }
 
     render() {
-        let {id, name, type, description, students} = this.state;
+        let {name, type, description, students} = this.state;
         return (
             <div className="col-10 m-auto">
                 <div className="card text-center">
@@ -111,7 +109,7 @@ export default class TeacherLogForm extends Component<TeacherLogFormProps, Teach
                                                     search: `?id=${student.id}`,
                                                     state: {
                                                         id: student.id,
-                                                        logId: this.state.id
+                                                        logId: this.props.logId
                                                     }
                                                 })}
                                                 key={index}>
@@ -129,7 +127,7 @@ export default class TeacherLogForm extends Component<TeacherLogFormProps, Teach
                             <div className="tab-pane fade" id="labs" role="tabpanel"
                                  aria-labelledby="labs-tab">
                                 <LogLabs
-                                    logId={id}
+                                    logId={this.props.logId}
                                     disciplineName={`${name} (${type})`}
                                     history={this.props.history}
                                     location={this.props.history.location}

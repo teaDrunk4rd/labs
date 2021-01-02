@@ -1,5 +1,8 @@
 package org.example.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -8,6 +11,7 @@ import java.util.Set;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty
     private Integer id;
 
     @Column(unique = true, nullable = false)
@@ -21,9 +25,11 @@ public class Group {
     private Direction direction;
 
     @OneToMany(mappedBy="group")
+    @JsonIgnore
     private Set<Log> logs;
 
     @OneToMany(mappedBy="group")
+    @JsonIgnore
     private Set<User> students;
 
     public Group() {
@@ -33,6 +39,14 @@ public class Group {
         this.name = name;
         this.course = course;
         this.direction = direction;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

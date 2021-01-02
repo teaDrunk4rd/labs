@@ -1,5 +1,7 @@
 package org.example.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -30,6 +32,7 @@ public class Log {
     private User teacher;
 
     @OneToMany(mappedBy="log", cascade = {CascadeType.REMOVE})
+    @JsonIgnore
     private Set<Lab> labs;
 
     public Log() {

@@ -9,7 +9,7 @@ export default class LogForm extends Component<any, any> {
             <div>
                 {
                     checkRole("ROLE_ADMIN")
-                        ? <AdminLogForm logId={this.props.location.state.logId}
+                        ? <AdminLogForm logId={this.props.location.state?.logId}
                                         history={this.props.history}
                                         location={this.props.history.location}
                                         match={this.props.match} />

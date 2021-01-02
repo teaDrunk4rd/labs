@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.example.db.ERole;
 import org.example.db.entities.Lab;
 import org.example.db.entities.Log;
 import org.example.db.entities.StudentLab;
@@ -40,14 +41,15 @@ public class StudentController {
     @Autowired
     private UserDetailsGetter userDetailsGetter;
 
-    @Secured("ROLE_TEACHER")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
     @GetMapping("students")
     public ResponseEntity<?> index(@RequestParam int logId) {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         Log log = logRepo.findById(logId).orElse(null);
 
         if (log == null) return ResponseEntity.badRequest().build();
-        if (log.getTeacher() != user) return ResponseEntity.status(403).build();
+        if (user.getRole().getERole() != ERole.ROLE_ADMIN && log.getTeacher() != user)
+            return ResponseEntity.status(403).build();
 
         return ResponseEntity.ok(
             log.getGroup().getStudents().stream()

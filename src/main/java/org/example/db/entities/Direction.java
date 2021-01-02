@@ -1,5 +1,7 @@
 package org.example.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ public class Direction {
     private String name;
 
     @OneToMany(mappedBy="direction")
+    @JsonIgnore
     Set<Group> groups;
 
     public Direction() {

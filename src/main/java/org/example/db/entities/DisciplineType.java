@@ -1,5 +1,8 @@
 package org.example.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -8,6 +11,7 @@ import java.util.Set;
 public class DisciplineType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty
     private Integer id;
 
     @Column(nullable = false)
@@ -16,6 +20,7 @@ public class DisciplineType {
     @Column(unique = true, nullable = false)
     private String key;
 
+    @JsonIgnore
     @OneToMany(mappedBy="disciplineType")
     Set<Log> logs;
 

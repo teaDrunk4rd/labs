@@ -2,7 +2,7 @@ package org.example.payload.request;
 
 import javax.validation.constraints.NotBlank;
 
-public class LogUpdateRequest {
+public class LogDescriptionUpdateRequest {
     private int id;
     @NotBlank(message="Заполните описание")
     private String description;
