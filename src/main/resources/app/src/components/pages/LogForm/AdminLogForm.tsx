@@ -1,11 +1,15 @@
 import React, {Component} from "react";
 import axios from "axios";
-import Preloader from "../Preloader";
-import {getGradeBasedClassName} from "../../App";
-import LogLabs from "../LogLabs";
+import Preloader from "../../Preloader";
+import {getGradeBasedClassName} from "../../helpers";
+import LogLabs from "../../LogLabs";
+import {RouteComponentProps} from "react-router-dom";
 
+interface AdminLogFormProps extends RouteComponentProps<any> {
+    logId: number
+}
 
-interface LogState {
+interface AdminLogFormState {
     id: number,
     name: string,
     type: string,
@@ -14,11 +18,11 @@ interface LogState {
     isLoaded: boolean
 }
 
-export default class LogForm extends Component<any, LogState> {
-    constructor(props: any) {
+export default class AdminLogForm extends Component<AdminLogFormProps, AdminLogFormState> {
+    constructor(props: AdminLogFormProps) {
         super(props);
         this.state = {
-            id: props.location.state.logId,
+            id: props.logId,
             name: '',
             type: '',
             description: '',
@@ -64,14 +68,14 @@ export default class LogForm extends Component<any, LogState> {
         return (
             <div className="col-10 m-auto">
                 <div className="card text-center">
-                    {!this.state.isLoaded ? <Preloader className='form-loader' /> : <div/>}
+                    {!this.state.isLoaded && <Preloader className='form-loader'/>}
                     <div className="card-header">{name} ({type})</div>
                     <div className="card-body">
                         <label className="offset-md-2 col-md-6 col-form-label d-flex justify-content-start">Описание</label>
                         <textarea className="mb-2 col-md-8 mx-auto"
-                            onBlur={this.updateDescription}
-                            onChange={event => this.setState({description: event.target.value})}
-                            value={description} />
+                                  onBlur={this.updateDescription}
+                                  onChange={event => this.setState({description: event.target.value})}
+                                  value={description} />
 
                         <ul className="nav nav-tabs" id="myTab" role="tablist">
                             <li className="nav-item">
@@ -80,7 +84,7 @@ export default class LogForm extends Component<any, LogState> {
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" id="labs-tab" data-toggle="tab" href="#labs" role="tab"
-                                    aria-controls="labs" aria-selected="false">
+                                   aria-controls="labs" aria-selected="false">
                                     Лабораторные
                                 </a>
                             </li>
@@ -129,7 +133,7 @@ export default class LogForm extends Component<any, LogState> {
                                     disciplineName={`${name} (${type})`}
                                     history={this.props.history}
                                     location={this.props.history.location}
-                                    match={this.props.history.match} />
+                                    match={this.props.match} />
                             </div>
                         </div>
                     </div>

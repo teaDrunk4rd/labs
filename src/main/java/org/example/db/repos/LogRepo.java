@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface LogRepo extends CrudRepository<Log, Integer> {
     List<Log> findByTeacher(User user);
+    @Override
+    List<Log> findAll();
 
     void saveAndFlush(Log log);
 }

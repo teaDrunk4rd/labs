@@ -1,5 +1,6 @@
 package org.example.controllers;
 
+import org.example.db.ERole;
 import org.example.db.entities.Log;
 import org.example.db.entities.User;
 import org.example.db.repos.LogRepo;
@@ -14,6 +15,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -26,25 +28,32 @@ public class LogController {
     @Autowired
     private UserDetailsGetter userDetailsGetter;
 
-    @Secured("ROLE_TEACHER")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
     @GetMapping("logs")
-    public ResponseEntity<?> index() {
-        User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
+    public ResponseEntity<?> teacherLogs() {
+        User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
+        List<Log> logs;
+
+        if (user.getRole().getERole() == ERole.ROLE_TEACHER)
+            logs = logRepo.findByTeacher(user);
+        else
+            logs = logRepo.findAll();
 
         return ResponseEntity.ok(
-            logRepo.findByTeacher(teacher).stream()
-                .map(l -> new LogsResponse(
-                    l.getId(),
-                    l.getDiscipline().getName(),
-                    l.getGroup().getName(),
-                    l.getGroup().getCourse()
-                ))
+            logs.stream().map(l -> new LogsResponse(
+                l.getId(),
+                l.getDiscipline().getName(),
+                l.getDisciplineType().getName(),
+                l.getGroup().getName(),
+                l.getGroup().getCourse(),
+                l.getTeacher().getName()
+            ))
         );
     }
 
     @Secured("ROLE_TEACHER")
     @GetMapping("logs/log")
-    public ResponseEntity<?> show(@RequestParam int id) {
+    public ResponseEntity<?> showTeacherLog(@RequestParam int id) {
         User teacher = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         Log log = logRepo.findById(id).orElse(null);
 
@@ -68,6 +77,13 @@ public class LogController {
         log.setDescription(request.getDescription());
         logRepo.saveAndFlush(log);
 
-        return ResponseEntity.ok(200);
+        return ResponseEntity.ok().build();
+    }
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("logs/log/delete")
+    public ResponseEntity<?> delete(@RequestParam int id) {
+        logRepo.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

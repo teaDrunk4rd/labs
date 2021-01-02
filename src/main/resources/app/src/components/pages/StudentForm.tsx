@@ -80,7 +80,7 @@ export default class StudentForm extends Component<StudentFormProps, StudentForm
         return (
             <div className="col-md-8 m-auto mb-4">
                 <div className="card text-center">
-                    {!this.state.isLoaded ? <Preloader className='form-loader' /> : <div/>}
+                    {!this.state.isLoaded && <Preloader className='form-loader'/>}
                     <div className="card-header">Студент группы {group} {course} курса</div>
                     <div className="card-body">
                         <h5 className="card-title">{name}</h5>

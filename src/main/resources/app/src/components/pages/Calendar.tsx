@@ -4,6 +4,7 @@ import axios from "axios";
 import { DatePicker, MuiPickersUtilsProvider  } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from "date-fns/locale/ru";
+import {checkRole} from "../helpers";
 
 
 interface CalendarProps {
@@ -135,7 +136,7 @@ export default class Calendar extends Component<any, CalendarProps> {
                                                  data-toggle="tooltip"
                                                   title={`${event.discipline}: ${event.name}`}>
                                                 <div className={`event-name 
-                                                    ${JSON.parse(localStorage["user"])["role"] !== "ROLE_STUDENT" ? '' :
+                                                    ${checkRole("ROLE_TEACHER") ? '' :
                                                     event.completed === true ? 'text-success' : 
                                                     event.date.getTime() < new Date().getTime() ? 'text-danger' : '' }`}>
                                                     {event.name}
@@ -148,7 +149,7 @@ export default class Calendar extends Component<any, CalendarProps> {
                         </div>
                     )
                 })}
-                {!this.state.isLoaded ? <Preloader /> : <div/>}
+                {!this.state.isLoaded && <Preloader/>}
             </div>
         );
     }

@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import axios from "axios";
-import {formatDate} from "../App";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {store} from "react-notifications-component";
 import {RouteComponentProps} from 'react-router-dom';
+import {formatDate} from "./helpers";
 
 interface LogLabsProps extends RouteComponentProps<any> {
     logId: number,

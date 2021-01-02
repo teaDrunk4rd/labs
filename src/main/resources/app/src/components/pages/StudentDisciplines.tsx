@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 import axios from "axios";
 import Preloader from "../Preloader";
-import {getGradeBasedClassName} from "../../App";
+import {getGradeBasedClassName} from "../helpers";
 
 interface DisciplinesState {
     disciplines: Array<any>,
     isLoaded: boolean
 }
 
-export default class Disciplines extends Component<any, DisciplinesState> {
+export default class StudentDisciplines extends Component<any, DisciplinesState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -31,7 +31,7 @@ export default class Disciplines extends Component<any, DisciplinesState> {
     render() {
         return (
             <div className="col-8 m-auto">
-                {!this.state.isLoaded ? <Preloader/> : <div/>}
+                {!this.state.isLoaded && <Preloader/>}
                 <div className="h3 font-weight-bold mb-3">Предметы</div>
                 <table className="table table-hover bg-white">
                     <thead className="table-dark">

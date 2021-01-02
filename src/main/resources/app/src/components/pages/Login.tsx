@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import {checkRole, setUserData} from "../helpers";
 
 interface LoginState {
     email: string,
@@ -25,12 +26,9 @@ export default class Login extends Component<any, LoginState> {
             password: this.state.password
         }).then((response: any) => {
             if (+response.status === 200) {
-                localStorage['user'] = JSON.stringify({
-                    role: response.data.roles[0],
-                    name: response.data.name
-                });
-                Cookies.set('token', `Bearer ${response.data.accessToken}`)
-                this.props.history.push('/');
+                setUserData(response.data.name, response.data.roles[0]);
+                Cookies.set('token', `Bearer ${response.data.accessToken}`);
+                this.props.history.push(checkRole("ROLE_ADMIN") ? '/logs' : '/');
             }
         });
     }

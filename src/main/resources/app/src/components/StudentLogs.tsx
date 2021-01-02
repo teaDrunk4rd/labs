@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
-import {formatDate} from "../App";
+import {formatDate} from "./helpers";
 import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import ruLocale from "date-fns/locale/ru";
@@ -44,7 +44,7 @@ export default class StudentLogs extends Component<StudentLogsProps, StudentLogs
     render() {
         return (
             <div>
-                {!this.state.isLoaded ? <Preloader className='form-loader' /> : <div/>}
+                {!this.state.isLoaded && <Preloader className='form-loader'/>}
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                     {this.state.logs && this.state.logs.map((log, index) => {
                         return (

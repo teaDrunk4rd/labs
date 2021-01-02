@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import {Collapse, Container, Navbar, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import {Link} from 'react-router-dom';
-
-function checkRole(roles: string): boolean {
-    return localStorage["user"] && roles.split(',').includes(JSON.parse(localStorage["user"])["role"]);
-}
+import {checkRole, getUserName} from "./helpers";
 
 interface NavMenuProps {
     collapsed?: boolean
@@ -27,24 +24,31 @@ export default class NavMenu extends Component<any, NavMenuProps> {
                         <Collapse className="d-sm-inline-flex" isOpen={!this.state.collapsed} navbar>
                             <ul className="navbar-nav flex-grow w-100 d-flex justify-content-between">
                                 <div className="d-flex justify-content-around align-items-center">
-                                    <NavItem>
-                                        <NavLink tag={Link} className="text-dark h5 py-0 m-0 pr-2 font-weight-normal" to="/">
-                                            Календарь
-                                        </NavLink>
-                                    </NavItem>
-                                    { checkRole("ROLE_STUDENT") &&
+                                    {
+                                        checkRole("ROLE_TEACHER,ROLE_STUDENT") &&
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark h5 py-0 m-0 pr-2 font-weight-normal" to="/">
+                                                Календарь
+                                            </NavLink>
+                                        </NavItem>
+                                    }
+                                    {
+                                        checkRole("ROLE_STUDENT") &&
                                         <NavItem>
                                             <NavLink tag={Link} className="text-dark py-0" to="/disciplines">Предметы</NavLink>
-                                        </NavItem> }
-                                    { checkRole("ROLE_TEACHER") &&
-                                    <NavItem>
-                                        <NavLink tag={Link} className="text-dark py-0" to="/logs">Журналы</NavLink>
-                                    </NavItem> }
+                                        </NavItem>
+                                    }
+                                    {
+                                        checkRole("ROLE_ADMIN,ROLE_TEACHER") &&
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark py-0" to="/logs">Журналы</NavLink>
+                                        </NavItem>
+                                    }
                                 </div>
                                 <NavItem>
                                     {localStorage["user"] ? (
                                         <NavLink tag={Link} className="text-dark" to="/profile">
-                                            {JSON.parse(localStorage["user"]).name}
+                                            {getUserName()}
                                         </NavLink>) : (
                                         <NavLink tag={Link} className="text-dark" to="/login">
                                             Вход

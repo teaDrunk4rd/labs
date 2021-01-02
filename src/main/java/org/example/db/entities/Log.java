@@ -29,7 +29,7 @@ public class Log {
     @JoinColumn(name ="TeacherId", nullable = false)
     private User teacher;
 
-    @OneToMany(mappedBy="log")
+    @OneToMany(mappedBy="log", cascade = {CascadeType.REMOVE})
     private Set<Lab> labs;
 
     public Log() {

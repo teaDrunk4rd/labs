@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import axios from "axios";
 import Preloader from "../Preloader";
-import {getGradeBasedClassName} from "../../App";
 import {store} from "react-notifications-component";
 import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import ruLocale from "date-fns/locale/ru";
+import {getGradeBasedClassName} from "../helpers";
 
 
 interface LabState {
@@ -138,7 +138,7 @@ export default class LabForm extends Component<any, LabState> {
         return (
             <div className="col-10 m-auto">
                 <div className="card text-center">
-                    {!this.state.isLoaded ? <Preloader className='form-loader' /> : <div/>}
+                    {!this.state.isLoaded && <Preloader className='form-loader'/>}
                     <div className="card-header">Лабораторная для предмета {disciplineName}</div>
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit} autoComplete='false'>

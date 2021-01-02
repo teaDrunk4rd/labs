@@ -40,7 +40,7 @@ public class LabController {
     @Autowired
     private UserDetailsGetter userDetailsGetter;
 
-    @Secured({"ROLE_TEACHER", "ROLE_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
     @GetMapping("labs")
     public ResponseEntity<?> index(@RequestParam int logId) {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
@@ -130,7 +130,7 @@ public class LabController {
                 .collect(Collectors.toSet())
         );
 
-        return ResponseEntity.ok(200);
+        return ResponseEntity.ok().build();
     }
 
     @Secured("ROLE_TEACHER")
@@ -162,7 +162,7 @@ public class LabController {
                 )).collect(Collectors.toSet())
         );
 
-        return ResponseEntity.ok(200);
+        return ResponseEntity.ok().build();
     }
 
     @Secured("ROLE_TEACHER")
@@ -176,6 +176,6 @@ public class LabController {
 
         labRepo.deleteById(id);
 
-        return ResponseEntity.ok(200);
+        return ResponseEntity.ok().build();
     }
 }

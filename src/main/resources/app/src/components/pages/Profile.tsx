@@ -3,6 +3,7 @@ import {store} from 'react-notifications-component';
 import Preloader from "../Preloader";
 import axios from 'axios';
 import Cookies from "js-cookie";
+import {checkRole, getUserRole, setUserData} from "../helpers";
 
 
 interface ProfileState {
@@ -65,10 +66,7 @@ export default class Profile extends Component<any, ProfileState> {
             passwordConfirmation: this.state.passwordConfirmation
         }).then(response => {
             if (response.status === 200) {
-                localStorage['user'] = JSON.stringify({
-                    role: JSON.parse(localStorage['user']).role,
-                    name: response.data.name
-                });
+                setUserData(response.data.name, getUserRole());
 
                 store.addNotification({
                     message: "Профиль успешно изменен",
@@ -102,7 +100,7 @@ export default class Profile extends Component<any, ProfileState> {
         return (
             <div className="col-6 m-auto">
                 <div className="card">
-                    {!this.state.isLoaded ? <Preloader/> : <div/>}
+                    {!this.state.isLoaded && <Preloader/>}
                     <div className="card-header">Профиль</div>
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit} autoComplete='false'>
@@ -131,42 +129,42 @@ export default class Profile extends Component<any, ProfileState> {
                                     <input type="text"
                                            autoComplete="false"
                                            value={name}
-                                           readOnly={JSON.parse(localStorage["user"])["role"] === "ROLE_STUDENT"}
+                                           readOnly={checkRole("ROLE_STUDENT")}
                                            onChange={event => this.setState({name: event.target.value})}
                                            className="form-control "/>
                                 </div>
                             </div>
 
                             {
-                                !group ? <div/> : (
-                                    <div className="row mb-2">
-                                        <label className="offset-md-3 col-md-6 col-form-label">
-                                            Группа
-                                        </label>
-                                        <div className="offset-md-3 col-md-6">
-                                            <input type="text"
-                                                   autoComplete="false"
-                                                   value={group}
-                                                   className="form-control"
-                                                   readOnly={true}/>
-                                        </div>
-                                    </div>)
+                                group &&
+                                <div className="row mb-2">
+                                    <label className="offset-md-3 col-md-6 col-form-label">
+                                        Группа
+                                    </label>
+                                    <div className="offset-md-3 col-md-6">
+                                        <input type="text"
+                                               autoComplete="false"
+                                               value={group}
+                                               className="form-control"
+                                               readOnly={true}/>
+                                    </div>
+                                </div>
                             }
 
                             {
-                                !course ? <div/> : (
-                                    <div className="row mb-2">
-                                        <label className="offset-md-3 col-md-6 col-form-label">
-                                            Курс
-                                        </label>
-                                        <div className="offset-md-3 col-md-6">
-                                            <input type="text"
-                                                   autoComplete="false"
-                                                   value={course}
-                                                   className="form-control"
-                                                   readOnly={true}/>
-                                        </div>
-                                    </div>)
+                                course &&
+                                <div className="row mb-2">
+                                    <label className="offset-md-3 col-md-6 col-form-label">
+                                        Курс
+                                    </label>
+                                    <div className="offset-md-3 col-md-6">
+                                        <input type="text"
+                                               autoComplete="false"
+                                               value={course}
+                                               className="form-control"
+                                               readOnly={true}/>
+                                    </div>
+                                </div>
                             }
 
                             {
