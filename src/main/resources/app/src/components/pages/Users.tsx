@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
 import Preloader from "../Preloader";
-import {checkRole} from "../helpers";
 import {store} from "react-notifications-component";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -10,29 +9,29 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
-interface GroupsState {
-    groups: Array<any>,
+interface UsersState {
+    users: Array<any>,
     openDeleteDialog: boolean,
-    selectedGroupId?: number,
+    selectedUserId?: number,
     isLoaded: boolean
 }
 
-export default class Groups extends Component<any, GroupsState> {
+export default class Users extends Component<any, UsersState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            groups: [],
+            users: [],
             openDeleteDialog: false,
-            selectedGroupId: undefined,
+            selectedUserId: undefined,
             isLoaded: false
         };
     }
 
     componentDidMount() {
-        axios.get('groups').then(response => {
+        axios.get('users').then(response => {
             if (response.status === 200) {
                 this.setState({
-                    groups: response.data,
+                    users: response.data,
                     isLoaded: true
                 })
             }
@@ -41,29 +40,29 @@ export default class Groups extends Component<any, GroupsState> {
 
     edit(id: number) {
         this.props.history.push({
-            pathname: '/groups/group',
+            pathname: '/users/user',
             search: `?id=${id}`,
             state: {id: id}
         });
     }
 
     delete(id: number|undefined) {
-        axios.delete(`groups/group/delete?id=${id}`).then(response => {
+        axios.delete(`users/user/delete?id=${id}`).then(response => {
             if (response.status === 200) {
                 store.addNotification({
-                    message: "Группа удалена",
+                    message: "Пользователь удалён",
                     type: "warning",
                     container: "top-right",
                     dismiss: { duration: 2000, onScreen: true }
                 });
 
-                this.state.groups.splice(this.state.groups.indexOf(this.state.groups.find(function (e) {
+                this.state.users.splice(this.state.users.indexOf(this.state.users.find(function (e) {
                     return e.id === id;
                 })), 1);
 
                 this.setState({
                     openDeleteDialog: false,
-                    selectedGroupId: undefined
+                    selectedUserId: undefined
                 });
             }
         })
@@ -75,10 +74,10 @@ export default class Groups extends Component<any, GroupsState> {
                 {!this.state.isLoaded && <Preloader/>}
                 <div className="d-flex justify-content-between mb-3">
                     <div className="h3 font-weight-bold">
-                        Группы
+                        Пользователи
                     </div>
                     <button className="btn btn-outline-success"
-                            onClick={() => this.props.history.push({pathname: "/groups/group"})}>
+                            onClick={() => this.props.history.push({pathname: "/users/user"})}>
                         Добавить
                     </button>
                 </div>
@@ -86,34 +85,36 @@ export default class Groups extends Component<any, GroupsState> {
                 <table className="table table-hover bg-white">
                     <thead className="table-dark">
                     <tr>
+                        <th>Имя</th>
+                        <th>Email</th>
+                        <th>Роль</th>
                         <th>Группа</th>
-                        <th>Курс</th>
-                        <th>Направление</th>
                         <th/>
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.groups.length !== 0 && this.state.groups.map((group, index) => {
+                    {this.state.users.length !== 0 && this.state.users.map((user, index) => {
                         return (
                             <tr className="cursor-pointer"
                                 key={index}
-                                onClick={(e) => this.edit(group.id)}>
-                                <td>{group.name}</td>
-                                <td>{group.course}</td>
-                                <td>{group.direction.name}</td>
+                                onClick={(e) => this.edit(user.id)}>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.role.name}</td>
+                                <td>{user.group?.name || '-'}</td>
                                 <td onClick={(e) => e.stopPropagation()}>
                                     <div className="dropdown">
                                         <div className="dots-icon" aria-expanded="false"
                                              id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"/>
                                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                             <div className="dropdown-item"
-                                                 onClick={() => this.edit(group.id)}>
+                                                 onClick={() => this.edit(user.id)}>
                                                 Редактировать
                                             </div>
                                             <div className="dropdown-item"
                                                  onClick={() => this.setState({
                                                      openDeleteDialog: true,
-                                                     selectedGroupId: group.id
+                                                     selectedUserId: user.id
                                                  })}>
                                                 Удалить
                                             </div>
@@ -128,21 +129,21 @@ export default class Groups extends Component<any, GroupsState> {
 
                 <Dialog
                     open={this.state.openDeleteDialog}
-                    onClose={() => this.setState({openDeleteDialog: false, selectedGroupId: undefined})}
+                    onClose={() => this.setState({openDeleteDialog: false, selectedUserId: undefined})}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description">
                     <DialogTitle id="alert-dialog-title">Подтверждение удаления</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            Вы действительно хотите удалить группу?
+                            Вы действительно хотите удалить пользователя?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => this.setState({openDeleteDialog: false, selectedGroupId: undefined})}
+                        <Button onClick={() => this.setState({openDeleteDialog: false, selectedUserId: undefined})}
                                 color="default">
                             Отмена
                         </Button>
-                        <Button onClick={() => this.delete(this.state.selectedGroupId)} color="secondary">
+                        <Button onClick={() => this.delete(this.state.selectedUserId)} color="secondary">
                             Удалить
                         </Button>
                     </DialogActions>

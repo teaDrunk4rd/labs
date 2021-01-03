@@ -24,15 +24,13 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name ="GroupId", nullable = true)
-    @JsonIgnore
     private Group group;
 
     @ManyToOne
     @JoinColumn(name ="RoleId", nullable = false)
-    @JsonIgnore
     private Role role;
 
-    @OneToMany(mappedBy="teacher")
+    @OneToMany(mappedBy="teacher", cascade = CascadeType.REMOVE)  // не должно быть каскадного удаления
     @JsonIgnore
     private Set<Log> logs;
 

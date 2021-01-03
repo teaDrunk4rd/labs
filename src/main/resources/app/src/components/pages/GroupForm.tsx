@@ -1,4 +1,4 @@
-import React, {Component, createRef} from "react";
+import React, {Component} from "react";
 import axios from "axios";
 import Preloader from "../Preloader";
 import FormControl from "@material-ui/core/FormControl";
@@ -16,8 +16,6 @@ interface GroupFormState {
 }
 
 export default class GroupForm extends Component<any, GroupFormState> {
-    private readonly GroupStudents: React.RefObject<GroupStudents>;
-
     constructor(props: any) {
         super(props);
 
@@ -26,16 +24,14 @@ export default class GroupForm extends Component<any, GroupFormState> {
             course: undefined,
             direction: null,
             directions: [],
-            isLoaded: false
+            isLoaded: this.props.location.state?.id === undefined
         };
-
-        this.GroupStudents = createRef();
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        if (this.props.location.state.id !== undefined)
+        if (this.props.location.state?.id !== undefined)
             axios.get(`groups/group?id=${this.props.location.state.id}`).then(response => {
                 if (response.status === 200) {
                     this.setState({
@@ -58,13 +54,12 @@ export default class GroupForm extends Component<any, GroupFormState> {
     handleSubmit(event: any) {
         event.preventDefault();
 
-        if (this.props.logId !== undefined)
+        if (this.props.location.state?.id !== undefined)
             axios.put('groups/group/update', {
                 id: this.props.location.state.id,
                 name: this.state.name,
                 course: this.state.course,
-                directionId: this.state.direction?.id,
-                studentIds: this.GroupStudents.current?.state.students.map(e => e['id'])
+                directionId: this.state.direction?.id
             }).then(response => {
                 if (response.status === 200) {
                     store.addNotification({
@@ -80,8 +75,7 @@ export default class GroupForm extends Component<any, GroupFormState> {
             axios.post('groups/group/create', {
                 name: this.state.name,
                 course: this.state.course,
-                directionId: this.state.direction?.id,
-                studentIds: this.GroupStudents.current?.state.students.map(e => e['id'])
+                directionId: this.state.direction?.id
             }).then(response => {
                 if (response.status === 200) {
                     store.addNotification({
@@ -157,8 +151,7 @@ export default class GroupForm extends Component<any, GroupFormState> {
                             Студенты
                         </label>
                         <div className="offset-md-2 col-md-8">
-                            <GroupStudents groupId={this.props.location.state.id}
-                                           ref={this.GroupStudents}
+                            <GroupStudents groupId={this.props.location.state?.id}
                                            history={this.props.history}
                                            location={this.props.history.location}
                                            match={this.props.match} />

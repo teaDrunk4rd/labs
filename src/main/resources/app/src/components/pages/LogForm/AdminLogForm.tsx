@@ -259,7 +259,9 @@ export default class AdminLogForm extends Component<AdminLogFormProps, AdminLogF
                                     return (
                                         <tr className={`cursor-pointer ${getGradeBasedClassName(student.grade)}`}
                                             onClick={() => this.props.history.push({
-                                                // TODO: adminUserForm
+                                                pathname: '/users/user',
+                                                search: `?id=${student.id}`,
+                                                state: {id: student.id}
                                             })}
                                             key={index}>
                                             <td>{student.name}</td>

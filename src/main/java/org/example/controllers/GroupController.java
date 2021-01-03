@@ -90,7 +90,7 @@ public class GroupController {
     }
 
     @Secured("ROLE_ADMIN")
-    @PostMapping("/groups/group/update")
+    @PutMapping("/groups/group/update")
     public ResponseEntity<?> update(@Valid @RequestBody GroupRequest request) {
         Group group = groupRepo.findById(request.getId()).orElse(null);
         if (group == null) return ResponseEntity.badRequest().build();

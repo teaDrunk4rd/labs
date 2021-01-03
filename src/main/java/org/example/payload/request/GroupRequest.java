@@ -1,14 +1,15 @@
 package org.example.payload.request;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 public class GroupRequest {
     private Integer id;
     @NotBlank(message = "Заполните наименование")
     private String name;
-    @NotBlank(message = "Заполните курс")
+    @NotNull(message = "Заполните курс")
     private Byte course;
+    @NotNull(message = "Заполните направление")
     private Integer directionId;
 
     public GroupRequest() {

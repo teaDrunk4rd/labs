@@ -8,27 +8,26 @@ interface GroupStudentsProps extends RouteComponentProps<any> {
 }
 
 interface GroupStudentsState {
-    students: Array<any>,
-    dialogOpen: boolean
+    students: Array<any>
 }
 
 export default class GroupStudents extends Component<GroupStudentsProps, GroupStudentsState> {
     constructor(props: GroupStudentsProps) {
         super(props);
         this.state = {
-            students: [],
-            dialogOpen: false
+            students: []
         };
     }
 
     componentDidMount() {
-        axios.get(`groups/group/students?groupId=${this.props.groupId}&logId=-1`).then(response => {
-            if (response.status === 200) {
-                this.setState({
-                    students: response.data
-                });
-            }
-        });
+        if (this.props.groupId !== undefined)
+            axios.get(`groups/group/students?groupId=${this.props.groupId}&logId=-1`).then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        students: response.data
+                    });
+                }
+            });
     }
 
     render() {

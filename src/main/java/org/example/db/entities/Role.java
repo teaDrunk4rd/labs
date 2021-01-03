@@ -1,5 +1,7 @@
 package org.example.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.db.ERole;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import java.util.Set;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty
     private Integer id;
 
     @Column(nullable = false)
@@ -20,6 +23,7 @@ public class Role {
     private String key;
 
     @OneToMany(mappedBy="role")
+    @JsonIgnore
     Set<User> users;
 
     private static HashMap<String, ERole> ERoles = new HashMap<String, ERole>() {{
