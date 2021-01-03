@@ -44,6 +44,12 @@ export default class NavMenu extends Component<any, NavMenuProps> {
                                             <NavLink tag={Link} className="text-dark py-0" to="/logs">Журналы</NavLink>
                                         </NavItem>
                                     }
+                                    {
+                                        checkRole("ROLE_ADMIN") &&
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark py-0" to="/groups">Группы</NavLink>
+                                        </NavItem>
+                                    }
                                 </div>
                                 <NavItem>
                                     {localStorage["user"] ? (

@@ -9,4 +9,6 @@ public interface GroupRepo extends CrudRepository<Group, Integer> {
     Group findByName(String key);
     @Override
     List<Group> findAll();
+
+    void saveAndFlush(Group group);
 }

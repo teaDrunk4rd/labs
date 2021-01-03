@@ -11,6 +11,8 @@ import Calendar from "./components/pages/Calendar";
 import LabForm from "./components/pages/LabForm";
 import StudentForm from "./components/pages/StudentForm";
 import LogForm from "./components/pages/LogForm/LogForm";
+import Groups from "./components/pages/Groups";
+import GroupForm from "./components/pages/GroupForm";
 
 
 export class Router extends Component {
@@ -33,6 +35,9 @@ export class Router extends Component {
                         <PrivateRoute exact path="/logs/log" component={LogForm} roles="ROLE_ADMIN,ROLE_TEACHER"/>
                         <PrivateRoute exact path="/logs/log/lab" component={LabForm} roles="ROLE_TEACHER"/>
                         <PrivateRoute exact path="/logs/log/student" component={StudentForm} roles="ROLE_TEACHER"/>
+
+                        <PrivateRoute exact path="/groups" component={Groups} roles="ROLE_ADMIN"/>
+                        <PrivateRoute exact path="/groups/group" component={GroupForm} roles="ROLE_ADMIN"/>
                     </Switch>
                 </div>
             </div>

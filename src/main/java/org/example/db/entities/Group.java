@@ -24,11 +24,11 @@ public class Group {
     @JoinColumn(name ="DirectionId", nullable = false)
     private Direction direction;
 
-    @OneToMany(mappedBy="group")
+    @OneToMany(mappedBy="group", cascade = CascadeType.REMOVE)  // нужно продумать удаление группы
     @JsonIgnore
     private Set<Log> logs;
 
-    @OneToMany(mappedBy="group")
+    @OneToMany(mappedBy="group", cascade = CascadeType.REMOVE)  // нужно продумать удаление группы
     @JsonIgnore
     private Set<User> students;
 
