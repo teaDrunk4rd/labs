@@ -173,7 +173,7 @@ export default class AdminLogForm extends Component<AdminLogFormProps, AdminLogF
                                                     })
                                                 })
                                             }}
-                                            className="pt-1 text-start padding-bottom-1px">
+                                            className="pt-1 text-left padding-bottom-1px">
                                         {disciplines.length !== 0 && disciplines.map((discipline, index) => {
                                             return (<MenuItem key={index} value={discipline.id}>{discipline.name}</MenuItem>)
                                         })}
@@ -190,7 +190,7 @@ export default class AdminLogForm extends Component<AdminLogFormProps, AdminLogF
                                                     })
                                                 })
                                             }}
-                                            className="pt-1 text-start padding-bottom-1px">
+                                            className="pt-1 text-left padding-bottom-1px">
                                         {disciplineTypes.length !== 0 && disciplineTypes.map((disciplineType, index) => {
                                             return (<MenuItem key={index} value={disciplineType.id}>{disciplineType.name}</MenuItem>)
                                         })}
@@ -213,7 +213,7 @@ export default class AdminLogForm extends Component<AdminLogFormProps, AdminLogF
                                             onChange={event => {
                                                 this.changeGroup(event.target.value);
                                             }}
-                                            className="pt-1 text-start padding-bottom-1px">
+                                            className="pt-1 text-left padding-bottom-1px">
                                         {groups.length !== 0 && groups.map((group, index) => {
                                             return (<MenuItem key={index} value={group.id}>
                                                 {group.name} ({group.direction.name})
@@ -232,7 +232,7 @@ export default class AdminLogForm extends Component<AdminLogFormProps, AdminLogF
                                                     })
                                                 })
                                             }}
-                                            className="pt-1 text-start padding-bottom-1px">
+                                            className="pt-1 text-left padding-bottom-1px">
                                         {teachers.length !== 0 && teachers.map((discipline, index) => {
                                             return (<MenuItem key={index} value={discipline.id}>{discipline.name}</MenuItem>)
                                         })}

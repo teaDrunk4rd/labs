@@ -80,13 +80,13 @@ public class GroupController {
     @Secured("ROLE_ADMIN")
     @PostMapping("/groups/group/create")
     public ResponseEntity<?> store(@Valid @RequestBody GroupRequest request) {
-        groupRepo.saveAndFlush(new Group(
+        Group group = groupRepo.save(new Group(
             request.getName(),
             request.getCourse(),
             directionRepo.findById(request.getDirectionId()).get()
         ));
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(group.getId());
     }
 
     @Secured("ROLE_ADMIN")

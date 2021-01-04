@@ -33,56 +33,47 @@ export default class GroupStudents extends Component<GroupStudentsProps, GroupSt
     render() {
         let {students} = this.state;
         return (
-            <div className="d-flex">
-                <table className="table table-hover">
-                    <thead className="table-dark">
-                    <tr>
-                        <th>Имя</th>
-                        <th>Email</th>
-                        <th/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {students && students.map((student, index) => {
-                        return (
-                            <tr className={`cursor-pointer ${getGradeBasedClassName(student.grade)}`}
-                                onClick={() => this.props.history.push({
-                                    pathname: '/users/user',
-                                    search: `?id=${student.id}`,
-                                    state: {id: student.id}
-                                })}
-                                key={index}>
-                                <td>{student.name}</td>
-                                <td>{student.email}</td>
-                                <td onClick={(e) => e.stopPropagation()}>
-                                    <div className="dropdown">
-                                        <div className="dots-icon" aria-expanded="false"
-                                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"/>
-                                        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                            <div className="dropdown-item"
-                                                 onClick={() => this.props.history.push({
-                                                     pathname: '/users/user',
-                                                     search: `?id=${student.id}`,
-                                                     state: {id: student.id}
-                                                 })}>
-                                                Редактировать
-                                            </div>
+            <table className="table table-hover">
+                <thead className="table-dark">
+                <tr>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th/>
+                </tr>
+                </thead>
+                <tbody>
+                {students && students.map((student, index) => {
+                    return (
+                        <tr className={`cursor-pointer ${getGradeBasedClassName(student.grade)}`}
+                            onClick={() => this.props.history.push({
+                                pathname: '/users/user',
+                                search: `?id=${student.id}`,
+                                state: {id: student.id}
+                            })}
+                            key={index}>
+                            <td>{student.name}</td>
+                            <td>{student.email}</td>
+                            <td onClick={(e) => e.stopPropagation()}>
+                                <div className="dropdown">
+                                    <div className="dots-icon" aria-expanded="false"
+                                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"/>
+                                    <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <div className="dropdown-item"
+                                             onClick={() => this.props.history.push({
+                                                 pathname: '/users/user',
+                                                 search: `?id=${student.id}`,
+                                                 state: {id: student.id}
+                                             })}>
+                                            Редактировать
                                         </div>
                                     </div>
-                                </td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
-
-                <div className='ml-4'>
-                    <div className="add-icon shadow mb-3" onClick={() => this.props.history.push({
-                        pathname: '/users/user',
-                        state: {groupId: this.props.groupId}
-                    })}/>
-                </div>
-            </div>
+                                </div>
+                            </td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </table>
         )
     };
 }

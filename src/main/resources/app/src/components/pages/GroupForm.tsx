@@ -28,6 +28,7 @@ export default class GroupForm extends Component<any, GroupFormState> {
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.createStudent = this.createStudent.bind(this);
     }
 
     componentDidMount() {
@@ -44,10 +45,16 @@ export default class GroupForm extends Component<any, GroupFormState> {
             });
 
         axios.get('directions').then(response => {
-            if (response.status === 200)
+            if (response.status === 200) {
                 this.setState({
                     directions: response.data,
                 });
+
+                if (this.props.location.state?.directionId !== undefined) // при переходе с компонента формы направления
+                    this.setState({
+                        direction: this.state.directions.find(g => g.id === this.props.location.state.directionId)
+                    });
+            }
         });
     }
 
@@ -68,7 +75,7 @@ export default class GroupForm extends Component<any, GroupFormState> {
                         container: "top-right",
                         dismiss: { duration: 2000, onScreen: true }
                     });
-                    this.props.history.push({pathname: '/groups'})
+                    this.props.history.goBack();
                 }
             });
         else
@@ -84,8 +91,42 @@ export default class GroupForm extends Component<any, GroupFormState> {
                         container: "top-right",
                         dismiss: { duration: 2000, onScreen: true }
                     });
-                    this.props.history.push({pathname: '/groups'})
+                    if (this.props.location.state?.directionId === undefined)
+                        this.props.history.goBack();
+                    else
+                        this.props.history.push({
+                            pathname: '/directions/direction',
+                            search: `?id=${this.props.location.state.directionId}`,
+                            state: {id: this.props.location.state.directionId}
+                        });
                 }
+            });
+    }
+
+    createStudent() {
+        if (this.props.location.state?.id === undefined)
+            axios.post('groups/group/create', {
+                name: this.state.name,
+                course: this.state.course,
+                directionId: this.state.direction?.id
+            }).then(response => {
+                if (response.status === 200) {
+                    store.addNotification({
+                        message: "Группа создана",
+                        type: "success",
+                        container: "top-right",
+                        dismiss: { duration: 2000, onScreen: true }
+                    });
+                    this.props.history.push({
+                        pathname: '/users/user',
+                        state: {groupId: response.data}
+                    });
+                }
+            });
+        else
+            this.props.history.push({
+                pathname: '/users/user',
+                state: {groupId: this.props.location.state.id}
             });
     }
 
@@ -119,7 +160,7 @@ export default class GroupForm extends Component<any, GroupFormState> {
                                 Курс
                             </label>
 
-                            <div className="offset-md-2 col-md-6 mt-1">
+                            <div className="offset-md-2 col-md-6 mt-2">
                                 <FormControl variant="outlined" className="w-100">
                                     <Select value={direction?.id || 0}
                                             onChange={event =>
@@ -129,7 +170,7 @@ export default class GroupForm extends Component<any, GroupFormState> {
                                                     })
                                                 })
                                             }
-                                            className="pt-1 text-start padding-bottom-1px">
+                                            className="text-left padding-bottom-1px">
                                         {directions.length !== 0 && directions.map((direction, index) => {
                                             return (<MenuItem key={index} value={direction.id}>{direction.name}</MenuItem>)
                                         })}
@@ -150,11 +191,15 @@ export default class GroupForm extends Component<any, GroupFormState> {
                         <label className="offset-md-2 col-md-8 col-form-label d-flex justify-content-start">
                             Студенты
                         </label>
-                        <div className="offset-md-2 col-md-8">
+                        <div className="offset-md-2 col-md-8 d-flex">
                             <GroupStudents groupId={this.props.location.state?.id}
                                            history={this.props.history}
                                            location={this.props.history.location}
                                            match={this.props.match} />
+
+                            <div className='ml-4'>
+                                <div className="add-icon shadow mb-3" onClick={this.createStudent}/>
+                            </div>
                         </div>
 
                         <div className="offset-md-2 col-md-8 d-flex justify-content-end">

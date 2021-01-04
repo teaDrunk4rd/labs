@@ -47,13 +47,19 @@ export default class NavMenu extends Component<any, NavMenuProps> {
                                     {
                                         checkRole("ROLE_ADMIN") &&
                                         <NavItem>
+                                            <NavLink tag={Link} className="text-dark py-0" to="/users">Пользователи</NavLink>
+                                        </NavItem>
+                                    }
+                                    {
+                                        checkRole("ROLE_ADMIN") &&
+                                        <NavItem>
                                             <NavLink tag={Link} className="text-dark py-0" to="/groups">Группы</NavLink>
                                         </NavItem>
                                     }
                                     {
                                         checkRole("ROLE_ADMIN") &&
                                         <NavItem>
-                                            <NavLink tag={Link} className="text-dark py-0" to="/users">Пользователи</NavLink>
+                                            <NavLink tag={Link} className="text-dark py-0" to="/directions">Направления</NavLink>
                                         </NavItem>
                                     }
                                 </div>

@@ -88,7 +88,7 @@ export default class UserForm extends Component<any, UserFormState> {
                         container: "top-right",
                         dismiss: { duration: 2000, onScreen: true }
                     });
-                    // this.props.history.push({pathname: '/users'})
+                    this.props.history.goBack();
                 }
             });
         else
@@ -106,7 +106,14 @@ export default class UserForm extends Component<any, UserFormState> {
                         container: "top-right",
                         dismiss: { duration: 2000, onScreen: true }
                     });
-                    // this.props.history.push({pathname: '/users'})
+                    if (this.props.location.state?.groupId === undefined)
+                        this.props.history.goBack();
+                    else
+                        this.props.history.push({
+                            pathname: '/groups/group',
+                            search: `?id=${this.props.location.state.groupId}`,
+                            state: {id: this.props.location.state.groupId}
+                        });
                 }
             });
     }
@@ -166,7 +173,7 @@ export default class UserForm extends Component<any, UserFormState> {
                                                     })
                                                 })
                                             }
-                                            className="pt-1 text-start padding-bottom-1px">
+                                            className="pt-1 text-left padding-bottom-1px">
                                         {roles.length !== 0 && roles.map((role, index) => {
                                             return (<MenuItem key={index} value={role.id}>{role.name}</MenuItem>)
                                         })}
@@ -202,7 +209,7 @@ export default class UserForm extends Component<any, UserFormState> {
                                                         })
                                                     })
                                                 }
-                                                className="pt-1 text-start padding-bottom-1px">
+                                                className="pt-1 text-left padding-bottom-1px">
                                             {groups.length !== 0 && groups.map((group, index) => {
                                                 return (<MenuItem key={index} value={group.id}>{group.name}</MenuItem>)
                                             })}

@@ -15,6 +15,8 @@ import Groups from "./components/pages/Groups";
 import GroupForm from "./components/pages/GroupForm";
 import Users from "./components/pages/Users";
 import UserForm from "./components/pages/UserForm";
+import Directions from "./components/pages/Directions";
+import DirectionForm from "./components/pages/DirectionForm";
 
 
 export class Router extends Component {
@@ -43,6 +45,9 @@ export class Router extends Component {
 
                         <PrivateRoute exact path="/users" component={Users} roles="ROLE_ADMIN"/>
                         <PrivateRoute exact path="/users/user" component={UserForm} roles="ROLE_ADMIN"/>
+
+                        <PrivateRoute exact path="/directions" component={Directions} roles="ROLE_ADMIN"/>
+                        <PrivateRoute exact path="/directions/direction" component={DirectionForm} roles="ROLE_ADMIN"/>
                     </Switch>
                 </div>
             </div>
