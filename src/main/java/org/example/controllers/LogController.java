@@ -1,13 +1,16 @@
 package org.example.controllers;
 
 import org.example.db.ERole;
+import org.example.db.entities.Lab;
 import org.example.db.entities.Log;
 import org.example.db.entities.User;
 import org.example.db.repos.*;
 import org.example.payload.request.LogDescriptionUpdateRequest;
 import org.example.payload.request.LogRequest;
+import org.example.payload.response.LabsResponse;
 import org.example.payload.response.LogResponse;
 import org.example.payload.response.LogsResponse;
+import org.example.payload.response.StudentLogsResponse;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +18,9 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -36,11 +41,24 @@ public class LogController {
     @Autowired
     private UserDetailsGetter userDetailsGetter;
 
-    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER", "ROLE_STUDENT"})
     @GetMapping("logs")
     public ResponseEntity<?> index() {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         List<Log> logs;
+
+        if (user.getRole().getERole() == ERole.ROLE_STUDENT)
+            return ResponseEntity.ok(
+                user.getGroup().getLogs().stream()
+                    .sorted((l1, l2) -> user.getScoresByLog(l2).compareTo(user.getScoresByLog(l1)))
+                    .map(l -> new StudentLogsResponse(
+                        l.getId(),
+                        l.getDiscipline().getName(),
+                        l.getDisciplineType().getName(),
+                        user.getScoresByLog(l),
+                        user.getGradeByLog(l)
+                    ))
+            );
 
         if (user.getRole().getERole() == ERole.ROLE_TEACHER)
             logs = logRepo.findByTeacher(user);
@@ -59,14 +77,16 @@ public class LogController {
         );
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER", "ROLE_STUDENT"})
     @GetMapping("logs/log")
     public ResponseEntity<?> show(@RequestParam int id) {
         User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
         Log log = logRepo.findById(id).orElse(null);
 
         if (log == null) return ResponseEntity.badRequest().build();
-        if (user.getRole().getERole() != ERole.ROLE_ADMIN && log.getTeacher() != user)
+        if (user.getRole().getERole() != ERole.ROLE_ADMIN &&
+            (user.getRole().getERole() == ERole.ROLE_TEACHER && log.getTeacher() != user ||
+                user.getRole().getERole() == ERole.ROLE_STUDENT && log.getGroup() != user.getGroup()))
             return ResponseEntity.status(403).build();
 
         if (user.getRole().getERole() == ERole.ROLE_ADMIN)
@@ -76,8 +96,39 @@ public class LogController {
             new LogResponse(
                 log.getDiscipline().getName(),
                 log.getDisciplineType().getName(),
-                log.getDescription()
+                log.getDescription(),
+                log.getTeacher().getName()
             )
+        );
+    }
+
+    @Secured("ROLE_STUDENT")
+    @GetMapping("logs/log/labs")
+    public ResponseEntity<?> getDisciplineLabs(@RequestParam int logId) {
+        User student = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
+        Log log = logRepo.findById(logId).orElse(null);
+
+        if (log == null) return ResponseEntity.badRequest().build();
+        if (log.getGroup() != student.getGroup()) return ResponseEntity.status(403).build();
+
+        return ResponseEntity.ok(
+            log.getLabs()
+                .stream()
+                .sorted(Comparator.comparing(Lab::getIssueDate).thenComparing(Lab::getName))
+                .peek(l -> l.setStudentLabs(
+                    l.getStudentLabs().stream()
+                        .filter(sl -> sl.getStudent() == student)
+                        .collect(Collectors.toSet())
+                ))
+                .map(l -> new LabsResponse(
+                    l.getId(),
+                    l.getName(),
+                    l.getIssueDate(),
+                    l.getExpectedCompletionDate(),
+                    l.getScores(),
+                    l.getStudentLabs().size() != 0 ? l.getStudentLabs().iterator().next().getCompletionDate() : null,
+                    l.getStudentLabs().size() != 0 ? l.getStudentLabs().iterator().next().getScores() : null
+                ))
         );
     }
 

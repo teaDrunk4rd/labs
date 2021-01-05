@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
-import Preloader from "../Preloader";
-import StudentLogs from "../StudentLogs";
+import Preloader from "../../Preloader";
+import StudentLogs from "./StudentLogs";
 import {store} from "react-notifications-component";
 
 interface StudentFormProps {

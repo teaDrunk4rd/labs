@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
-import Preloader from "../Preloader";
-import {checkRole} from "../helpers";
+import Preloader from "../../Preloader";
+import {checkRole} from "../../helpers";
 import {store} from "react-notifications-component";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";

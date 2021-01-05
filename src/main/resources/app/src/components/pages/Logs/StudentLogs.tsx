@@ -1,27 +1,27 @@
 import React, {Component} from "react";
 import axios from "axios";
-import Preloader from "../Preloader";
-import {getGradeBasedClassName} from "../helpers";
+import Preloader from "../../Preloader";
+import {getGradeBasedClassName} from "../../helpers";
 
-interface DisciplinesState {
-    disciplines: Array<any>,
+interface StudentLogsState {
+    logs: Array<any>,
     isLoaded: boolean
 }
 
-export default class StudentDisciplines extends Component<any, DisciplinesState> {
+export default class StudentLogs extends Component<any, StudentLogsState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            disciplines: [],
+            logs: [],
             isLoaded: false
         };
     }
 
     componentDidMount() {
-        axios.get('disciplines').then(response => {
+        axios.get('logs').then(response => {
             if (response.status === 200) {
                 this.setState({
-                    disciplines: response.data,
+                    logs: response.data,
                     isLoaded: true
                 })
             }
@@ -43,12 +43,12 @@ export default class StudentDisciplines extends Component<any, DisciplinesState>
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.disciplines.length !== 0 && this.state.disciplines.map((discipline, index) => {
+                    {this.state.logs.length !== 0 && this.state.logs.map((discipline, index) => {
                         return (
                             <tr className={`cursor-pointer ${getGradeBasedClassName(discipline.grade)}`}
                                 key={index}
                                 onClick={(e) => this.props.history.push({
-                                    pathname: '/disciplines/discipline',
+                                    pathname: '/logs/log',
                                     search: `?logId=${discipline.logId}`,
                                     state: { logId: discipline.logId }
                                 })}>

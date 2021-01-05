@@ -2,12 +2,8 @@ import React, {Component} from "react";
 import axios from "axios";
 import Preloader from "../../Preloader";
 import {getGradeBasedClassName} from "../../helpers";
-import LogLabs from "../../LogLabs";
-import {RouteComponentProps} from "react-router-dom";
-
-interface TeacherLogFormProps extends RouteComponentProps<any> {
-    logId: number
-}
+import LogLabs from "./LogLabs";
+import {LogProps} from "./Log";
 
 interface TeacherLogFormState {
     name: string,
@@ -17,8 +13,8 @@ interface TeacherLogFormState {
     isLoaded: boolean
 }
 
-export default class TeacherLogForm extends Component<TeacherLogFormProps, TeacherLogFormState> {
-    constructor(props: TeacherLogFormProps) {
+export default class TeacherLogForm extends Component<LogProps, TeacherLogFormState> {
+    constructor(props: LogProps) {
         super(props);
         this.state = {
             name: '',

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import {RouteComponentProps} from 'react-router-dom';
-import {getGradeBasedClassName} from "./helpers";
+import {getGradeBasedClassName} from "../../helpers";
 
 interface GroupStudentsProps extends RouteComponentProps<any> {
     groupId: number

@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="disciplines")
-public class Discipline {
+public class Discipline { // по идее дисциплина предназначена для какого-то определенного направления определенного курса
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty
@@ -19,7 +19,7 @@ public class Discipline {
 
     @JsonIgnore
     @OneToMany(mappedBy="discipline")
-    Set<Log> logs;
+    private Set<Log> logs;
 
     public Discipline() {
     }
@@ -28,11 +28,27 @@ public class Discipline {
         setName(name);
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Log> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Set<Log> logs) {
+        this.logs = logs;
     }
 }

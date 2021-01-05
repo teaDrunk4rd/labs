@@ -1,11 +1,11 @@
 import React, {Component} from "react";
 import axios from "axios";
-import Preloader from "../Preloader";
+import Preloader from "../../Preloader";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {store} from "react-notifications-component";
-import GroupStudents from "../GroupStudents";
+import GroupStudents from "./GroupStudents";
 
 interface GroupFormState {
     name: string,

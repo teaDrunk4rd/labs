@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import axios from "axios";
-import {formatDate} from "./helpers";
+import {formatDate} from "../../helpers";
 import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import ruLocale from "date-fns/locale/ru";
-import Preloader from "./Preloader";
+import Preloader from "../../Preloader";
 
 interface StudentLogsProps{
     studentId: number,

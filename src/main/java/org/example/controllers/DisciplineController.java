@@ -1,23 +1,18 @@
 package org.example.controllers;
 
-import org.example.db.ERole;
-import org.example.db.entities.Lab;
-import org.example.db.entities.Log;
-import org.example.db.entities.User;
+import org.example.db.entities.*;
 import org.example.db.repos.DisciplineRepo;
 import org.example.db.repos.LogRepo;
 import org.example.db.repos.UserRepo;
-import org.example.payload.response.DisciplineResponse;
-import org.example.payload.response.StudentDisciplinesResponse;
-import org.example.payload.response.LabsResponse;
+import org.example.payload.request.NameRequest;
 import org.example.security.UserDetailsGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Comparator;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -32,71 +27,49 @@ public class DisciplineController {
     @Autowired
     private UserDetailsGetter userDetailsGetter;
 
-    @Secured({"ROLE_ADMIN", "ROLE_STUDENT"})
+    @Secured("ROLE_ADMIN")
     @GetMapping("disciplines")
     public ResponseEntity<?> index() {
-        User user = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
-
-        if (user.getRole().getERole() == ERole.ROLE_ADMIN)
-            return ResponseEntity.ok(disciplineRepo.findAll());
-        else
-            return ResponseEntity.ok(
-                user.getGroup().getLogs().stream()
-                    .sorted((l1, l2) -> user.getScoresByLog(l2).compareTo(user.getScoresByLog(l1)))
-                    .map(l -> new StudentDisciplinesResponse(
-                        l.getId(),
-                        l.getDiscipline().getName(),
-                        l.getDisciplineType().getName(),
-                        user.getScoresByLog(l),
-                        user.getGradeByLog(l)
-                    ))
-            );
+        return ResponseEntity.ok(disciplineRepo.findAll().stream().sorted(Comparator.comparing(Discipline::getName)));
     }
 
-    @Secured("ROLE_STUDENT")
+    @Secured("ROLE_ADMIN")
     @GetMapping("disciplines/discipline")
-    public ResponseEntity<DisciplineResponse> show(@RequestParam int logId) {
-        User student = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
-        Log log = logRepo.findById(logId).orElse(null);
-
-        if (log == null) return ResponseEntity.badRequest().build();
-        if (log.getGroup() != student.getGroup()) return ResponseEntity.status(403).build();
-
-        return ResponseEntity.ok(new DisciplineResponse(
-            log.getDiscipline().getName(),
-            log.getDisciplineType().getName(),
-            log.getDescription(),
-            log.getTeacher().getName()
-        ));
+    public ResponseEntity<?> show(@RequestParam int id) {
+        Discipline discipline = disciplineRepo.findById(id).orElse(null);
+        return discipline != null ? ResponseEntity.ok(discipline) : ResponseEntity.badRequest().build();
     }
 
-    @Secured("ROLE_STUDENT")
-    @GetMapping("disciplines/discipline/labs")
-    public ResponseEntity<?> getDisciplineLabs(@RequestParam int logId) {
-        User student = userRepo.findById(userDetailsGetter.getUserDetails().getId()).get();
-        Log log = logRepo.findById(logId).orElse(null);
+    @Secured("ROLE_ADMIN")
+    @GetMapping("disciplines/discipline/logs")
+    public ResponseEntity<?> disciplineLogs(@RequestParam int id) {
+        Discipline discipline = disciplineRepo.findById(id).orElse(null);
+        return discipline != null ? ResponseEntity.ok(discipline.getLogs()) : ResponseEntity.badRequest().build();
+    }
 
-        if (log == null) return ResponseEntity.badRequest().build();
-        if (log.getGroup() != student.getGroup()) return ResponseEntity.status(403).build();
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/disciplines/discipline/create")
+    public ResponseEntity<?> store(@Valid @RequestBody NameRequest request) {
+        Discipline discipline = disciplineRepo.save(new Discipline(request.getName()));
+        return ResponseEntity.ok(discipline.getId());
+    }
 
-        return ResponseEntity.ok(
-            log.getLabs()
-                .stream()
-                .sorted(Comparator.comparing(Lab::getIssueDate).thenComparing(Lab::getName))
-                .peek(l -> l.setStudentLabs(
-                    l.getStudentLabs().stream()
-                            .filter(sl -> sl.getStudent() == student)
-                            .collect(Collectors.toSet())
-                ))
-                .map(l -> new LabsResponse(
-                    l.getId(),
-                    l.getName(),
-                    l.getIssueDate(),
-                    l.getExpectedCompletionDate(),
-                    l.getScores(),
-                    l.getStudentLabs().size() != 0 ? l.getStudentLabs().iterator().next().getCompletionDate() : null,
-                    l.getStudentLabs().size() != 0 ? l.getStudentLabs().iterator().next().getScores() : null
-                ))
-        );
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/disciplines/discipline/update")
+    public ResponseEntity<?> update(@Valid @RequestBody NameRequest request) {
+        Discipline discipline = disciplineRepo.findById(request.getId()).orElse(null);
+        if (discipline == null) return ResponseEntity.badRequest().build();
+
+        discipline.setName(request.getName());
+        disciplineRepo.saveAndFlush(discipline);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/disciplines/discipline/delete")
+    public ResponseEntity<?> delete(@RequestParam int id) {
+        disciplineRepo.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

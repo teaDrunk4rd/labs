@@ -4,19 +4,19 @@ import Preloader from "../Preloader";
 import {store} from "react-notifications-component";
 import {getGradeBasedClassName} from "../helpers";
 
-interface DirectionFormState {
+interface DisciplineFormState {
     name: string,
-    groups: Array<any>,
+    logs: Array<any>,
     isLoaded: boolean
 }
 
-export default class DirectionForm extends Component<any, DirectionFormState> {
+export default class DisciplineForm extends Component<any, DisciplineFormState> {
     constructor(props: any) {
         super(props);
 
         this.state = {
             name: '',
-            groups: [],
+            logs: [],
             isLoaded: this.props.location.state?.id === undefined
         };
 
@@ -26,13 +26,13 @@ export default class DirectionForm extends Component<any, DirectionFormState> {
 
     componentDidMount() {
         if (this.props.location.state?.id !== undefined)
-            axios.get(`directions/direction?id=${this.props.location.state.id}`).then(directionsResponse => {
-                if (directionsResponse.status === 200) {
-                    axios.get(`directions/direction/groups?id=${this.props.location.state.id}`).then(response => {
+            axios.get(`disciplines/discipline?id=${this.props.location.state.id}`).then(disciplinesResponse => {
+                if (disciplinesResponse.status === 200) {
+                    axios.get(`disciplines/discipline/logs?id=${this.props.location.state.id}`).then(response => {
                         if (response.status === 200) {
                             this.setState({
-                                name: directionsResponse.data.name,
-                                groups: response.data,
+                                name: disciplinesResponse.data.name,
+                                logs: response.data,
                                 isLoaded: true
                             });
                         }
@@ -45,7 +45,7 @@ export default class DirectionForm extends Component<any, DirectionFormState> {
         event.preventDefault();
 
         if (this.props.location.state?.id !== undefined)
-            axios.put('directions/direction/update', {
+            axios.put('disciplines/discipline/update', {
                 id: this.props.location.state.id,
                 name: this.state.name
             }).then(response => {
@@ -56,57 +56,57 @@ export default class DirectionForm extends Component<any, DirectionFormState> {
                         container: "top-right",
                         dismiss: { duration: 2000, onScreen: true }
                     });
-                    this.props.history.push({pathname: '/directions'})
+                    this.props.history.push({pathname: '/disciplines'})
                 }
             });
         else
-            axios.post('directions/direction/create', {
+            axios.post('disciplines/discipline/create', {
                 name: this.state.name
             }).then(response => {
                 if (response.status === 200) {
                     store.addNotification({
-                        message: "Направление создано",
+                        message: "Дисциплина создана",
                         type: "success",
                         container: "top-right",
                         dismiss: { duration: 2000, onScreen: true }
                     });
-                    this.props.history.push({pathname: '/directions'})
+                    this.props.history.push({pathname: '/disciplines'})
                 }
             });
     }
 
     createGroup() {
         if (this.props.location.state?.id === undefined)
-            axios.post('directions/direction/create', {
+            axios.post('disciplines/discipline/create', {
                 name: this.state.name
             }).then(response => {
                 if (response.status === 200) {
                     store.addNotification({
-                        message: "Направление создано",
+                        message: "Дисциплина создана",
                         type: "success",
                         container: "top-right",
                         dismiss: { duration: 2000, onScreen: true }
                     });
                     this.props.history.push({
-                        pathname: '/groups/group',
-                        state: {directionId: response.data}
+                        pathname: '/logs/log',
+                        state: {disciplineId: response.data}
                     });
                 }
             });
         else
             this.props.history.push({
-                pathname: '/groups/group',
-                state: {directionId: this.props.location.state.id}
+                pathname: '/logs/log',
+                state: {disciplineId: this.props.location.state.id}
             });
     }
 
     render() {
-        let {name, groups} = this.state;
+        let {name, logs} = this.state;
         return (
             <div className="col-7 m-auto">
                 <div className="card text-center">
                     {!this.state.isLoaded && <Preloader className='form-loader'/>}
-                    <div className="card-header">Направление</div>
+                    <div className="card-header">Дисциплина</div>
                     <div className="card-body">
                         <div className="row mb-2">
                             <label className="offset-md-2 col-md-8 col-form-label d-flex justify-content-start">
@@ -123,31 +123,33 @@ export default class DirectionForm extends Component<any, DirectionFormState> {
                         </div>
 
                         <label className="offset-md-2 col-md-8 col-form-label d-flex justify-content-start">
-                            Группы
+                            Журналы
                         </label>
                         <div className="offset-md-2 col-md-8 d-flex">
                             <table className="table table-hover">
                                 <thead className="table-dark">
                                 <tr>
                                     <th>Группа</th>
+                                    <th>Тип</th>
                                     <th>Курс</th>
-                                    <th>Направление</th>
+                                    <th>Преподаватель</th>
                                     <th/>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {groups && groups.map((group, index) => {
+                                {logs && logs.map((log, index) => {
                                     return (
-                                        <tr className={`cursor-pointer ${getGradeBasedClassName(group.grade)}`}
+                                        <tr className={`cursor-pointer ${getGradeBasedClassName(log.grade)}`}
                                             onClick={() => this.props.history.push({
                                                 pathname: '/groups/group',
-                                                search: `?id=${group.id}`,
-                                                state: {id: group.id}
+                                                search: `?id=${log.id}`,
+                                                state: {id: log.id}
                                             })}
                                             key={index}>
-                                            <td>{group.name}</td>
-                                            <td>{group.course}</td>
-                                            <td>{group.direction.name}</td>
+                                            <td>{log.group.name}</td>
+                                            <td>{log.disciplineType.name}</td>
+                                            <td>{log.group.course}</td>
+                                            <td>{log.teacher.name}</td>
                                             <td onClick={(e) => e.stopPropagation()}>
                                                 <div className="dropdown">
                                                     <div className="dots-icon" aria-expanded="false"
@@ -155,9 +157,9 @@ export default class DirectionForm extends Component<any, DirectionFormState> {
                                                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                                         <div className="dropdown-item"
                                                              onClick={() => this.props.history.push({
-                                                                 pathname: '/groups/group',
-                                                                 search: `?id=${group.id}`,
-                                                                 state: {id: group.id}
+                                                                 pathname: '/logs/log',
+                                                                 search: `?id=${log.id}`,
+                                                                 state: {id: log.id}
                                                              })}>
                                                             Редактировать
                                                         </div>

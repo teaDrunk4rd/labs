@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import axios from "axios";
-import Preloader from "../Preloader";
+import Preloader from "../../Preloader";
+import {LogProps} from "./Log";
 
 function formatDate(date: string): string {
     return new Date(date).toLocaleString('ru').substr(0,10);
 }
 
 interface DisciplinesState {
-    logId: number,
     discipline: string,
     type: string,
     description: string,
@@ -16,11 +16,10 @@ interface DisciplinesState {
     isLoaded: boolean
 }
 
-export default class Discipline extends Component<any, DisciplinesState> {
-    constructor(props: any) {
+export default class StudentLog extends Component<LogProps, DisciplinesState> {
+    constructor(props: LogProps) {
         super(props);
         this.state = {
-            logId: props.location.state.logId,
             discipline: '',
             type: '',
             description: '',
@@ -31,7 +30,7 @@ export default class Discipline extends Component<any, DisciplinesState> {
     }
 
     componentDidMount() {
-        axios.get(`disciplines/discipline?logId=${this.state.logId}`).then(response => {
+        axios.get(`logs/log?id=${this.props.logId}`).then(response => {
             if (response.status === 200) {
                 this.setState({
                     discipline: response.data.name,
@@ -40,7 +39,7 @@ export default class Discipline extends Component<any, DisciplinesState> {
                     teacher: response.data.teacher
                 });
 
-                axios.get(`disciplines/discipline/labs?logId=${this.state.logId}`).then(response => {
+                axios.get(`logs/log/labs?logId=${this.props.logId}`).then(response => {
                     if (response.status === 200)
                         this.setState({
                             labs: response.data,

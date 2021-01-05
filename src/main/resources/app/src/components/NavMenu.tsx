@@ -33,15 +33,11 @@ export default class NavMenu extends Component<any, NavMenuProps> {
                                         </NavItem>
                                     }
                                     {
-                                        checkRole("ROLE_STUDENT") &&
+                                        checkRole("ROLE_ADMIN,ROLE_TEACHER,ROLE_STUDENT") &&
                                         <NavItem>
-                                            <NavLink tag={Link} className="text-dark py-0" to="/disciplines">Предметы</NavLink>
-                                        </NavItem>
-                                    }
-                                    {
-                                        checkRole("ROLE_ADMIN,ROLE_TEACHER") &&
-                                        <NavItem>
-                                            <NavLink tag={Link} className="text-dark py-0" to="/logs">Журналы</NavLink>
+                                            <NavLink tag={Link} className="text-dark py-0" to="/logs">
+                                                {checkRole("ROLE_STUDENT") ? "Дисциплины" : "Журналы"}
+                                            </NavLink>
                                         </NavItem>
                                     }
                                     {
@@ -60,6 +56,12 @@ export default class NavMenu extends Component<any, NavMenuProps> {
                                         checkRole("ROLE_ADMIN") &&
                                         <NavItem>
                                             <NavLink tag={Link} className="text-dark py-0" to="/directions">Направления</NavLink>
+                                        </NavItem>
+                                    }
+                                    {
+                                        checkRole("ROLE_ADMIN") &&
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark py-0" to="/disciplines">Дисциплины</NavLink>
                                         </NavItem>
                                     }
                                 </div>

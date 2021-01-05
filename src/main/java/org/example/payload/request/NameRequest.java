@@ -3,7 +3,7 @@ package org.example.payload.request;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class DirectionRequest {
+public class NameRequest {
     private Integer id;
     @NotBlank(message = "Заполните наименование")
     private String name;

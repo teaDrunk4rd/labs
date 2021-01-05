@@ -2,7 +2,7 @@ package org.example.controllers;
 
 import org.example.db.entities.Direction;
 import org.example.db.repos.DirectionRepo;
-import org.example.payload.request.DirectionRequest;
+import org.example.payload.request.NameRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -39,14 +39,14 @@ public class DirectionsController {
 
     @Secured("ROLE_ADMIN")
     @PostMapping("/directions/direction/create")
-    public ResponseEntity<?> store(@Valid @RequestBody DirectionRequest request) {
+    public ResponseEntity<?> store(@Valid @RequestBody NameRequest request) {
         Direction direction = directionRepo.save(new Direction(request.getName()));
         return ResponseEntity.ok(direction.getId());
     }
 
     @Secured("ROLE_ADMIN")
     @PutMapping("/directions/direction/update")
-    public ResponseEntity<?> update(@Valid @RequestBody DirectionRequest request) {
+    public ResponseEntity<?> update(@Valid @RequestBody NameRequest request) {
         Direction direction = directionRepo.findById(request.getId()).orElse(null);
         if (direction == null) return ResponseEntity.badRequest().build();
 

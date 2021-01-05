@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {store} from "react-notifications-component";
 import {RouteComponentProps} from 'react-router-dom';
-import {formatDate} from "./helpers";
+import {formatDate} from "../../helpers";
 
 interface LogLabsProps extends RouteComponentProps<any> {
     logId: number,

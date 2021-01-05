@@ -2,14 +2,14 @@ import React, {Component} from "react";
 import axios from "axios";
 import Preloader from "../../Preloader";
 import {getGradeBasedClassName} from "../../helpers";
-import {RouteComponentProps} from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {store} from "react-notifications-component";
+import {LogProps} from "./Log";
 
-interface AdminLogFormProps extends RouteComponentProps<any> {
-    logId: number
+interface AdminLogFormProps extends LogProps {
+    disciplineId: number
 }
 
 interface AdminLogFormState {
@@ -80,6 +80,10 @@ export default class AdminLogForm extends Component<AdminLogFormProps, AdminLogF
                                             teachers: teachersResponse.data,
                                             isLoaded: true  // ¯\_(ツ)_/¯
                                         });
+                                        if (this.props.disciplineId !== undefined) // при переходе с компонента disciplineForm
+                                            this.setState({
+                                                discipline: this.state.disciplines.find(g => g.id === this.props.disciplineId)
+                                            });
                                     }
                                 });
                             }
